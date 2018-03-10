@@ -6,7 +6,6 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../groupon/pom.xml</relativePath>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>groupon-service</artifactId>
@@ -16,6 +15,7 @@
     <url>http://maven.apache.org</url>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skip_maven_deploy>true</skip_maven_deploy>
     </properties>
 
