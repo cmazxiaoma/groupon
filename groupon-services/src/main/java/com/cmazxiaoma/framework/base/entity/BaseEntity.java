@@ -1,8 +1,11 @@
 package com.cmazxiaoma.framework.base.entity;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -14,6 +17,7 @@ import java.util.stream.Collectors;
  * @date 2018/3/10 17:23
  */
 @Data
+@Slf4j
 public abstract class BaseEntity implements Serializable {
 
     private Long id;
@@ -40,6 +44,37 @@ public abstract class BaseEntity implements Serializable {
     public static <T extends BaseEntity> Map<Long, T> idEntityMap(List<T> entities) {
         Map<Long, T> idMap = entities.stream().collect(Collectors.toMap(T::getId, entity -> entity));
         return idMap;
+    }
+
+    public String toString() {
+        StringBuffer result = new StringBuffer();
+
+        try {
+            Class<?> clazz = this.getClass();
+            Field[] fields = clazz.getDeclaredFields();
+
+            for (Field field : fields) {
+                String fieldName = field.getName();
+
+                if ("serialVersionUID".equals(fieldName)) {
+                    continue;
+                }
+                String methodName = "get" + fieldName.substring(0, 1).toUpperCase()
+                        + fieldName.substring(1, fieldName.length());
+                Method method;
+                Object resultObj;
+                method = clazz.getMethod(methodName);
+                resultObj = method.invoke(this);
+
+                if (resultObj != null && !"".equals(resultObj)) {
+                    result.append("[").append(fieldName).append("]")
+                            .append(resultObj).append(" ");
+                }
+            }
+        } catch (Exception e) {
+            log.error("toString出错,原因 = {}", e.getMessage());
+        }
+        return result.toString();
     }
 
 }

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.groupon.cart.entity.CartMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.groupon.cart.entity.Cart">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="user_id" property="userId" jdbcType="BIGINT" />
+        <id column="deal_id" property="dealId" jdbcType="BIGINT" />
+        <id column="deal_sku_id" property="dealSkuId" jdbcType="BIGINT" />
+        <id column="count" property="count" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <!-- 查询字段列表 -->
+    <sql id="Base_Column_List">
+        id, user_id, deal_id, deal_sku_id, count, create_time, update_time
+    </sql>
+
+    <!-- 根据UserID查询订单信息 -->
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from cart
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据UserID,SkuId查询订单信息 -->
+    <select id="selectByUserIdAndSkuId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from cart
+        where user_id = #{userId,jdbcType=BIGINT}
+        and deal_sku_id = #{skuId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List" />
+        from cart
+        <if test="ids != null">
+            where id in
+            <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="countCartSize" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select count(*)
+        from cart
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <update id="updateCartDealCount" parameterType="java.util.Map">
+        update cart
+        set count = count + #{step,jdbcType=INTEGER}
+        where id = #{cartId,jdbcType=BIGINT}
+    </update>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="com.tortuousroad.groupon.cart.entity.Cart">
+        insert into cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="dealId != null">
+                deal_id,
+            </if>
+            <if test="dealSkuId != null">
+                deal_sku_id,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="dealId != null">
+                #{dealId,jdbcType=BIGINT},
+            </if>
+            <if test="dealSkuId != null">
+                #{dealSkuId,jdbcType=BIGINT},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateCountById">
+        update cart
+        <set>
+            <if test="cont != null">
+                count = #{count,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from
+        cart
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+</mapper>
