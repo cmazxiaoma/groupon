@@ -57,7 +57,7 @@ public abstract class CacheOperator {
      * @param entityList
      * @param <T>
      */
-    protected <T extends BaseEntity> void putEntities(String key, List<BaseEntity> entityList) {
+    protected <T extends BaseEntity> void putEntities(String key, List<T> entityList) {
         if (this.getJedis() != null) {
             this.getJedis().set(key.getBytes(), JSON.toJSONBytes(entityList));
         }

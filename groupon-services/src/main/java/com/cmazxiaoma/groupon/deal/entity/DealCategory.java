@@ -104,5 +104,4 @@ public class DealCategory extends BaseEntity {
         }
     }
 
-
 }
