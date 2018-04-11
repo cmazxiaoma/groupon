@@ -27,7 +27,7 @@ public abstract class CacheOperator {
                 ResourceBundle bundle = ResourceBundle.getBundle("cache");
                 JedisPoolConfig config = new JedisPoolConfig();
                 JedisPool pool = new JedisPool(config, bundle.getString("ip"),
-                       Integer.parseInt(bundle.getString("port")), 1000);
+                        Integer.parseInt(bundle.getString("port")), 1000);
                 jedis = pool.getResource();
             } catch (Exception e) {
                 log.error("获取jedis出错,原因 = {}", e.getMessage());
@@ -39,6 +39,7 @@ public abstract class CacheOperator {
 
     /**
      * 向缓存中添加实体
+     *
      * @param key
      * @param entity
      * @param <T>
@@ -53,6 +54,7 @@ public abstract class CacheOperator {
 
     /**
      * 向缓存中添加实体集合
+     *
      * @param key
      * @param entityList
      * @param <T>
@@ -65,18 +67,20 @@ public abstract class CacheOperator {
 
     /**
      * 向缓存中添加缓存对象
+     *
      * @param key
      * @param cacheObject
      * @param <T>
      */
     protected <T extends CacheObject> void putCacheObject(String key, CacheObject cacheObject) {
         if (this.getJedis() != null) {
-           this.getJedis().set(key.getBytes(), JSON.toJSONBytes(cacheObject));
+            this.getJedis().set(key.getBytes(), JSON.toJSONBytes(cacheObject));
         }
     }
 
     /**
      * 从缓存中获取实体
+     *
      * @param key
      * @param clazz
      * @param <T>
@@ -96,6 +100,7 @@ public abstract class CacheOperator {
 
     /**
      * 从缓存中获取缓存对象
+     *
      * @param key
      * @param clazz
      * @param <T>
@@ -115,6 +120,7 @@ public abstract class CacheOperator {
 
     /**
      * 从缓存中获得实体集合
+     *
      * @param key
      * @param clazz
      * @param <T>
@@ -149,6 +155,7 @@ public abstract class CacheOperator {
 
     /**
      * 根据key前缀获取对应的所有实体
+     *
      * @param keyPrefix
      * @param clazz
      * @param <T>
@@ -177,6 +184,7 @@ public abstract class CacheOperator {
 
     /**
      * 根据key前缀获取对应的所有缓存对象
+     *
      * @param keyPrefix
      * @param clazz
      * @param <T>

@@ -34,7 +34,8 @@
             <artifactId>api</artifactId>
             <version>20161116134500</version>
             <scope>system</scope>
-            <systemPath>${basedir}/../site-web/src/main/webapp/WEB-INF/lib/alipay-sdk-java20161116134500.jar</systemPath>
+            <systemPath>${basedir}/../site-web/src/main/webapp/WEB-INF/lib/alipay-sdk-java20161116134500.jar
+            </systemPath>
         </dependency>
     </dependencies>
 </project>

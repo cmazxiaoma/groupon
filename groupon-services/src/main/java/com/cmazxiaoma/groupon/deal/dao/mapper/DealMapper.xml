@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.groupon.deal.entity.DealMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.groupon.deal.entity.Deal">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="area_id" property="areaId" jdbcType="BIGINT"/>
+        <result column="area_name" property="areaName" jdbcType="VARCHAR"/>
+        <result column="sku_id" property="skuId" jdbcType="BIGINT"/>
+        <result column="deal_class" property="dealClass" jdbcType="INTEGER"/>
+        <result column="merchant_id" property="merchantId" jdbcType="BIGINT"/>
+        <result column="merchant_sku" property="merchantSku" jdbcType="BIGINT"/>
+        <result column="deal_title" property="dealTitle" jdbcType="VARCHAR"/>
+        <result column="deal_price" property="dealPrice" jdbcType="INTEGER"/>
+        <result column="merchant_price" property="merchantPrice" jdbcType="INTEGER"/>
+        <result column="market_price" property="marketPrice" jdbcType="INTEGER"/>
+        <result column="settlementrice_max" property="settlementPriceMax" jdbcType="INTEGER"/>
+        <result column="settlement_price" property="settlementPrice" jdbcType="INTEGER"/>
+        <result column="discount" property="discount" jdbcType="INTEGER"/>
+        <result column="bonus_points" property="bonusPoints" jdbcType="INTEGER"/>
+        <result column="deal_type" property="dealType" jdbcType="INTEGER"/>
+        <result column="image_id" property="imageId" jdbcType="BIGINT"/>
+        <result column="deal_level" property="dealLevel" jdbcType="INTEGER"/>
+        <result column="max_purchase_count" property="maxPurchaseCount" jdbcType="INTEGER"/>
+        <result column="publish_status" property="publishStatus" jdbcType="INTEGER"/>
+        <result column="inventory_amount" property="inventoryAmount" jdbcType="INTEGER"/>
+        <result column="vendibility_amount" property="vendibilityAmount" jdbcType="INTEGER"/>
+        <result column="oos_status" property="oosStatus" jdbcType="INTEGER"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP"/>
+        <result column="merchant_code" property="merchantCode" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!-- 查询字段列表 -->
+    <sql id="Base_Column_List">
+        id, area_id, area_name, sku_id, deal_class, merchant_id, merchant_sku, deal_title, deal_price, merchant_price,
+        market_price, settlement_price_max, settlement_price, discount, bonus_points, deal_type, image_id, deal_level,
+        max_purchase_count, publish_status, inventory_amount, oos_status, vendibility_amount, start_time, end_time,
+        publish_time, merchant_code, create_time, update_time, category_id
+    </sql>
+
+    <!-- 搜索分页查询商品 -->
+    <select id="selectPageDealsForSearch" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM deal where deal_title like '%' #{name,jdbcType=VARCHAR} '%'
+        order by create_time desc
+    </select>
+
+    <select id="countPageDealsForSearch" resultType="java.lang.Long">
+        SELECT
+        count(*)
+        FROM deal where deal_title like '%' #{name,jdbcType=VARCHAR} '%'
+        order by create_time desc
+    </select>
+
+    <!-- 分页查询商品 -->
+    <select id="selectPageDeals" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM deal where 1 = 1
+        <if test="areaId != null">
+            and area_id = #{areaId,jdbcType=BIGINT}
+        </if>
+        <if test="areaName != null">
+            and area_name = #{areaName,jdbcType=VARCHAR}
+        </if>
+        <if test="skuId != null">
+            and sku_id = #{skuId,jdbcType=BIGINT}
+        </if>
+        <if test="dealClass != null">
+            and deal_class = #{dealClass,jdbcType=INTEGER}
+        </if>
+        <if test="merchantId != null">
+            and merchant_id = #{merchantId,jdbcType=BIGINT}
+        </if>
+        <if test="merchantSku != null">
+            and merchant_sku = #{merchantSku,jdbcType=INTEGER}
+        </if>
+        <if test="dealTitle != null">
+            and deal_title LIKE '%' #{dealTitle} '%'
+        </if>
+        <if test="dealPrice != null">
+            and deal_price = #{dealPrice,jdbcType=INTEGER}
+        </if>
+        <if test="merchantPrice != null">
+            and merchant_price = #{merchantPrice,jdbcType=INTEGER}
+        </if>
+        <if test="marketPrice != null">
+            and market_price = #{marketPrice,jdbcType=INTEGER}
+        </if>
+        <if test="settlementPriceMax != null">
+            and settlement_price_max = #{settlementPriceMax,jdbcType=INTEGER}
+        </if>
+        <if test="settlementPrice != null">
+            and settlement_price = #{settlementPrice,jdbcType=INTEGER}
+        </if>
+        <if test="discount != null">
+            and discount = #{discount,jdbcType=INTEGER}
+        </if>
+        <if test="bonusPoints != null">
+            and bonus_points = #{bonusPoints,jdbcType=INTEGER}
+        </if>
+        <if test="dealType != null">
+            and deal_type = #{dealType,jdbcType=INTEGER}
+        </if>
+        <if test="imageId != null">
+            and image_id = #{imageId,jdbcType=BIGINT}
+        </if>
+        <if test="imageIsExist == 0">
+            and image_id is not null
+        </if>
+        <if test="imageIsExist == 1">
+            and image_id is null
+        </if>
+        <if test="dealLevel != null">
+            and deal_level = #{dealLevel,jdbcType=INTEGER}
+        </if>
+        <if test="maxPurchaseCount != null">
+            and max_purchase_count = #{maxPurchaseCount,jdbcType=INTEGER}
+        </if>
+        <if test="publishStatus != null">
+            and publish_status = #{publishStatus,jdbcType=INTEGER}
+        </if>
+        <if test="publishStatus == null">
+            and publish_status != 5
+        </if>
+        <if test="inventoryAmount != null">
+            and inventory_amount = #{inventoryAmount,jdbcType=INTEGER}
+        </if>
+        <if test="vendibilityAmount != null">
+            and vendibility_amount = #{vendibilityAmount,jdbcType=INTEGER}
+        </if>
+        <if test="oosStatus != null">
+            and oos_status = #{oosStatus,jdbcType=INTEGER}
+        </if>
+        <if test="startTime != null">
+            and start_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and end_time &lt;= #{endTime}
+        </if>
+        <if test="publishTime != null">
+            and publish_time &gt;= #{publishTime}
+        </if>
+        <if test="merchantCode != null">
+            and merchant_code = #{merchantCode,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            and create_time &gt;= #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time &gt;= #{updateTime}
+        </if>
+        <if test="categoryId != null">
+            and category_id in
+            <foreach item="item" index="index" collection="categoryId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by create_time desc
+    </select>
+
+    <!-- 分页查询商品记录数 -->
+    <select id="countPageDeals" resultType="java.lang.Long">
+        SELECT count(*) FROM deal
+        where 1 = 1
+        <if test="areaId != null">
+            and area_id = #{areaId,jdbcType=BIGINT}
+        </if>
+        <if test="areaName != null">
+            and area_name = #{areaName,jdbcType=VARCHAR}
+        </if>
+        <if test="skuId != null">
+            and sku_id = #{skuId,jdbcType=BIGINT}
+        </if>
+        <if test="dealClass != null">
+            and deal_class = #{dealClass,jdbcType=INTEGER}
+        </if>
+        <if test="merchantId != null">
+            and merchant_id = #{merchantId,jdbcType=BIGINT}
+        </if>
+        <if test="merchantSku != null">
+            and merchant_sku = #{merchantSku,jdbcType=BIGINT}
+        </if>
+        <if test="dealTitle != null">
+            and deal_title LIKE '%' #{dealTitle} '%'
+        </if>
+        <if test="dealPrice != null">
+            and deal_price = #{dealPrice,jdbcType=INTEGER}
+        </if>
+        <if test="merchantPrice != null">
+            and merchant_price = #{merchantPrice,jdbcType=INTEGER}
+        </if>
+        <if test="marketPrice != null">
+            and market_price = #{marketPrice,jdbcType=INTEGER}
+        </if>
+        <if test="settlementPriceMax != null">
+            and settlement_price_max = #{settlementPriceMax,jdbcType=INTEGER}
+        </if>
+        <if test="settlementPrice != null">
+            and settlement_price = #{settlementPrice,jdbcType=INTEGER}
+        </if>
+        <if test="discount != null">
+            and discount = #{discount,jdbcType=INTEGER}
+        </if>
+        <if test="bonusPoints != null">
+            and bonus_points = #{bonusPoints,jdbcType=INTEGER}
+        </if>
+        <if test="dealType != null">
+            and deal_type = #{dealType,jdbcType=INTEGER}
+        </if>
+        <if test="imageId != null">
+            and image_id = #{imageId,jdbcType=VARCHAR}
+        </if>
+        <if test="imageIsExist == 0">
+            and image_id is not null
+        </if>
+        <if test="imageIsExist == 1">
+            and image_id is null
+        </if>
+        <if test="dealLevel != null">
+            and deal_level = #{dealLevel,jdbcType=INTEGER}
+        </if>
+        <if test="maxPurchaseCount != null">
+            and max_purchase_count = #{maxPurchaseCount,jdbcType=INTEGER}
+        </if>
+        <if test="publishStatus != null">
+            and publish_status = #{publishStatus,jdbcType=INTEGER}
+        </if>
+        <if test="publishStatus == null">
+            and publish_status != 5
+        </if>
+        <if test="inventoryAmount != null">
+            and inventory_amount = #{inventoryAmount,jdbcType=INTEGER}
+        </if>
+        <if test="vendibilityAmount != null">
+            and vendibility_amount =
+            #{vendibilityAmount,jdbcType=INTEGER}
+        </if>
+        <if test="oosStatus != null">
+            and oos_status = #{oosStatus,jdbcType=INTEGER}
+        </if>
+        <if test="startTime != null">
+            and start_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and end_time &lt;= #{endTime}
+        </if>
+        <if test="publishTime != null">
+            and publish_time &gt;= #{publishTime}
+        </if>
+        <if test="createTime != null">
+            and create_time &gt;= #{createTime}
+        </if>
+        <if test="updateTime != null">
+            and update_time &gt;= #{updateTime}
+        </if>
+        <if test="categoryId != null">
+            and category_id in
+            <foreach item="item" index="index" collection="categoryId" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by create_time desc
+    </select>
+
+    <!-- 修改商品状态 -->
+    <update id="modifyStatusById" parameterType="java.util.Map">
+        update deal set
+        publish_status = #{publishStatus},
+        publish_time = #{publishTime},
+        <if test="endTime != null">
+            end_time = #{endTime},
+        </if>
+        update_time = #{updateTime}
+        where id = #{id}
+    </update>
+
+    <!-- 修改商品已卖光状态 -->
+    <update id="modifyOosStatusById" parameterType="java.util.Map">
+        update deal set
+        oos_status = #{oosStatus},publish_time = #{publishTime},update_time = #{updateTime}
+        where id =
+        #{id}
+    </update>
+
+    <!-- 根据SkuId查询商品信息 -->
+    <select id="selectBySkuId" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where sku_id = #{skuId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据SkuId查询商品信息 -->
+    <select id="selectBySkuIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        <if test="skuIds != null">
+            where sku_id in
+            <foreach item="item" index="index" collection="skuIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
+
+    <!-- 根据SkuId查询商品ID -->
+    <select id="selectIdBySkuId" resultType="java.lang.Long"
+            parameterType="java.lang.Long">
+        select
+        id
+        from deal
+        where sku_id = #{skuId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据类别查询商品信息 -->
+    <select id="selectByCategoryId" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where category_id = #{categoryId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据类别查询商品信息数量 -->
+    <select id="countByCategoryId" resultType="java.lang.Long" parameterType="java.lang.Long">
+        select count(*)
+        from deal
+        where category_id = #{categoryId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询当前最大SkuId -->
+    <select id="selectMaxSkuId" resultMap="BaseResultMap">
+        select MAX(sku_id) as sku_id from deal
+    </select>
+
+    <!-- 根据产品编码查询商品信息 -->
+    <select id="selectByMerchantCode" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where merchant_code = #{merchantCode,jdbcType=INTEGER}
+    </select>
+
+    <!-- 根据商家ID和商家Sku查询商品信息 -->
+    <select id="selectByMerchantIdAndMerchantSku" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where merchant_id = #{merchantId,jdbcType=INTEGER} and merchant_sku = #{merchantSku,jdbcType=BIGINT}
+    </select>
+
+    <!-- 新增商品 -->
+    <insert id="insertDeal" parameterType="com.cmazxiaoma.groupon.deal.entity.Deal" useGeneratedKeys="true"
+            keyProperty="id">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into deal
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">
+                area_id,
+            </if>
+            <if test="areaName != null">
+                area_name,
+            </if>
+            <if test="skuId != null">
+                sku_id,
+            </if>
+            <if test="dealClass != null">
+                deal_class,
+            </if>
+            <if test="merchantId != null">
+                merchant_id,
+            </if>
+            <if test="merchantSku != null">
+                merchant_sku,
+            </if>
+            <if test="dealTitle != null">
+                deal_title,
+            </if>
+            <if test="dealPrice != null">
+                deal_price,
+            </if>
+            <if test="merchantPrice != null">
+                merchant_price,
+            </if>
+            <if test="marketPrice != null">
+                market_price,
+            </if>
+            <if test="settlementPriceMax != null">
+                settlement_price_max,
+            </if>
+            <if test="settlementPrice != null">
+                settlement_price,
+            </if>
+            <if test="discount != null">
+                discount,
+            </if>
+            <if test="bonusPoints != null">
+                bonus_points,
+            </if>
+            <if test="dealType != null">
+                deal_type,
+            </if>
+            <if test="imageId != null">
+                image_id,
+            </if>
+            <if test="dealLevel != null">
+                deal_level,
+            </if>
+            <if test="maxPurchaseCount != null">
+                max_purchase_count,
+            </if>
+            <if test="publishStatus != null">
+                publish_status,
+            </if>
+            <if test="inventoryAmount != null">
+                inventory_amount,
+            </if>
+            <if test="vendibilityAmount != null">
+                vendibility_amount,
+            </if>
+            <if test="oosStatus != null">
+                oos_status,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="endTime == null">
+                end_time,
+            </if>
+            <if test="publishTime != null">
+                publish_time,
+            </if>
+            <if test="merchantCode != null">
+                merchant_code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="categoryId != null">
+                category_id
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">
+                #{areaId,jdbcType=BIGINT},
+            </if>
+            <if test="areaName != null">
+                #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="skuId != null">
+                #{skuId},
+            </if>
+            <if test="dealClass != null">
+                #{dealClass},
+            </if>
+            <if test="merchantId != null">
+                #{merchantId},
+            </if>
+            <if test="merchantSku != null">
+                #{merchantSku},
+            </if>
+            <if test="dealTitle != null">
+                #{dealTitle},
+            </if>
+            <if test="dealPrice != null">
+                #{dealPrice},
+            </if>
+            <if test="merchantPrice != null">
+                #{merchantPrice},
+            </if>
+            <if test="marketPrice != null">
+                #{marketPrice},
+            </if>
+            <if test="settlementPriceMax != null">
+                #{settlementPriceMax},
+            </if>
+            <if test="settlementPrice != null">
+                #{settlementPrice},
+            </if>
+            <if test="discount != null">
+                #{discount},
+            </if>
+            <if test="bonusPoints != null">
+                #{bonusPoints},
+            </if>
+            <if test="dealType != null">
+                #{dealType},
+            </if>
+            <if test="imageId != null">
+                #{imageId},
+            </if>
+            <if test="dealLevel != null">
+                #{dealLevel},
+            </if>
+            <if test="maxPurchaseCount != null">
+                #{maxPurchaseCount},
+            </if>
+            <if test="publishStatus != null">
+                #{publishStatus},
+            </if>
+            <if test="inventoryAmount != null">
+                #{inventoryAmount},
+            </if>
+            <if test="vendibilityAmount != null">
+                #{vendibilityAmount},
+            </if>
+            <if test="oosStatus != null">
+                #{oosStatus},
+            </if>
+            <if test="startTime != null">
+                #{startTime},
+            </if>
+            <if test="endTime != null">
+                #{endTime},
+            </if>
+            <if test="endTime == null">
+                null,
+            </if>
+            <if test="publishTime != null">
+                #{publishTime},
+            </if>
+            <if test="merchantCode != null">
+                #{merchantCode},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId}
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新商品信息 -->
+    <update id="updateById" parameterType="com.cmazxiaoma.groupon.deal.entity.Deal">
+        update deal
+        <set>
+            <if test="areaId != null">
+                area_id = #{areaId,jdbcType=BIGINT},
+            </if>
+            <if test="areaName != null">
+                area_name = #{areaName,jdbcType=VARCHAR},
+            </if>
+            <if test="skuId != null">
+                sku_id = #{skuId,jdbcType=BIGINT},
+            </if>
+            <if test="dealClass != null">
+                deal_class = #{dealClass,jdbcType=INTEGER},
+            </if>
+            <if test="merchantId != null">
+                merchant_id = #{merchantId,jdbcType=BIGINT},
+            </if>
+            <if test="merchantSku != null">
+                merchant_sku = #{merchantSku,jdbcType=BIGINT},
+            </if>
+            <if test="dealTitle != null">
+                deal_title = #{dealTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="dealPrice != null">
+                deal_price = #{dealPrice,jdbcType=INTEGER},
+            </if>
+            <if test="merchantPrice != null">
+                merchant_price = #{merchantPrice,jdbcType=INTEGER},
+            </if>
+            <if test="marketPrice != null">
+                market_price = #{marketPrice,jdbcType=INTEGER},
+            </if>
+            <if test="settlementPriceMax != null">
+                settlement_price_max = #{settlementPriceMax,jdbcType=INTEGER},
+            </if>
+            <if test="settlementPrice != null">
+                settlement_price = #{settlementPrice,jdbcType=INTEGER},
+            </if>
+            <if test="discount != null">
+                discount = #{discount,jdbcType=INTEGER},
+            </if>
+            <if test="bonusPoints != null">
+                bonus_points = #{bonusPoints,jdbcType=INTEGER},
+            </if>
+            <if test="dealType != null">
+                deal_type = #{dealType,jdbcType=INTEGER},
+            </if>
+            <if test="imageId != null">
+                image_id = #{imageId,jdbcType=VARCHAR},
+            </if>
+            <if test="dealLevel != null">
+                deal_level = #{dealLevel,jdbcType=INTEGER},
+            </if>
+            <if test="maxPurchaseCount != null">
+                max_purchase_count = #{maxPurchaseCount,jdbcType=INTEGER},
+            </if>
+            <if test="publishStatus != null">
+                publish_status = #{publishStatus,jdbcType=INTEGER},
+            </if>
+            <if test="inventoryAmount != null">
+                inventory_amount = #{inventoryAmount,jdbcType=INTEGER},
+            </if>
+            <if test="vendibilityAmount != null">
+                vendibility_amount = #{vendibilityAmount,jdbcType=INTEGER},
+            </if>
+            <if test="oosStatus != null">
+                oos_status = #{oosStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime == null">
+                end_time = null,
+            </if>
+            <if test="publishTime != null">
+                publish_time = #{publishTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="merchantCode != null">
+                merchant_code = #{merchantCode,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 查询最新发布的商品 -->
+    <select id="selectLatestPublishedDeal" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where publish_status = 3
+        and start_time &lt;= #{nowTime,jdbcType=TIMESTAMP}
+        and end_time &gt;= #{nowTime,jdbcType=TIMESTAMP}
+        order by publish_time desc limit 1
+    </select>
+
+    <!-- 根据skuId查询可以显示在前台的商品 -->
+    <select id="selectBySkuIdForShowOnView" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where sku_id = #{skuId,jdbcType=INTEGER} and publish_status = 3
+        and end_time &gt;= #{nowTime,jdbcType=TIMESTAMP}
+    </select>
+
+    <!-- 查询在首页显示的商品列表 -->
+    <select id="selectDealsForIndex" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where publish_status = #{publishStatus,jdbcType=INTEGER}
+        and end_time &gt;= #{nowTime,jdbcType=TIMESTAMP}
+        and area_id = #{areaId, jdbcType=VARCHAR}
+        <if test="categoryIds != null">
+            and category_id in
+            <foreach item="item" index="index" collection="categoryIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by deal_level desc
+    </select>
+
+    <!-- 查询在购物车显示的商品 -->
+    <select id="selectDealsForCart" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where 1 =1
+        <if test="dealIds != null">
+            and id in
+            <foreach item="item" index="index" collection="dealIds" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by deal_level desc
+    </select>
+
+    <!-- 查询商品（下单） -->
+    <select id="selectForPlaceOrder" resultMap="BaseResultMap"
+            parameterType="java.util.Map">
+        select
+        sku_id,
+        merchant_code,
+        deal_title,
+        deal_price,
+        settlement_price,
+        inventory_amount,
+        vendibility_amount,
+        from deal
+        where id = #{id,jdbcType=BIGINT}
+        and start_time &lt;= #{start_time,jdbcType=TIMESTAMP}
+        and end_time &gt;= #{end_time,jdbcType=TIMESTAMP}
+        and publish_status = 3
+    </select>
+
+    <!-- 下单减库存 -->
+    <update id="updateForPlaceOrder" parameterType="java.util.Map">
+        update deal
+        set
+        inventory_amount = #{inventoryAmount,jdbcType=INTEGER},
+        vendibility_amount = #{vendibilityAmount,jdbcType=INTEGER}
+        where id = #{id,jdbcType=BIGINT}
+        and
+        start_time &lt;= #{startTime,jdbcType=TIMESTAMP}
+        and end_time &gt;= #{endTime,jdbcType=TIMESTAMP}
+        and publish_status = 3
+    </update>
+
+    <!-- 分页查询某个类别下的商品 -->
+    <select id="selectDealsOfCategories" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select
+        <include refid="Base_Column_List"/>
+        from deal
+        where publish_status = #{publishStatus,jdbcType=INTEGER}
+        and end_time &gt;= #{nowTime,jdbcType=TIMESTAMP}
+        and area_id = #{areaId, jdbcType=VARCHAR}
+        <if test="categoryIdList != null">
+            and category_id in
+            <foreach item="item" index="index" collection="categoryIdList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by deal_level desc
+    </select>
+
+    <select id="countDealsOfCategories" resultType="java.lang.Long"
+            parameterType="java.util.Map">
+        select count(*) from deal
+        where publish_status = #{publishStatus,jdbcType=INTEGER}
+        and end_time &gt;= #{nowTime,jdbcType=TIMESTAMP}
+        and area_id = #{areaId, jdbcType=VARCHAR}
+        <if test="categoryIdList != null">
+            and category_id in
+            <foreach item="item" index="index" collection="categoryIdList" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        order by deal_level desc
+    </select>
+</mapper>

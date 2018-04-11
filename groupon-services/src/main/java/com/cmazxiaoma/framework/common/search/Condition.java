@@ -14,20 +14,20 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Condition implements Serializable {
 
-	private static final long serialVersionUID = -5355773325400152119L;
-	
-	/**
-	 * 参数名称
-	 */
-	@Getter
+    private static final long serialVersionUID = -5355773325400152119L;
+
+    /**
+     * 参数名称
+     */
+    @Getter
     @Setter
     private String name;
 
-	/**
-	 * 参数值
-	 */
-	@Getter
+    /**
+     * 参数值
+     */
+    @Getter
     @Setter
     private Object value;
-	
+
 }

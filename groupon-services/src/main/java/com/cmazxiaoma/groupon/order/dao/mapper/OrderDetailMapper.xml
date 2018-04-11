@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.groupon.order.entity.OrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.groupon.order.entity.OrderDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="merchant_sku" property="merchantSku" jdbcType="BIGINT"/>
+        <result column="merchant_id" property="merchantId" jdbcType="BIGINT"/>
+        <result column="merchant_code" property="merchantCode" jdbcType="VARCHAR"/>
+        <result column="deal_id" property="dealId" jdbcType="BIGINT"/>
+        <result column="deal_sku_id" property="dealSkuId" jdbcType="BIGINT"/>
+        <result column="deal_img_id" property="dealImgId" jdbcType="BIGINT"/>
+        <result column="deal_title" property="dealTitle" jdbcType="VARCHAR"/>
+        <result column="deal_count" property="dealCount" jdbcType="INTEGER"/>
+        <result column="deal_price" property="dealPrice" jdbcType="INTEGER"/>
+        <result column="total_price" property="totalPrice" jdbcType="INTEGER"/>
+        <result column="settlement_price" property="settlementPrice" jdbcType="INTEGER"/>
+        <result column="total_settlement_price" property="totalSettlementPrice" jdbcType="INTEGER"/>
+        <result column="detail_status" property="detailStatus" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, order_id, user_id, merchant_sku, merchant_id, merchant_code, deal_id, deal_sku_id, deal_img_id, deal_title,
+        deal_count,
+        deal_price, total_price, settlement_price, total_settlement_price, detail_status, create_time, update_time
+    </sql>
+
+    <select id="selectOrderDetailByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from order_detail
+        where order_id = #{orderId,jdbcType=BIGINT}
+        order by update_time desc
+    </select>
+
+    <select id="selectOrderDetailsByOrderIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from order_detail
+        where order_id in
+        <foreach item="item" index="index" collection="orderIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <insert id="batchInsertOrderDetails" parameterType="java.util.List">
+        insert into order_detail
+        (order_id, user_id, merchant_sku, merchant_id, merchant_code, deal_id, deal_sku_id, deal_img_id, deal_title,
+        deal_count,
+        deal_price, total_price, settlement_price, total_settlement_price, detail_status, create_time, update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.orderId,jdbcType=BIGINT},
+            #{item.userId,jdbcType=BIGINT},
+            #{item.merchantSku,jdbcType=BIGINT},
+            #{item.merchantId,jdbcType=BIGINT},
+            #{item.merchantCode,jdbcType=VARCHAR},
+            #{item.dealId,jdbcType=BIGINT},
+            #{item.dealSkuId,jdbcType=BIGINT},
+            #{item.dealImgId,jdbcType=BIGINT},
+            #{item.dealTitle,jdbcType=VARCHAR},
+            #{item.dealCount,jdbcType=INTEGER},
+            #{item.dealPrice,jdbcType=INTEGER},
+            #{item.totalPrice,jdbcType=INTEGER},
+            #{item.settlementPrice,jdbcType=INTEGER},
+            #{item.totalSettlementPrice,jdbcType=INTEGER},
+            #{item.detailStatus,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

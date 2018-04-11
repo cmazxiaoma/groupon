@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cmazxiaoma.groupon.cart.entity.CartMapper">
     <resultMap id="BaseResultMap" type="com.cmazxiaoma.groupon.cart.entity.Cart">
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <id column="user_id" property="userId" jdbcType="BIGINT" />
-        <id column="deal_id" property="dealId" jdbcType="BIGINT" />
-        <id column="deal_sku_id" property="dealSkuId" jdbcType="BIGINT" />
-        <id column="count" property="count" jdbcType="INTEGER" />
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <id column="deal_id" property="dealId" jdbcType="BIGINT"/>
+        <id column="deal_sku_id" property="dealSkuId" jdbcType="BIGINT"/>
+        <id column="count" property="count" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!-- 查询字段列表 -->
@@ -19,7 +19,7 @@
     <!-- 根据UserID查询订单信息 -->
     <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from cart
         where user_id = #{userId,jdbcType=BIGINT}
     </select>
@@ -27,7 +27,7 @@
     <!-- 根据UserID,SkuId查询订单信息 -->
     <select id="selectByUserIdAndSkuId" resultMap="BaseResultMap" parameterType="java.lang.Long">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from cart
         where user_id = #{userId,jdbcType=BIGINT}
         and deal_sku_id = #{skuId,jdbcType=BIGINT}
@@ -35,7 +35,7 @@
 
     <select id="selectByIds" resultMap="BaseResultMap" parameterType="java.util.List">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from cart
         <if test="ids != null">
             where id in
@@ -58,7 +58,7 @@
     </update>
 
     <!-- 新增 -->
-    <insert id="insert" parameterType="com.tortuousroad.groupon.cart.entity.Cart">
+    <insert id="insert" parameterType="com.cmazxiaoma.groupon.cart.entity.Cart">
         insert into cart
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">

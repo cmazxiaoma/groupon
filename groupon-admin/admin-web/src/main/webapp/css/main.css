@@ -1,0 +1,29 @@
+* {
+    font-size: 13px;
+}
+
+#header {
+    text-align: center;
+    direction: ltr;
+    background: url('../images/title_background.jpg');
+}
+
+#logo {
+    width: 246px;
+    height: 21px;
+    background: url('../images/logo.png') no-repeat;
+    margin-top: 32px;
+    margin-left: 15px;
+    float: left;
+}
+
+#logout {
+    width: 60px;
+    float: right;
+    margin-top: 47px;
+}
+
+#logout a {
+    color: white;
+    text-decoration: none;
+}

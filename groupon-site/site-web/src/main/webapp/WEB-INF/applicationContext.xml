@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/tx
+          http://www.springframework.org/schema/tx/spring-tx.xsd
+          http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context.xsd
+          http://www.springframework.org/schema/aop
+          http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="com.cmazxiaoma">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <context:component-scan base-package="com.cmazxiaoma.framework">
+        <context:include-filter type="regex" expression="com.cmazxiaoma.framework..controller.*Aspect"/>
+    </context:component-scan>
+
+    <aop:aspectj-autoproxy/>
+
+    <bean class="com.cmazxiaoma.framework.base.context.SpringApplicationContext"/>
+
+    <bean id="performanceMonitor" class="org.springframework.aop.interceptor.PerformanceMonitorInterceptor"/>
+
+    <aop:config proxy-target-class="true">
+        <aop:advisor pointcut="execution(* com.cmazxiaoma..controller.*.*(..))" advice-ref="performanceMonitor"/>
+        <aop:advisor pointcut="execution(* com.cmazxiaoma..controller.*Controller.*(..))"
+                     advice-ref="searchConditionAspect"/>
+        <aop:advisor pointcut="execution(public * com.cmazxiaoma..service.*Service.*(..))" advice-ref="txAdvice"/>
+    </aop:config>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties"/>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" propagation="NEVER"/>
+            <tx:method name="list*" propagation="NEVER"/>
+            <tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${driverClass}"/>
+        <property name="url" value="${jdbcUrl}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="initialSize" value="100"/>
+        <property name="maxActive" value="300"/>
+        <property name="maxIdle" value="50"/>
+        <property name="maxWait" value="5000"/>
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="defaultAutoCommit" value="false"/>
+    </bean>
+
+    <!-- <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+            destroy-method="close"> -->
+    <!-- <property name="driverClass" value="${driverClass}" /> -->
+    <!-- <property name="jdbcUrl" value="${jdbcUrl}" /> -->
+    <!-- <property name="user" value="${username}" /> -->
+    <!-- <property name="password" value="${password}" /> -->
+    <!-- <property name="acquireIncrement" value="10" /> -->
+    <!-- <property name="acquireRetryAttempts" value="100" /> -->
+    <!-- <property name="acquireRetryDelay" value="1000" /> -->
+    <!-- <property name="autoCommitOnClose" value="false" /> -->
+    <!-- <property name="breakAfterAcquireFailure" value="false" /> -->
+    <!-- <property name="checkoutTimeout" value="0" /> -->
+    <!-- <property name="initialPoolSize" value="100" /> -->
+    <!-- <property name="maxIdleTime" value="10000" /> -->
+    <!-- <property name="maxPoolSize" value="300" /> -->
+    <!-- <property name="maxStatements" value="0" /> -->
+    <!-- <property name="maxStatementsPerConnection" value="0" /> -->
+    <!-- <property name="numHelperThreads" value="5" /> -->
+    <!-- <property name="propertyCycle" value="600" /> -->
+    <!-- </bean> -->
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="mapperLocations" value="classpath*:com/cmazxiaoma/**/mapper/*.xml"/>
+    </bean>
+
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- 	<bean class="com.weishuncorp.framework.utils.CustomizedPropertyConfigurer" scope="singleton"> -->
+    <!-- 		<property name="location" value="classpath:site_config.properties" /> -->
+    <!-- 	</bean> -->
+
+    <!-- 	<import resource="applicationContext-xss.xml" /> -->
+</beans>

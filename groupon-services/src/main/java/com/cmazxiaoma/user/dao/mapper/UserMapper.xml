@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.user.entity.UserMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.user.entity.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, password, name, login_time, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <insert id="insertSelective" parameterType="com.cmazxiaoma.user.entity.User" useGeneratedKeys="true"
+            keyProperty="id">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="loginTime != null">
+                login_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.cmazxiaoma.user.entity.User">
+        update user
+        <set>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="selectByName" resultMap="BaseResultMap"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+
+    <select id="countPageUsers" resultType="java.lang.Long" parameterType="java.util.Map">
+        SELECT count(distinct u.id) FROM user u
+        where
+        1=1
+        <if test="registerTime1 != null">
+            and u.create_time &gt;= #{registerTime1}
+        </if>
+        <if test="registerTime2 != null">
+            and u.create_time &lt;= #{registerTime2}
+        </if>
+        <if test="name != null">
+            and u.name like '%' #{name,jdbcType=VARCHAR} '%'
+        </if>
+    </select>
+
+    <select id="selectPageUsers" resultMap="BaseResultMap" resultType="com.cmazxiaoma.user.entity.User">
+        select
+        <include refid="Base_Column_List"/>
+        from
+        user
+        where 1 = 1
+        <if test="registerTime1 != null">
+            and u.create_time &gt;= #{registerTime1}
+        </if>
+        <if test="registerTime2 != null">
+            and u.create_time &lt;= #{registerTime2}
+        </if>
+        <if test="name != null">
+            and u.name like '%' #{name,jdbcType=VARCHAR} '%'
+        </if>
+    </select>
+</mapper>

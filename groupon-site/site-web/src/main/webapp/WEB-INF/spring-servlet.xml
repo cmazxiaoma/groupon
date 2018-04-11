@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+       default-lazy-init="true">
+
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/js/**" location="/js/"/>
+    <mvc:resources mapping="/style/**" location="/style/"/>
+    <mvc:resources mapping="*.html" location="/"/>
+    <mvc:resources location="*.txt" mapping="/"/>
+
+    <context:component-scan base-package="com.cmazxiaoma">
+        <context:include-filter type="regex" expression="com.cmazxiaoma..controller"/>
+    </context:component-scan>
+
+    <mvc:annotation-driven/>
+
+    <aop:aspectj-autoproxy/>
+
+    <mvc:interceptors>
+        <!-- 登陆拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/cart/**"/>
+            <mvc:mapping path="/home/*"/>
+            <mvc:mapping path="/settlement/*"/>
+            <mvc:mapping path="/settlement/*"/>
+            <bean class="com.cmazxiaoma.site.web.site.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.cmazxiaoma.site.web.site.interceptor.UserInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.cmazxiaoma.framework.web.interceptor.HelperInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.cmazxiaoma.framework.web.interceptor.CtxInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- Application Message Bundle -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>/WEB-INF/config/common</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter"/>
+                <ref bean="mappingStringHttpMessageConverter"/>
+            </list>
+        </property>
+        <property name="webBindingInitializer" ref="webBindingInitializer"/>
+    </bean>
+
+    <bean id="mappingStringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/plain;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="application"/>
+                    <constructor-arg index="1" value="json"/>
+                    <constructor-arg index="2" value="UTF-8"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- <bean id="webBindingInitializer" class="com.cmazxiaoma.framework.web.spring.web.bind.support.WebBindingInitializer"> -->
+    <bean id="webBindingInitializer" class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+        <property name="conversionService">
+            <bean class="org.springframework.core.convert.support.DefaultConversionService"/>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" id="viewResolver">
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="order" value="2"/>
+                    <property name="prefix" value="/WEB-INF/views/"/>
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+                <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+                    <property name="order" value="1"/>
+                    <property name="contentType" value="text/html;charset=UTF-8"/>
+                    <property name="cache" value="true"/>
+                    <property name="prefix" value=""/>
+                    <property name="suffix" value=".ftl"/>
+                    <property name="requestContextAttribute" value="request"/>
+                    <property name="exposeRequestAttributes" value="true"/>
+                    <property name="exposeSessionAttributes" value="true"/>
+                    <property name="exposeSpringMacroHelpers" value="true"/>
+                    <property name="allowSessionOverride" value="true"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/views/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">0</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="number_format">0.##########</prop>
+                <prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+                <prop key="classic_compatible">true</prop>
+                <prop key="template_exception_handler">ignore</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
+        <description>文件请求解析器，上传文件使用</description>
+    </bean>
+
+    <!-- 验证码 -->
+    <bean id="captchaProducer" class="com.google.code.kaptcha.impl.DefaultKaptcha">
+        <property name="config">
+            <bean class="com.google.code.kaptcha.util.Config">
+                <constructor-arg type="java.util.Properties">
+                    <props>
+                        <prop key="kaptcha.image.width">100</prop>
+                        <prop key="kaptcha.image.height">45</prop>
+                        <prop key="kaptcha.textproducer.char.string">
+                            0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+                        </prop>
+                        <prop key="kaptcha.textproducer.char.length">4</prop>
+                    </props>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+</beans>

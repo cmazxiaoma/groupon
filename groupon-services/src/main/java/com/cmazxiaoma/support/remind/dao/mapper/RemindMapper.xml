@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.support.remind.entity.StartRemindMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.support.remind.entity.StartRemind">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <id column="deal_id" property="dealId" jdbcType="BIGINT"/>
+        <id column="deal_sku_id" property="dealSkuId" jdbcType="BIGINT"/>
+        <id column="deal_title" property="dealTitle" jdbcType="VARCHAR"/>
+        <id column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询字段列表 -->
+    <sql id="Base_Column_List">
+        id,user_id,deal_id,deal_sku_id,deal_title,start_time,create_time,update_time
+    </sql>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from start_remind
+        where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectByUserIdAndSkuId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from start_remind
+        where user_id = #{userId,jdbcType=BIGINT}
+        and deal_sku_id = #{skuId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.cmazxiaoma.support.remind.entity.StartRemind">
+        insert into start_remind
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="dealId != null">
+                deal_id,
+            </if>
+            <if test="dealSkuId != null">
+                deal_sku_id,
+            </if>
+            <if test="dealTitle != null">
+                deal_title,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="dealId != null">
+                #{dealId,jdbcType=VARCHAR},
+            </if>
+            <if test="dealSkuId != null">
+                #{dealSkuId,jdbcType=VARCHAR},
+            </if>
+            <if test="dealTitle != null">
+                #{dealTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from
+        start_remind
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from start_remind where 1=1
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=BIGINT}
+        </if>
+        order by id
+    </select>
+    <select id="countPage" resultType="java.lang.Long">
+        select count(*)
+        from start_remind where 1=1
+        <if test="parentId != null">
+            and user_id = #{userId,jdbcType=BIGINT}
+        </if>
+    </select>
+    <select id="selectByTimeInterval" resultMap="BaseResultMap" parameterType="java.util.Date">
+        select * from start_remind
+        where start_time &gt;= #{interval, jdbcType=BIGINT}
+    </select>
+
+</mapper>

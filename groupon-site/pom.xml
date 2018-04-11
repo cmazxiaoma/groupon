@@ -13,6 +13,7 @@
 
     <name>groupon-site</name>
     <url>http://maven.apache.org</url>
+
     <modules>
         <module>site-controller</module>
         <module>site-web</module>

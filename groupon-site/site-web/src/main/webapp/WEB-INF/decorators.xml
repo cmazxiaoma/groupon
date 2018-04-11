@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/views/layout/">
+    <excludes>
+        <pattern>/login</pattern>
+        <pattern>/reg</pattern>
+        <pattern>/cart/*</pattern>
+        <pattern>/cart</pattern>
+        <pattern>/cart*</pattern>
+        <pattern>/settlement</pattern>
+        <pattern>/settlement/*</pattern>
+        <!--<pattern>/home</pattern>-->
+        <!--<pattern>/*.jsp</pattern>-->
+        <pattern>/alipay</pattern>
+        <pattern>/alipay*</pattern>
+        <pattern>/alipay/*</pattern>
+        <pattern>/pay</pattern>
+        <pattern>/pay*</pattern>
+        <pattern>/pay/*</pattern>
+    </excludes>
+
+    <decorator name="main" page="main.ftl">
+        <pattern>/*</pattern>
+    </decorator>
+</decorators>

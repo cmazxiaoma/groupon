@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.support.message.entity.MessageMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.support.message.entity.Message">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <id column="title" property="title" jdbcType="VARCHAR"/>
+        <id column="content" property="content" jdbcType="VARCHAR"/>
+        <id column="readed" property="readed" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询字段列表 -->
+    <sql id="Base_Column_List">
+        id,user_id,title,content,readed,create_time,update_time
+    </sql>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from message
+        where user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insertSelective" parameterType="com.cmazxiaoma.support.message.entity.Message">
+        insert into message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="readed != null">
+                readed,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="readed != null">
+                #{readed,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateReadStatus" parameterType="java.util.Map">
+        update message set readed = 1,update_time = now()
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from
+        message
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from message where 1=1
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=BIGINT}
+        </if>
+        order by id
+    </select>
+    <select id="countPage" resultType="java.lang.Long">
+        select count(*)
+        from message where 1=1
+        <if test="parentId != null">
+            and user_id = #{userId,jdbcType=BIGINT}
+        </if>
+    </select>
+</mapper>

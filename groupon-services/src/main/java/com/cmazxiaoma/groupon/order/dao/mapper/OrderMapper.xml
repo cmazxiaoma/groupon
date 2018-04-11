@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.groupon.order.entity.OrderMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.groupon.order.entity.Order">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="order_status" property="orderStatus" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="total_price" property="totalPrice" jdbcType="INTEGER"/>
+        <result column="total_settlement_price" property="totalSettlementPrice" jdbcType="INTEGER"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, order_status, create_time, total_price,
+        total_settlement_price, address, receiver, phone, pay_type
+    </sql>
+
+    <select id="selectPageOrders" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM order_basic
+        where 1 = 1
+        <if test="orderStatus != null">
+            and order_status = #{orderStatus,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and user_id &lt;= #{userId,jdbcType=BIGINT}
+        </if>
+        <if test="receiver != null">
+            and receiver like '%' #{receiver,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="startTime != null">
+            and create_time &gt;= #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null">
+            and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        </if>
+        ORDER BY create_time desc
+    </select>
+
+    <select id="countPageOrders" resultType="java.lang.Long">
+        SELECT count(*) FROM order_basic
+        where 1 = 1
+        <if test="orderStatus != null">
+            and order_status = #{orderStatus,jdbcType=INTEGER}
+        </if>
+        <if test="userId != null">
+            and user_id &lt;= #{userId,jdbcType=BIGINT}
+        </if>
+        <if test="receiver != null">
+            and receiver like '%' #{receiver,jdbcType=VARCHAR} '%'
+        </if>
+        <if test="startTime != null">
+            and create_time >= #{startTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="endTime != null">
+            and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
+        </if>
+    </select>
+
+    <select id="selectOrders" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_basic
+        where user_id = #{userId,jdbcType=BIGINT}
+        <if test="orderStatus != null">
+            and order_status = #{orderStatus,jdbcType=INTEGER}
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="selectOrderById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from order_basic where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectOrderCountStatusByUserId" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM order_basic
+        WHERE order_status = #{orderStatus,jdbcType=INTEGER}
+        AND user_id = #{userId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="insertOrderSelective" parameterType="com.cmazxiaoma.groupon.order.entity.Order">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into order_basic
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="totalPrice != null">
+                total_price,
+            </if>
+            <if test="receiver != null">
+                receiver,
+            </if>
+            <if test="totalSettlementPrice != null">
+                total_settlement_price,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="payType != null">
+                pay_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="totalPrice != null">
+                #{totalPrice,jdbcType=INTEGER},
+            </if>
+            <if test="receiver != null">
+                #{receiver,jdbcType=VARCHAR},
+            </if>
+            <if test="totalSettlementPrice != null">
+                #{totalSettlementPrice,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="payType != null">
+                #{payType,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateStatusById" parameterType="java.util.Map">
+        update order_basic
+        set order_status = #{orderStatus,jdbcType=INTEGER}
+        where id = #{orderId,jdbcType=BIGINT}
+    </update>
+
+</mapper>

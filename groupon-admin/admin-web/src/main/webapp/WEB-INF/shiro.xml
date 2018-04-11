@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans     xmlns="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
+    </bean>
+
+    <!-- rememberMe Cookie  -->
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="rememberMe"/>
+        <property name="path" value="/"/>
+        <property name="domain" value="/"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="2592000"/><!-- 30天 -->
+    </bean>
+
+    <!--rememberMeManager-->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+        <property name="cipherKey" value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}"/>
+        <property name="cookie" ref="rememberMeCookie"/>
+    </bean>
+
+    <!-- 自定义Realm -->
+    <bean id="authRealm" class="com.cmazxiaoma.admin.security.shirorealm.ShiroDbRealm"></bean>
+
+    <!-- 保存在内存 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="authRealm" />
+        <property name="rememberMeManager" ref="rememberMeManager"/>
+    </bean>
+
+    <!-- 保证实现了shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <!-- 自定义 filter -->
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- shiro的核心安全接口 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!--&lt;!&ndash; 要求登录时的链接 &ndash;&gt;-->
+        <!--<property name="loginUrl" value="/" />-->
+        <!--&lt;!&ndash; 登陆成功后要跳转的连接 &ndash;&gt;-->
+        <!--<property name="successUrl" value="/invite/list" />-->
+        <!--&lt;!&ndash; 未授权时要跳转的连接 &ndash;&gt;-->
+        <!--<property name="unauthorizedUrl" value="/" />-->
+        <!-- shiro连接约束配置 -->
+        <property name="filterChainDefinitions">
+            <value>
+                /css/** = anon
+                /login = anon
+                /main = anon
+                /validateCode = anon
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+</beans>

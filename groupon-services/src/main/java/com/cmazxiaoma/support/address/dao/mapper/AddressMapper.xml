@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.support.address.entity.AddressMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.support.address.entity.Address">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <id column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <id column="area" property="area" jdbcType="VARCHAR"/>
+        <id column="detail" property="detail" jdbcType="VARCHAR"/>
+        <id column="phone" property="phone" jdbcType="VARCHAR"/>
+        <id column="type" property="type" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 查询字段列表 -->
+    <sql id="Base_Column_List">
+        id,user_id,receiver,area,detail,phone,type,create_time,update_time
+    </sql>
+
+    <insert id="insertSelective" parameterType="com.cmazxiaoma.support.address.entity.Address">
+        insert into address
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="receiver != null">
+                receiver,
+            </if>
+            <if test="area != null">
+                area,
+            </if>
+            <if test="detail != null">
+                detail,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="receiver != null">
+                #{receiver,jdbcType=VARCHAR},
+            </if>
+            <if test="area != null">
+                #{area,jdbcType=VARCHAR},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from
+        address
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from address where user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from address where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectPage" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from address
+        order by id
+    </select>
+    <select id="countPage" resultType="java.lang.Long">
+        select count(*)
+        from address
+    </select>
+</mapper>

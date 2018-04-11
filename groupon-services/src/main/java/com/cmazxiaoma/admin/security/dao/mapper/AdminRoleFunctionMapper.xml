@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.admin.security.entity.AdminRoleFunctionMapper">
+    <resultMap id="BaseResultMap" type="com.cmazxiaoma.admin.security.entity.AdminRoleFunction">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="admin_func_id" property="adminFunctionId" jdbcType="INTEGER"/>
+        <result column="admin_role_id" property="adminRoleId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, admin_func_id, admin_role_id, create_time, update_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from admin_role_function
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from admin_role_function
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insertSelective" parameterType="com.cmazxiaoma.admin.security.entity.AdminRoleFunction">
+        insert into admin_role_function
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="adminFunctionId != null">
+                admin_func_id,
+            </if>
+            <if test="adminRoleId != null">
+                admin_role_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="adminFunctionId != null">
+                #{adminFunctionId,jdbcType=INTEGER},
+            </if>
+            <if test="adminRoleId != null">
+                #{adminRoleId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="batchInsertAdminUserRoles" parameterType="java.util.List">
+        insert into admin_role_function
+        (admin_func_id, admin_role_id, create_time, update_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.adminFunctionId,jdbcType=INTEGER},
+            #{item.adminRoleId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.updateTime,jdbcType=TIMESTAMP}
+            )
+        </foreach>
+    </insert>
+
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+        delete from admin_role_function where admin_role_id = #{adminRoleId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="findByRoleId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select * from admin_role_function where admin_role_id = #{adminFunctionId,jdbcType=BIGINT}
+    </select>
+
+    <select id="findByRoleIds" resultMap="BaseResultMap" parameterType="java.util.List">
+        select
+        <include refid="Base_Column_List"/>
+        from admin_role_function
+        where
+        admin_role_id in
+        <foreach item="item" index="index" collection="roleIds" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>

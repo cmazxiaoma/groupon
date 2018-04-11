@@ -18,6 +18,7 @@ public class DealCategoryCacheOperator extends CacheOperator {
 
     /**
      * 向缓存中增加DealCategory
+     *
      * @param dealCategory
      */
     public void putDealCategory(DealCategory dealCategory) {
@@ -45,6 +46,7 @@ public class DealCategoryCacheOperator extends CacheOperator {
 
     /**
      * 根据ID从缓存中取出ProductCategory
+     *
      * @param categoryId
      * @return
      */
@@ -54,6 +56,7 @@ public class DealCategoryCacheOperator extends CacheOperator {
 
     /**
      * 根据ID从缓存中删除ProductCategory
+     *
      * @param categoryId
      */
     public void deleteDealCategory(Long categoryId) {
@@ -82,6 +85,7 @@ public class DealCategoryCacheOperator extends CacheOperator {
 
     /**
      * 添加下级分类
+     *
      * @param parentId
      * @param dealCategories
      */
@@ -91,6 +95,7 @@ public class DealCategoryCacheOperator extends CacheOperator {
 
     /**
      * 获取下级分类
+     *
      * @param parentId
      * @return
      */
@@ -101,6 +106,7 @@ public class DealCategoryCacheOperator extends CacheOperator {
 
     /**
      * 删除下级分类
+     *
      * @param parentId
      */
     public void deleteSubCategories(Long parentId) {

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.groupon.deal.entity.DealDetailMapper">
+
+    <resultMap id="BaseResultMap"
+               type="com.cmazxiaoma.groupon.deal.entity.DealDetail">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <id column="deal_id" property="dealId" jdbcType="BIGINT"/>
+        <result column="deal_detail" property="dealDetail" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!-- 查询字段列表 -->
+    <sql id="Base_Column_List">
+        id,
+        deal_id,
+        deal_detail
+    </sql>
+
+    <!-- 根据ID查询商品描述信息 -->
+    <select id="selectByDealId" resultMap="BaseResultMap"
+            parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from deal_detail
+        where deal_id = #{dealId,jdbcType=BIGINT}
+    </select>
+
+    <!-- 根据ID查询商品描述信息 -->
+    <select id="selectById" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from deal_detail
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- 新增商品描述 -->
+    <insert id="insertDealDetail" parameterType="com.cmazxiaoma.groupon.deal.entity.DealDetail">
+        insert into deal_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="dealId != null">
+                deal_id,
+            </if>
+            <if test="dealDetail != null">
+                deal_detail,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="dealId != null">
+                #{dealId,jdbcType=BIGINT},
+            </if>
+            <if test="dealDetail != null">
+                #{dealDetail,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <!-- 更新商品描述信息 -->
+    <update id="updateById" parameterType="com.cmazxiaoma.groupon.deal.entity.DealDetail">
+        update deal_detail
+        <set>
+            <if test="dealDetail != null">
+                deal_detail = #{dealDetail,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- 删除商品描述信息 -->
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        delete from
+        deal_detail
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+</mapper>

@@ -5,7 +5,8 @@ package com.cmazxiaoma.groupon.deal.constant;
  */
 public final class DealConstant {
 
-    private DealConstant() {}
+    private DealConstant() {
+    }
 
     public static final int DEAL_CLASS_COMMON = 0; // 普通商品
 

@@ -26,8 +26,9 @@ public abstract class BaseEntity implements Serializable {
 
     /**
      * 获取给定实体集合的ID集合
+     *
      * @param entities 实体集合
-     * @param <T> 实体类型
+     * @param <T>      实体类型
      * @return ID集合
      */
     public static <T extends BaseEntity> List<Long> idList(List<T> entities) {
@@ -37,6 +38,7 @@ public abstract class BaseEntity implements Serializable {
 
     /**
      * 将给定的实体集合转换成实体ID位key, value的Map
+     *
      * @param entities
      * @param <T>
      * @return

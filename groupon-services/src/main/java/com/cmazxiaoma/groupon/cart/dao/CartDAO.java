@@ -22,6 +22,7 @@ public class CartDAO extends BaseMybatisDAO {
 
     /**
      * 保存
+     *
      * @param cart
      */
     public void save(Cart cart) {
@@ -34,6 +35,7 @@ public class CartDAO extends BaseMybatisDAO {
 
     /**
      * 根据用户ID查询
+     *
      * @param userId
      * @return
      */
@@ -43,6 +45,7 @@ public class CartDAO extends BaseMybatisDAO {
 
     /**
      * 根据用户ID和SkuID查询
+     *
      * @param userId
      * @return
      */
@@ -55,6 +58,7 @@ public class CartDAO extends BaseMybatisDAO {
 
     /**
      * 根据ID集合查询
+     *
      * @param ids
      * @return
      */
@@ -66,6 +70,7 @@ public class CartDAO extends BaseMybatisDAO {
 
     /**
      * 根据用户ID查询
+     *
      * @param userId
      * @return
      */
@@ -77,6 +82,7 @@ public class CartDAO extends BaseMybatisDAO {
 
     /**
      * 更新购物车商品数量
+     *
      * @param cartId
      * @param step
      */

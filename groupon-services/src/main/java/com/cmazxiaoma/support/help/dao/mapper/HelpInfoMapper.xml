@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cmazxiaoma.support.help.entity.HelpInfoMapper">
+    <resultMap id="BaseResultMap"
+               type="com.cmazxiaoma.support.help.entity.HelpInfo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="show_index" property="showIndex" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="is_del" property="isDel" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, show_index, title, content, create_time, is_del
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"
+            parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from help_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from
+        help_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.cmazxiaoma.support.help.entity.HelpInfo">
+        insert into help_info (id,
+        show_index, title,
+        content, create_time, is_del
+        )
+        values
+        (#{id,jdbcType=INTEGER}, #{showIndex,jdbcType=INTEGER},
+        #{title,jdbcType=VARCHAR},
+        #{content,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=BIT}
+        )
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.cmazxiaoma.support.help.entity.HelpInfo">
+        insert into help_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="showIndex != null">
+                show_index,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="showIndex != null">
+                #{showIndex,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.cmazxiaoma.support.help.entity.HelpInfo">
+        update help_info
+        <set>
+            <if test="showIndex != null">
+                show_index = #{showIndex,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.cmazxiaoma.support.help.entity.HelpInfo">
+        update help_info
+        set show_index = #{showIndex,jdbcType=INTEGER},
+        title =
+        #{title,jdbcType=VARCHAR},
+        content = #{content,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        is_del =
+        #{isDel,jdbcType=BIT}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 业务SQL -->
+    <select id="selectListForShow" resultMap="BaseResultMap">
+        select title, content from help_info where is_del = 0 order by show_index desc
+    </select>
+</mapper>
