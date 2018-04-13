@@ -170,7 +170,7 @@
     padding: 13px 10px;
     border-bottom: #3487F2 solid 1.5px;
     border-top: #5AA1FE solid 1.5px;
-    line-height: 22px;
+    line-height: 30px;
 }
 
 .shopClass_item dt {
@@ -405,7 +405,7 @@
     width: 202px;
     border-right: #999 solid 1px;
     border-bottom: #999 solid 1px;
-    height: 279px;
+    height: 320px;
     text-align: center;
     font-family: "Microsoft YaHei", "微软雅黑";
     float: left;

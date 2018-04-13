@@ -9,4 +9,5 @@ import com.cmazxiaoma.site.web.base.controller.FrontendBaseController;
  * @date 2018/4/4 9:22
  */
 public class BaseSiteController extends FrontendBaseController {
+    //todo
 }

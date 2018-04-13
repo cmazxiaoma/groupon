@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class FavoriteDAO extends BaseMybatisDAO {
 
-    private final String MAPPER_NAMESPACE = "com.tortuousroad.support.favorite.entity.FavoriteMapper";
+    private final String MAPPER_NAMESPACE = "com.cmazxiaoma.support.favorite.entity.FavoriteMapper";
 
     /**
      * 保存

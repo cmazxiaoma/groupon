@@ -1,6 +1,7 @@
 <#import "/macro/search.ftl" as search_macro/>
 <body>
 <script type="text/javascript">
+
     function formatUserName(value, row) {
         if (row.userStatus == 0) {
             return '<span style="color:red;">' + value + '</span>';

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class FooterController extends BaseSiteController {
+
     // 关于我们
     @RequestMapping("/about/about.html")
     public String about() {

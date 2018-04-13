@@ -29,7 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (webUser == null) {
             String basePath = request.getScheme() + "//:" + request.getServerName()
                     + ":" + request.getServerPort();
-            response.sendRedirect(basePath + "/login");
+            response.sendRedirect( "/login");
             return false;
         }
         return true;

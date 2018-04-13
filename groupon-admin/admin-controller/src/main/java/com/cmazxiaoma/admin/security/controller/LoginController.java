@@ -5,6 +5,7 @@ import com.cmazxiaoma.admin.common.cache.NativeCacheOperator;
 import com.cmazxiaoma.admin.common.tree.EasyUITreeNode;
 import com.cmazxiaoma.admin.security.entity.*;
 import com.cmazxiaoma.admin.security.service.AdminRoleService;
+import com.cmazxiaoma.admin.security.service.AdminUserService;
 import com.cmazxiaoma.framework.util.EncryptionUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -35,9 +36,13 @@ public class LoginController extends BaseAdminController {
     @Autowired
     private AdminRoleService adminRoleService;
 
+    @Autowired
+    private AdminUserService adminUserService;
+
     @RequestMapping(value = "/login", method = {RequestMethod.POST, RequestMethod.GET})
     public String login(Model model, HttpServletRequest request) {
         Subject user = SecurityUtils.getSubject();
+
         if (!user.isAuthenticated()) {
             return "/security/login";
         }
@@ -50,6 +55,7 @@ public class LoginController extends BaseAdminController {
         UsernamePasswordToken token = null;
         try {
             Subject subject = SecurityUtils.getSubject();
+
             if (!subject.isAuthenticated()) {
                 curUser.setPassword(EncryptionUtil.MD5(curUser.getPassword()));
                 token = new UsernamePasswordToken(curUser.getName(), curUser.getPassword());
@@ -59,6 +65,12 @@ public class LoginController extends BaseAdminController {
                 curUser = getCurrentUser();
             }
 
+            //更新时间
+            AdminUser adminUser = new AdminUser();
+            adminUser.setLastLoginTime(new Date());
+            adminUser.setId(getCurrentUser().getId());
+            adminUserService.updateAdminUser(adminUser);
+
             List<AdminUserRole> adminUserRoles = (super.getCurrentUser()).getAdminUserRoles();
             if (!Objects.equals("admin", curUser.getName()) && (null == adminUserRoles || 0 == adminUserRoles.size())) {
                 logger.info("ERP用户没有设置权限 : " + (super.getCurrentUser()).getName());
@@ -66,9 +78,11 @@ public class LoginController extends BaseAdminController {
             }
 
             List<Long> adminRoleIdList = new ArrayList<>();
+
             for (AdminUserRole role : adminUserRoles) {
                 adminRoleIdList.add(role.getAdminRoleId());
             }
+
             if (!Objects.equals("admin", curUser.getName())) {
                 List<AdminRole> adminRoles = this.adminRoleService.getAdminRoleByIds(adminRoleIdList);
                 cacheOperator.setAdminRoles(super.getCurrentUser().getId(), adminRoles);

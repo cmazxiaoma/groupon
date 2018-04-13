@@ -8,10 +8,11 @@
         <result column="password" property="password" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="login_time" property="lastLoginTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, name, password, create_time, update_time
+        id, name, password, create_time, update_time, login_time
     </sql>
 
     <select id="findPage" resultMap="BaseResultMap">
@@ -53,29 +54,46 @@
             <if test="name != null">
                 name,
             </if>
+
             <if test="password != null">
                 password,
             </if>
+
             <if test="createTime != null">
                 create_time,
             </if>
+
             <if test="updateTime != null">
                 update_time,
             </if>
+
+            <if test="lastLoginTime != null">
+                login_time,
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+
             <if test="name != null">
                 #{name,jdbcType=VARCHAR},
             </if>
+
             <if test="password != null">
                 #{password,jdbcType=VARCHAR},
             </if>
+
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP}
             </if>
+
             <if test="updateTime != null">
                 #{updateTime,jdbcType=TIMESTAMP}
             </if>
+
+            <if test="lastLoginTime != null">
+                #{lastLoginTime, jdbcType=TIMESTAMP}
+            </if>
+
         </trim>
     </insert>
 
@@ -91,6 +109,11 @@
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=TIMESTAMP},
             </if>
+
+            <if test="lastLoginTime != null">
+                login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>

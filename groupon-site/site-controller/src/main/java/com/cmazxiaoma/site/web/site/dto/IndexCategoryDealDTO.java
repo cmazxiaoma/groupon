@@ -29,6 +29,8 @@ public class IndexCategoryDealDTO {
     private List<Deal> second;
 
     public IndexCategoryDealDTO(DealCategory category, List<Deal> deals) {
+        //指定deals的种类
+        this.category = category;
         /**
          * 1.从deals截取出前4个赋值给first
          * 2.再4个赋值给second

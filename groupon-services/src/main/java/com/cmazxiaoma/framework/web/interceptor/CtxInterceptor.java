@@ -28,6 +28,10 @@ public class CtxInterceptor implements HandlerInterceptor {
             return;
         }
 
+//        //自己选择城市
+//        if () {
+//
+//        }
         modelAndView.addObject("areaName", IpUtil.getArea(request).getName());
 
         StringBuffer ctx = new StringBuffer();

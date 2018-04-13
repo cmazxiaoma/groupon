@@ -39,7 +39,7 @@ public class UserInterceptor implements HandlerInterceptor {
         }
 
         if (modelAndView != null && webUser != null
-                && org.apache.commons.lang3.StringUtils.isNoneEmpty(webUser.getUsername())) {
+                && org.apache.commons.lang3.StringUtils.isNotEmpty(webUser.getUsername())) {
             Long cartSize = SpringApplicationContext.getBean(CartService.class)
                     .getCartSize(webUser.getUserId());
             modelAndView.addObject("cartSize", cartSize);

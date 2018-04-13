@@ -467,6 +467,8 @@ public class DealService {
 
         if (null != maxSkuNow) {
             maxSkuId = maxSkuNow.getSkuId() + 1;
+        } else {
+            maxSkuId = 1L;
         }
         lock.unlock();
         return maxSkuId;

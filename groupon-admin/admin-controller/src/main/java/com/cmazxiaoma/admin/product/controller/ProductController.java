@@ -66,7 +66,7 @@ public class ProductController extends BaseAdminController {
     }
 
     /**
-     * 商品编辑页面
+     * 商品编辑页面，也可以复制商品
      *
      * @param id
      * @param model

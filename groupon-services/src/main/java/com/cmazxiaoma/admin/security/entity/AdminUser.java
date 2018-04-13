@@ -23,15 +23,22 @@ public class AdminUser extends BaseEntity {
     @Setter
     private String password;
 
-    //最后登录时间
+    //创建时间
     @Getter
     @Setter
     private Date createTime;
 
-    // 最后登录ip
+    //更新时间
     @Getter
     @Setter
     private Date updateTime;
+
+    /**
+     * 登录时间
+     */
+    @Getter
+    @Setter
+    private Date lastLoginTime;
 
     //拥有能访问的资源
     @Getter

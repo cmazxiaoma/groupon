@@ -102,7 +102,7 @@ public class DealCategoryService {
     }
 
     /**
-     * 查询所有未删除的商品类别
+     * 查询所有未删除的商品类别,并且加入到缓存中
      *
      * @return
      */

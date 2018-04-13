@@ -1,3 +1,4 @@
+//统一封装请求
 var Submit = {
     AjaxSubmit: function (url, params) {
         $.ajax({

@@ -45,6 +45,7 @@
             window.location = ctx + '/login';
         </#if>
         }
+
     </script>
 </head>
 <body>
