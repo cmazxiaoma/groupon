@@ -35,6 +35,17 @@ public class AreaDAO extends BaseMybatisDAO {
     }
 
     /**
+     * 根据区域id查询
+     *
+     * @param id
+     * @return
+     */
+    public Area getById(Long id) {
+        return super.findOne(MAPPER_NAMESPACE + ".selectById", id);
+    }
+
+
+    /**
      * 根据名称查询
      *
      * @param name

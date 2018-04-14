@@ -30,6 +30,13 @@
         where name = #{name,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from area
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+
     <insert id="insertSelective" parameterType="com.cmazxiaoma.support.area.entity.Area">
         insert into area
         <trim prefix="(" suffix=")" suffixOverrides=",">

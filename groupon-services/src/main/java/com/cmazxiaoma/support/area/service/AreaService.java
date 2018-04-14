@@ -40,6 +40,16 @@ public class AreaService {
     }
 
     /**
+     * 根据区域id查询
+     *
+     * @param id
+     * @return
+     */
+    public Area getById(Long id) {
+        return this.areaDAO.getById(id);
+    }
+
+    /**
      * 根据父节点ID查询下级
      *
      * @param parentId

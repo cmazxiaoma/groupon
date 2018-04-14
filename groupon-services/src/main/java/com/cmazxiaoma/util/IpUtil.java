@@ -56,6 +56,12 @@ public class IpUtil {
     }
 
     public static Area getArea(HttpServletRequest request) {
+        Area sessionArea = (Area) request.getSession().getAttribute("area");
+
+        if (sessionArea != null) {
+            return sessionArea;
+        }
+
         String ip = getRemoteIp(request);
         if (Objects.equals("127.0.0.1", ip)) {
             Area area = new Area();
@@ -65,6 +71,7 @@ public class IpUtil {
         }
         String ipResp = getIpInfo(ip);
         Response response = JSON.parseObject(ipResp, Response.class);
+
         if (response.getCode() != 0) {
             //FIXME 记录该用户/浏览器上一次访问时所在的城市,若没有则默认北京
             Area area = new Area();
@@ -72,6 +79,7 @@ public class IpUtil {
             area.setName("北京市");
             return area;
         }
+
         IpInfo info = response.getData();
         //本网站的业务只在中国开放
         if (!Objects.equals("中国", info.getCountry())) {
@@ -83,6 +91,7 @@ public class IpUtil {
         }
 
         Area area = areaService.getByName(info.getCity());
+
         if (null == area) {
             //FIXME 记录该用户/浏览器上一次访问时所在的城市,若没有则默认北京
             area = new Area();

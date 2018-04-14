@@ -19,16 +19,17 @@
     <script type="text/javascript">
         var ctx = '${ctx}';
 
+        //勾选框事件
         function check(object, cartId) {
             if (object.checked) {
-//                    alert(1);
+                console.log("勾选");
             } else {
-//                    alert(2);
+                console.log("取消勾选");
             }
-
             var val = Number(0);//声明一个数组保存结果
             var chk = document.getElementsByTagName("input");
             var cartIds = '';
+
             for (var i = 0; i < chk.length; i++) {
                 if (chk[i].type == 'checkbox' && chk[i].checked) {
                     val += Number(document.getElementById('subtotal_' + chk[i].id).value);
@@ -50,16 +51,45 @@
                     document.getElementById(id).value = maxPurchaseCount;
                 } else {
                     document.getElementById(id).value = count + 1;
-                    Submit.AjaxSubmit(ctx + '/cart/' + cartId + '/1');
+                    Submit.AjaxSubmit1(ctx + '/cart/' + cartId + '/1', "", "post",
+                    function(result) {
+                        var newResult = result / 100;
+                        if (newResult > 0) {
+                            newResult = newResult + ".00";
+                        }
+                       console.log(newResult);
+                       console.log($("#subtotal_" + cartId));
+                       //更新当前cart的总价
+                       $("#subtotal_" + cartId).val(newResult);
+                       $("#cart_item_t_subtotal_" + cartId).text(newResult);
+                       //更新所有cart的总价
+                        check(this, cartId);
+                    },
+                    function(result) {
+                        console.log(result);
+                    });
                 }
-//                    $('#subtotal_' + cartId).val(newPrice);
             } else {
                 var count = Number(document.getElementById(id).value);
                 if (count <= 1) {
                     document.getElementById(id).value = 1;
                 } else {
                     document.getElementById(id).value = count - 1;
-                    Submit.AjaxSubmit(ctx + '/cart/' + cartId + '/0');
+                    Submit.AjaxSubmit1(ctx + '/cart/' + cartId + '/0', "", "post",
+                            function(result) {
+                                var newResult = result / 100;
+                                if (newResult > 0) {
+                                    newResult = newResult + ".00";
+                                }
+                                console.log(newResult);
+                                $("#subtotal_" + cartId).val(newResult);
+                                $("#cart_item_t_subtotal_" + cartId).text(newResult);
+                                //更新所有cart的总价
+                                check(this, cartId);
+                            },
+                            function(result) {
+                                console.log(result);
+                            });
                 }
             }
         }
@@ -73,7 +103,7 @@
     <div class="logoBar">
         <div class="comWidth">
             <div class="logo fl">
-                <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="慕课网"></a>
+                <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="DCAMPUS"></a>
             </div>
             <div class="stepBox fr">
                 <div class="step"></div>
@@ -135,8 +165,9 @@
                             </div>
                         </div>
                         <div class="cart_item t_return"><@common.formatDiscount cart.deal.discount/></div>
-                        <div class="cart_item t_subtotal t_red"><input id="subtotal_${cart.cart.id}" type="hidden"
-                                                                       value="${cart.subtotal}"><@common.formatPrice cart.subtotal/>
+                        <div class="cart_item t_subtotal t_red" id="cart_item_t_subtotal_${cart.cart.id}">
+                            <input id="subtotal_${cart.cart.id}" type="hidden" value="${cart.subtotal}" />
+                            <@common.formatPrice cart.subtotal/>
                         </div>
                         <div class="cart_item t_status">
                             <#if cart.deal.start>
@@ -157,9 +188,10 @@
             </div>
         </div>
     </div>
+
     <div class="hr_25"></div>
     <div class="shopping_item">
-    <#--<h3 class="shopping_tit">订单结算</h3>-->
+    <h3 class="shopping_tit">订单结算</h3>
         <div class="shopping_cont padding_shop clearfix">
             <div class="cart_count fr">
                 <div class="cart_rmb">
@@ -167,7 +199,7 @@
                 </div>
                 <div class="settlement_btnBox">
                     <form action="${ctx}/settlement" method="post" id="settlement_form">
-                        <input type="hidden" id="totalPrice" name="totalPrice" value="0">
+                        <input type="hidden" id="totalPrice" name="totalPrice" value="0.00">
                         <input type="hidden" id="cartIds" name="cartIds">
                         <input type="submit" class="settlement_btn" value="提交订单">
                     </form>

@@ -1,7 +1,7 @@
 <div class="logoBar">
     <div class="comWidth">
         <div class="logo fl">
-            <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="慕课网"></a>
+            <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="DCAMPUS"></a>
             <span style="font-size: 17px; color: #000000">${areaName}</span> <a href="${ctx}/area/index"
                                                                                 style="color: #ffffff">切换城市</a>
         </div>

@@ -20,43 +20,6 @@
                         </dl>
                     </#list>
                 </div>
-            <#--<div class="shopClass_list hide">-->
-            <#--<div class="shopClass_cont">-->
-            <#--<dl class="shopList_item">-->
-            <#--<dt>电脑装机</dt>-->
-            <#--<dd>-->
-            <#--<a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a>-->
-            <#--</dd>-->
-            <#--</dl>-->
-            <#--<dl class="shopList_item">-->
-            <#--<dt>电脑装机</dt>-->
-            <#--<dd>-->
-            <#--<a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a>-->
-            <#--</dd>-->
-            <#--</dl>-->
-            <#--<dl class="shopList_item">-->
-            <#--<dt>电脑装机</dt>-->
-            <#--<dd>-->
-            <#--<a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a>-->
-            <#--</dd>-->
-            <#--</dl>-->
-            <#--<dl class="shopList_item">-->
-            <#--<dt>电脑装机</dt>-->
-            <#--<dd>-->
-            <#--<a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a>-->
-            <#--</dd>-->
-            <#--</dl>-->
-            <#--<dl class="shopList_item">-->
-            <#--<dt>电脑装机</dt>-->
-            <#--<dd>-->
-            <#--<a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a><a href="#">文字字啊</a><a href="#">文字字字啊</a><a href="#">文字啊</a><a href="#">文字</a><a href="#">文字啊</a><a href="#">文字啊</a>-->
-            <#--</dd>-->
-            <#--</dl>-->
-            <#--<div class="shopList_links">-->
-            <#--<a href="#">文字测试内容等等<span></span></a><a href="#">文字容等等<span></span></a>-->
-            <#--</div>-->
-            <#--</div>-->
-            <#--</div>-->
             </div>
             <ul class="nav fl">
                 <li><a href="${ctx}" <#if controller?? && controller=="index">class="active"</#if>>团购</a></li>

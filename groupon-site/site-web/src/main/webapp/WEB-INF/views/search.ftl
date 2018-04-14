@@ -34,25 +34,27 @@
                         </span>
             </div>
         </div>
+
         <div class="products_list screening_list_more clearfix">
-        <#list pagingDealList.rows as deal>
-            <div class="item">
-                <div class="item_cont">
-                    <div class="img_item">
-                        <a href="${ctx}/item/${deal.skuId}"><img src="${helper.getDealImageUrlForDealList(deal)}"
-                                                                 alt=""></a>
+            <#list pagingDealList.rows as deal>
+                <div class="item">
+                    <div class="item_cont">
+                        <div class="img_item">
+                            <a href="${ctx}/item/${deal.skuId}"><img src="${helper.getDealImageUrlForDealList(deal)}"
+                                                                     alt=""></a>
+                        </div>
+                        <p><a href="${ctx}/item/${deal.skuId}">${deal.dealTitle}</a></p>
+                        <p class="money"><@common.formatPrice deal.dealPrice/></p>
+                        <p><a href="${ctx}/cart/default/${deal.skuId}" class="addCar">加入购物车</a></p>
                     </div>
-                    <p><a href="${ctx}/item/${deal.skuId}">${deal.dealTitle}</a></p>
-                    <p class="money"><@common.formatPrice deal.dealPrice/></p>
-                    <p><a href="${ctx}/cart/default/${deal.skuId}" class="addCar">加入购物车</a></p>
                 </div>
-            </div>
-        </#list>
+            </#list>
         </div>
+
         <div class="hr_25"></div>
-    <#if pagingDealList??>
-        <@paging_macro.searchPaging pagingList=pagingDealList/>
-    </#if>
+        <#if pagingDealList??>
+            <@paging_macro.searchPaging pagingList=pagingDealList/>
+        </#if>
     </div>
 </div>
 </body>

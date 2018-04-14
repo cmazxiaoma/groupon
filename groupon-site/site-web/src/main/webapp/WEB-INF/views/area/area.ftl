@@ -252,7 +252,7 @@
                             <li id="city-${key}">
                                 <p class="cf"><span class="label"><strong>${key}</strong></span><span>
                                     <#list areas[key] as area>
-                                        <a class="isonline" href="${ctx}">${area.name}</a>
+                                        <a class="isonline" href="${ctx}?areaId=${area.id}">${area.name}</a>
                                     </#list>
                             </li>
                         </#list>

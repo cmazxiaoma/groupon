@@ -3,6 +3,7 @@
 <head>
     <title>商品介绍</title>
     <script type="text/javascript">
+
         function dealCount(type) {
             var maxPurchaseCount = '${deal.maxPurchaseCount}';
             if (type == 1) {
@@ -24,7 +25,16 @@
 
         function addToCart(skuId) {
         <#if username??>
-            Submit.AjaxSubmit(ctx + '/cart/default/' + skuId);
+//            Submit.AjaxSubmit(ctx + '/cart/default/' + skuId);
+            Submit.AjaxSubmit1(ctx + '/cart/default/' + skuId, "", "post",
+                    function(result) {
+                console.log(result);
+                //ajax刷新购物车数量
+                console.log($(".logoBar .shopNum"));
+                $(".logoBar .shopNum").text(result);
+            }, function(result) {
+                console.log(result);
+            });
         <#else >
             window.location = ctx + '/login';
         </#if>
@@ -76,9 +86,9 @@
             <div class="des_content">
                 <h3 class="des_content_tit">${deal.dealTitle}</h3>
                 <div class="dl clearfix">
-                    <div class="dt">慕课价</div>
+                    <div class="dt">价格</div>
                     <div class="dd clearfix"><span
-                            class="des_money"><em>￥</em><@common.formatPrice deal.dealPrice/></span></div>
+                            class="des_money"><em></em><@common.formatPrice deal.dealPrice/></span></div>
                 </div>
                 <div class="dl clearfix">
                     <div class="dt">优惠</div>

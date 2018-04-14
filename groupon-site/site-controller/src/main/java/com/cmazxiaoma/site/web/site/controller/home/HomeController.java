@@ -176,7 +176,6 @@ public class HomeController extends BaseSiteController {
         return "redirect:/home/address";
     }
 
-
     @RequestMapping(value = "/message")
     public String message(HttpServletRequest request, Model model) {
         WebUser webUser = getCurrentLoginUser(request);

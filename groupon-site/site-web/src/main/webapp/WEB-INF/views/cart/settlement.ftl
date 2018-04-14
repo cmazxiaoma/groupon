@@ -20,7 +20,7 @@
     <div class="logoBar">
         <div class="comWidth">
             <div class="logo fl">
-                <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="慕课网"></a>
+                <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="DCAMPUS"></a>
             </div>
             <div class="stepBox fr">
                 <div class="step"></div>
@@ -58,7 +58,7 @@
                                 <div class="cart_shopInfo clearfix">
                                     <img src="${helper.getDealImageUrlForDealList(cart.deal)}" alt="">
                                     <div class="cart_shopInfo_cont">
-                                        <p class="cart_link"><a href="#">${cart.deal.dealTitle}</a></p>
+                                        <p class="cart_link"><a href="${ctx}/item/${cart.deal.skuId}">${cart.deal.dealTitle}</a></p>
                                         <p class="cart_info">7天退换</p>
                                     </div>
                                 </div>

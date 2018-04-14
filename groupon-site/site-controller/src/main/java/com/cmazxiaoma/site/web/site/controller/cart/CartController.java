@@ -1,5 +1,6 @@
 package com.cmazxiaoma.site.web.site.controller.cart;
 
+import com.cmazxiaoma.framework.base.context.SpringApplicationContext;
 import com.cmazxiaoma.framework.base.entity.BaseEntity;
 import com.cmazxiaoma.groupon.cart.entity.Cart;
 import com.cmazxiaoma.groupon.cart.service.CartService;
@@ -59,7 +60,14 @@ public class CartController extends BaseSiteController {
     public String addToCart(@PathVariable Long skuId, Integer count, HttpServletRequest request) {
         try {
             cartService.addDeal(skuId, getCurrentLoginUser(request).getUserId(), count);
-            return "1";
+            Long cartSize = cartService.getCartSize(getCurrentLoginUser(request).getUserId());
+
+            if (cartSize == null) {
+                logger.error("获取" + getCurrentLoginUser(request).getUsername() + "用户的购物车数量失败");
+                return "0";
+            }
+
+            return String.valueOf(cartSize);
         } catch (Exception e) {
             //日志
             logger.error("Add deal to cart error, message : {}", e.getMessage());
@@ -68,8 +76,7 @@ public class CartController extends BaseSiteController {
     }
 
     /**
-     * 进入购物车
-     *
+     * 进入购物车, 显示详情
      * @param model
      * @param request
      * @return
@@ -169,7 +176,7 @@ public class CartController extends BaseSiteController {
     }
 
     /**
-     * 添加减少购物车数量
+     * 添加或者减少购物车数量
      * @param cartId
      * @param type
      * @return
@@ -183,7 +190,20 @@ public class CartController extends BaseSiteController {
             } else if (null != type && 0 == type) {
                 cartService.decreaseCartDealCount(cartId);
             }
-            return "1";
+
+            //获取对应的购物车数量
+            List<Cart> carts = cartService.getCartsByIds(Arrays.asList(cartId));
+
+            if (CollectionUtils.isEmpty(carts)) {
+                return "0";
+            }
+
+            Cart cart = carts.get(0);
+            int count = cart.getCount();
+            Deal deal = dealService.getBySkuId(cart.getDealSkuId());
+            int total = count * deal.getDealPrice();
+
+            return String.valueOf(total);
         } catch (Exception e) {
             e.printStackTrace();
             return "0";
