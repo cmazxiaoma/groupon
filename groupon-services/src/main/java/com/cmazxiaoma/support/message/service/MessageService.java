@@ -59,6 +59,13 @@ public class MessageService {
         this.messageDAO.save(message);
     }
 
+    /**
+     * 删除
+     */
+    public void deleteById(Long id) {
+        this.messageDAO.deleteById(id);
+    }
+
     /**********************混用**************************/
 
 }

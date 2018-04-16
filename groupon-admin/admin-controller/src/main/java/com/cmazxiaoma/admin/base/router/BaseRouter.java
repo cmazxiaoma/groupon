@@ -51,6 +51,7 @@ public abstract class BaseRouter {
         Method defineMethod;
 
         try {
+            Method[] methods = getClass().getMethods();
             //反射得到方法对象
             defineMethod = getClass().getMethod(method, new Class[]{BaseEntity.class, clazz, Map.class});
             if (null != defineMethod) {

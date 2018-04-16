@@ -58,4 +58,11 @@ public class MessageDAO extends BaseMybatisDAO {
         return super.findForPage(MAPPER_NAMESPACE + ".countPage", MAPPER_NAMESPACE + ".selectPage", search);
     }
 
+    /**
+     * 删除
+     */
+    public void deleteById(Long id) {
+        super.delete(MAPPER_NAMESPACE + ".deleteById", id);
+    }
+
 }

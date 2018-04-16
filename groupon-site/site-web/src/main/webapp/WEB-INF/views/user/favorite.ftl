@@ -3,6 +3,18 @@
 <html>
 <head>
     <title>收藏商品</title>
+    <script type="text/javascript">
+        var ctx = '${ctx}';
+
+        function delFavorite(favoriteId) {
+            Submit.AjaxSubmit1(ctx + '/home/delFavorite/' + favoriteId, "", "post",
+                    function(result) {
+                        console.log(result);
+                    }),function(result) {
+                console.log(result);
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="hr_15"></div>
@@ -58,7 +70,7 @@
                                 <#else>
                                     <a href="${ctx}/item/${favorite.deal.skuId}" class="btn_link" onclick="">查看&nbsp;&nbsp;</a>
                                 </#if>
-                                <a href="javascript:void(0)" class="btn_link">删除</a>
+                                <a href="javascript:delFavorite(${favorite.favorite.id})" class="btn_link">删除</a>
                             </div>
                         </div>
                     </#list>

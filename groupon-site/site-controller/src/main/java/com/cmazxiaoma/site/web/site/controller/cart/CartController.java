@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -59,6 +56,22 @@ public class CartController extends BaseSiteController {
     @ResponseBody
     public String addToCart(@PathVariable Long skuId, Integer count, HttpServletRequest request) {
         try {
+            Deal deal = dealService.getBySkuId(skuId);
+
+            if (Objects.isNull(deal)) {
+                return "0";
+            }
+
+            int maxPurchaseCount = deal.getMaxPurchaseCount();
+
+            List<Cart> cartList = cartService.getCartByUserId(getCurrentLoginUser(request).getUserId());
+            List<Cart> newCartList = cartList.stream().filter(cart -> cart.getDealSkuId().equals(deal.getSkuId())).collect(Collectors.toList());
+            int userDealCount = newCartList.get(0).getCount();
+
+            if (userDealCount >= maxPurchaseCount) {
+                return "0";
+            }
+
             cartService.addDeal(skuId, getCurrentLoginUser(request).getUserId(), count);
             Long cartSize = cartService.getCartSize(getCurrentLoginUser(request).getUserId());
 
@@ -105,7 +118,7 @@ public class CartController extends BaseSiteController {
     }
 
     /**
-     * 购物车结算
+     * 购物车点击提交订单，进入结算界面
      * @param cartIds
      * @param totalPrice
      * @param model

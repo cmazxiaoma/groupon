@@ -3,6 +3,8 @@
 <html>
 <head>
     <title>我的订单</title>
+    <script type="text/javascript">
+    </script>
 </head>
 <body>
 <div class="hr_15"></div>
@@ -44,10 +46,9 @@
                     <div class="cart_item t_status">
                     </div>
                     <div class="cart_item t_operate">
-                        <a href="javascript:void(0)" class="btn_link" onclick="">再次购买&nbsp;&nbsp;</a>
+                        <a href="${ctx}/settlement/${detail.dealSkuId}" class="btn_link" onclick="">再次购买&nbsp;&nbsp;</a>
                         <a href="${ctx}/item/${detail.dealSkuId}" class="btn_link" onclick="">查看&nbsp;&nbsp;</a>
                         <a href="${ctx}/item/${detail.dealSkuId}" class="btn_link" onclick="">取消&nbsp;&nbsp;</a>
-                    <#--<a href="javascript:void(0)" class="btn_link">删除</a>-->
                     </div>
                 </div>
             </#list>

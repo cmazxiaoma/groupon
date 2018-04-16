@@ -44,7 +44,11 @@
         var statusClass;
         var statusName;
         switch (value) {
-//                1:待付款;2:已付款;3:待发货;4:配送中;5:完成;6:已取消;7:已关闭
+//               -1:已删除 1:待付款;2:已付款;3:待发货;4:配送中;5:完成;6:已取消;7:已关闭
+            case -1:
+                statusClass = 'color:green';
+                statusName = '已删除';
+                break;
             case 1:
                 statusClass = 'color:red';
                 statusName = '待付款';

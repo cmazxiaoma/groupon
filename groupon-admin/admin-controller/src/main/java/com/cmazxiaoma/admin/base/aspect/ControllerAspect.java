@@ -5,6 +5,7 @@ import com.cmazxiaoma.framework.common.page.PagingResult;
 import com.cmazxiaoma.framework.common.search.Search;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,11 @@ public class ControllerAspect {
             throwable.printStackTrace();
         }
         return null;
+    }
+
+    @AfterThrowing(throwing="ex", pointcut = "execution(public * com.cmazxiaoma..controller.*Controller.*(..))")
+    public void afterThrowing(Throwable ex) {
+        log.error("controller层发生错误={}", ex);
     }
 
 }

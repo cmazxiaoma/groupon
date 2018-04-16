@@ -62,7 +62,9 @@
 <div class="userPosition comWidth">
     <strong><a href="${ctx}">首页</a></strong>
     <span>&nbsp;&gt;&nbsp;</span>
-    <a href="#">数码相机</a>
+    <a href="${ctx}/category/${helper.getCategoryUrlNameById(deal.categoryId)}">
+        ${helper.getCategoryNameById(deal.categoryId)}
+    </a>
     <span>&nbsp;&gt;&nbsp;</span>
     <em>${deal.dealTitle}</em>
 </div>
@@ -87,14 +89,29 @@
                 <h3 class="des_content_tit">${deal.dealTitle}</h3>
                 <div class="dl clearfix">
                     <div class="dt">价格</div>
-                    <div class="dd clearfix"><span
-                            class="des_money"><em></em><@common.formatPrice deal.dealPrice/></span></div>
+                    <div class="dd clearfix">
+                        <span class="des_money"><em></em><@common.formatPrice deal.dealPrice/></span></div>
                 </div>
                 <div class="dl clearfix">
                     <div class="dt">优惠</div>
-                    <div class="dd clearfix"><span class="hg"><i
-                            class="hg_icon">满换购</i><em>购ipad加价优惠够配件或USB充电插座</em></span></div>
+                    <div class="dd clearfix"><span class="hg">
+                        <i class="hg_icon">满换购</i><em>送DCAMPUS专属课程</em></span></div>
                 </div>
+
+                <div class="dl clearfix">
+                    <div class="dt">库存</div>
+                    <div class="dd clearfix">
+                        <span class="hg">${deal.inventoryAmount}</span>
+                    </div>
+                </div>
+
+                <div class="dl clearfix">
+                    <div class="dt">可售</div>
+                    <div class="dd clearfix">
+                        <span class="hg">${deal.vendibilityAmount}</span>
+                    </div>
+                </div>
+
                 <div class="des_position">
                     <div class="dl">
                         <div class="dt des_num">数量</div>
@@ -110,14 +127,15 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="remind_time">
-                <@common.formatDateTime deal.startTime/>开抢
+                    <@common.formatDateTime deal.startTime/>开抢
                 </div>
+
                 <div class="shop_buy">
                 <#if deal.start>
                     <a href="${ctx}/settlement/${deal.skuId}" class="buy_btn"></a>
                 <#else>
-                <#--<a href="${ctx}/settlement/${deal.skuId}" class="remind_btn"></a>-->
                     <a href="#" onclick="addToStartRemind(${deal.skuId})" class="remind_btn"></a>
                 </#if>
                     <span class="line"></span>
@@ -136,34 +154,25 @@
 <div class="des_info comWidth clearfix">
     <div class="leftArea">
         <div class="recommend">
-            <h3 class="tit">同价位</h3>
-            <div class="item">
-                <div class="item_cont">
-                    <div class="img_item">
-                        <a href="#"><img src="${ctx}/images/shopImg.jpg" alt=""></a>
+            <h3 class="tit">同类随机推荐</h3>
+            <#if recomdList??>
+                <#list recomdList as recomd>
+
+                    <div class="item">
+                        <div class="item_cont">
+                            <div class="img_item">
+                                <a href="${ctx}/item/${recomd.skuId}">
+                                    <img src="${helper.getDealImageUrlForDealList(recomd)}" alt="DCAMPUS">
+                                </a>
+                            </div>
+                            <p><a href="${ctx}/item/${recomd.skuId}">${recomd.dealTitle}</a></p>
+                            <p class="money">
+                                <@common.formatPrice recomd.dealPrice/>
+                            </p>
+                        </div>
                     </div>
-                    <p><a href="#">文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍</a></p>
-                    <p class="money">￥888</p>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item_cont">
-                    <div class="img_item">
-                        <a href="#"><img src="${ctx}/images/shopImg.jpg" alt=""></a>
-                    </div>
-                    <p><a href="#">文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍</a></p>
-                    <p class="money">￥888</p>
-                </div>
-            </div>
-            <div class="item">
-                <div class="item_cont">
-                    <div class="img_item">
-                        <a href="#"><img src="${ctx}/images/shopImg.jpg" alt=""></a>
-                    </div>
-                    <p><a href="#">文字介绍文字介绍文字介绍文字介绍文字介绍文字介绍</a></p>
-                    <p class="money">￥888</p>
-                </div>
-            </div>
+                </#list>
+            </#if>
         </div>
     </div>
     <div class="rightArea">

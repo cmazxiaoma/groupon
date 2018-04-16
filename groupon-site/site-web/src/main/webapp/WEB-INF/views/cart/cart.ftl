@@ -19,6 +19,10 @@
     <script type="text/javascript">
         var ctx = '${ctx}';
 
+        $(function() {
+            check(this, );
+        });
+
         //勾选框事件
         function check(object, cartId) {
             if (object.checked) {
@@ -36,8 +40,11 @@
                     cartIds += chk[i].id + ',';
                 }
             }
-            var totalSpan = document.getElementsByTagName("span");
-            totalSpan[0].innerHTML = '￥' + (val / 100).toFixed(2);
+
+            //更新所有cart的标签
+            console.log(val);
+            var totalSpan = $("#span_totalPrice");
+            totalSpan.text('￥' + (val / 100).toFixed(2));
 
             document.getElementById("totalPrice").value = val;
             document.getElementById("cartIds").value = cartIds.substring(0, cartIds.length - 1);
@@ -53,10 +60,11 @@
                     document.getElementById(id).value = count + 1;
                     Submit.AjaxSubmit1(ctx + '/cart/' + cartId + '/1', "", "post",
                     function(result) {
-                        var newResult = result / 100;
-                        if (newResult > 0) {
-                            newResult = newResult + ".00";
-                        }
+                        var newResult = result;
+//                        var newResult = result / 100;
+//                        if (newResult > 0) {
+//                            newResult = newResult + ".00";
+//                        }
                        console.log(newResult);
                        console.log($("#subtotal_" + cartId));
                        //更新当前cart的总价
@@ -77,10 +85,11 @@
                     document.getElementById(id).value = count - 1;
                     Submit.AjaxSubmit1(ctx + '/cart/' + cartId + '/0', "", "post",
                             function(result) {
-                                var newResult = result / 100;
-                                if (newResult > 0) {
-                                    newResult = newResult + ".00";
-                                }
+                                var newResult = result;
+//                                var newResult = result / 100;
+//                                if (newResult > 0) {
+//                                    newResult = newResult + ".00";
+//                                }
                                 console.log(newResult);
                                 $("#subtotal_" + cartId).val(newResult);
                                 $("#cart_item_t_subtotal_" + cartId).text(newResult);
@@ -165,9 +174,11 @@
                             </div>
                         </div>
                         <div class="cart_item t_return"><@common.formatDiscount cart.deal.discount/></div>
-                        <div class="cart_item t_subtotal t_red" id="cart_item_t_subtotal_${cart.cart.id}">
+                        <div class="cart_item t_subtotal t_red">
                             <input id="subtotal_${cart.cart.id}" type="hidden" value="${cart.subtotal}" />
-                            <@common.formatPrice cart.subtotal/>
+                            <span id="cart_item_t_subtotal_${cart.cart.id}">
+                                <@common.formatPrice cart.subtotal/>
+                            </span>
                         </div>
                         <div class="cart_item t_status">
                             <#if cart.deal.start>
@@ -195,13 +206,13 @@
         <div class="shopping_cont padding_shop clearfix">
             <div class="cart_count fr">
                 <div class="cart_rmb">
-                    <i>总计：</i><span>￥0.00</span>
+                    <i>总计:</i><span id="span_totalPrice">￥0.00</span>
                 </div>
                 <div class="settlement_btnBox">
                     <form action="${ctx}/settlement" method="post" id="settlement_form">
-                        <input type="hidden" id="totalPrice" name="totalPrice" value="0.00">
-                        <input type="hidden" id="cartIds" name="cartIds">
-                        <input type="submit" class="settlement_btn" value="提交订单">
+                        <input type="hidden" id="totalPrice" name="totalPrice" value="0.00" />
+                        <input type="hidden" id="cartIds" name="cartIds" />
+                        <input type="submit" class="settlement_btn" value="提交订单" />
                     </form>
                 </div>
             </div>

@@ -48,7 +48,7 @@ public class IndexCategoryDealDTO {
             }
         } else {
             this.first = new ArrayList<>(deals);
-            this.second = new ArrayList<>();
+            this.second = new ArrayList<>(deals);
         }
     }
 }

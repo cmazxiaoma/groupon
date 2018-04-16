@@ -548,10 +548,12 @@ public class DealService {
         if (deal == null) {
             return 3;
         }
+
         // 库存不够
         if (deal.getInventoryAmount() == 0) {
             return 4;
         }
+
         // 库存不够，已经售罄
         if (deal.getVendibilityAmount() == 0 || deal.getOosStatus() == GlobalConstant.YES) {
             return 4;

@@ -115,12 +115,12 @@ public class Deal extends BaseEntity {
     private Integer publishStatus;
 
     /**
-     * 商品库存数量
+     * 商品库存数量,库存量包括可售量和未取得手续，暂时不能出售的，
      */
     private Integer inventoryAmount;
 
     /**
-     * 商品可售数量
+     * 商品可售数量,可售量是指已经办好预售手续，能够出售的
      */
     private Integer vendibilityAmount;
 

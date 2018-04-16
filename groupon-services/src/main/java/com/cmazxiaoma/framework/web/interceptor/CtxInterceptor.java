@@ -25,7 +25,8 @@ public class CtxInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object args, ModelAndView modelAndView) throws Exception {
         if (modelAndView == null || modelAndView.getModel() == null) {
-            return;
+            //返回json格式
+            return ;
         }
 
         modelAndView.addObject("areaName", IpUtil.getArea(request).getName());

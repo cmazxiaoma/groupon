@@ -34,6 +34,10 @@ ${orderTypeName}
 <#--订单状态-->
 <#macro getOrderStatusName status>
     <#switch status>
+        <#case -1>
+            <#assign orderStatusClass="font_green">
+            <#assign orderStatusName="已取消">
+            <#break>
         <#case 1>
             <#assign orderStatusClass="font_green">
             <#assign orderStatusName="待付款">

@@ -403,38 +403,46 @@
 
 .shop_item {
     width: 202px;
-    border-right: #999 solid 1px;
-    border-bottom: #999 solid 1px;
-    height: 320px;
+    border-right: #f1f1f1 solid 1px;
+    border-bottom: #f1f1f1 solid 1px;
+    height: 270px;
     text-align: center;
     font-family: "Microsoft YaHei", "微软雅黑";
     float: left;
 }
 
 .shop_img {
-    height: 218px;
+    height: 200px;
 }
 
 .shop_img img {
     width: 100%;
-    height: 218px;
+    height: 200px;
     display: block;
 }
 
-.shop_item h3 {
-    font-size: 16px;
+.shop_item .shop_item_title {
+    font-size: 14px;
+    color: #5e5e5e;
+    height: 36px;
+    width: 202px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
 }
 
 .shop_item p {
     font-size: 14px;
     color: #FF7300;
-    line-height: 21px;
+    line-height: 15px;
 }
 
 /*商品列表-小*/
 .shopItem_sm {
     width: 202px;
-    border-right: #999 solid 1px;
+    border-right: #f1f1f1 solid 1px;
     height: 110px;
     padding-top: 6px;
     float: left;
@@ -450,6 +458,7 @@
 .shopItem_smImg img {
     width: 95px;
     height: 95px;
+    margin-top: 20px;
 }
 
 .shopItem_text {
@@ -459,15 +468,20 @@
 }
 
 .shopItem_text p {
+    font-size: 14px;
     color: #FF7300;
+    line-height: 15px;
+    margin-top: 12px;
 }
 
-.shopItem_text h3 {
-    font-family: "Microsoft YaHei", "微软雅黑";
-    font-size: 16px;
-    font-weight: normal;
-    color: #181818;
-    line-height: 30px;
+.shopItem_text div {
+    color: #5e5e5e;
+    width: 100px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2;
 }
 
 /*底部*/
@@ -1932,11 +1946,12 @@
 }
 
 .remind_time {
-    color: #000000;
+    color: #e4393c;
     text-indent: 17px;
     font-size: 15px;
     margin-bottom: 15px;
     margin-top: 15px;
+    font-weight: 2px;
 }
 
 .cart_btn {

@@ -25,6 +25,8 @@ public final class OrderConstant {
 
     public static final int STATUS_CLOSED = 7;
 
+    public static final int STATUS_DELETE = -1;
+
 
     //支付方式 1.微信;2.支付宝;3.货到付款
     public static final int PAY_TYPE_WECHAT = 1;

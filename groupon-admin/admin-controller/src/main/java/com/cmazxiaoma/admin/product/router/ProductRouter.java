@@ -189,7 +189,6 @@ public class ProductRouter extends BaseRouter {
 
     /**
      * 设置已卖光
-     *
      * @param user
      * @param deal
      * @param params

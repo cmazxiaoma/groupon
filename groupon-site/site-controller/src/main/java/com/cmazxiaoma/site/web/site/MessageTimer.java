@@ -1,7 +1,5 @@
-package com.cmazxiaoma.admin.timer;
+package com.cmazxiaoma.site.web.site;
 
-
-import com.cmazxiaoma.framework.base.context.SpringApplicationContext;
 import com.cmazxiaoma.support.message.entity.Message;
 import com.cmazxiaoma.support.message.service.MessageService;
 import com.cmazxiaoma.support.remind.entity.StartRemind;
@@ -17,11 +15,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 开团提醒定时
+ * @author cmazxiaoma
+ * @version V1.0
+ * @Description: TODO
+ * @date 2018/4/16 21:22
  */
 @Component
 @Slf4j
-public class GrouponStartRemindTimer {
+public class MessageTimer {
 
     @Autowired
     private StartRemindService startRemindService;
@@ -35,22 +36,23 @@ public class GrouponStartRemindTimer {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                List<StartRemind> startReminds = startRemindService.getByTimeInterval();
-                startReminds.forEach(startRemind -> {
+                List<StartRemind> startRemindList = startRemindService.listAll();
+                log.info("startRemindList={}", startRemindList);
+                startRemindList.forEach(startRemind -> {
                     log.info("站内通知用户" + startRemind.getUserId());
+                    System.out.println("站内通知用户" + startRemind.getUserId());
                     Message message = new Message();
                     message.setUserId(startRemind.getUserId());
                     message.setTitle("开团提醒");
+                    message.setContent(startRemind.getDealTitle() + "快要开团了");
                     message.setReaded(0);
                     message.setCreateTime(new Date());
                     message.setUpdateTime(new Date());
-                    message.setContent(startRemind.getDealTitle() + "将在24小时后开团.");
-                    //FIXME 循环中操作数据库性能低,需要改进
                     messageService.save(message);
 //                    startRemindService.deleteById(startRemind.getId());
                 });
-            }
-        }, 60 * 1000, 60 * 1000);
-    }
 
+            }
+        }, 20 * 1000, 20 * 1000);
+    }
 }

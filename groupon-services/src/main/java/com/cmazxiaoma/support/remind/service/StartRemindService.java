@@ -64,7 +64,7 @@ public class StartRemindService {
      * @return
      */
     public List<StartRemind> getByTimeInterval() {
-        //24小时正负1分钟范围内
+        //当前时间加1天
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
         return this.startRemindDAO.getByTimeInterval(calendar.getTime());
@@ -72,6 +72,10 @@ public class StartRemindService {
 
     public void deleteById(Long id) {
         this.startRemindDAO.deleteById(id);
+    }
+
+    public List<StartRemind> listAll() {
+        return this.startRemindDAO.listAll();
     }
 
     /**********************混用**************************/

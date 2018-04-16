@@ -30,6 +30,7 @@ public class DealUtil {
         }
 
         Integer dealType = deal.getDealType();
+
         if (dealType != null && dealType == DealConstant.DEAL_TYPE_GROUPON) {
             return true;
         } else {

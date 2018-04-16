@@ -87,8 +87,11 @@ public class OrderService {
 
         List<OrderDetail> details = new ArrayList<>();
         Integer totalSettlementPrice = 0;
+
         for (Pair<Cart, Deal> pair : cartDTOs) {
             OrderDetail detail = new OrderDetail();
+            //设置商家sku编号
+            detail.setMerchantSku(pair.getEnd().getMerchantSku());
             detail.setDealCount(pair.getHead().getCount());
             detail.setDealPrice(pair.getEnd().getDealPrice());
             detail.setDealTitle(pair.getEnd().getDealTitle());
@@ -183,11 +186,17 @@ public class OrderService {
         this.orderDAO.updateOrderStatus(orderId, OrderConstant.STATUS_FINISHED);
     }
 
+    public void reorder(long orderId) {
+        this.orderDAO.updateOrderStatus(orderId, OrderConstant.STATUS_WAITING_PAY);
+    }
+
+    public void delete(long orderId) {
+        this.orderDAO.updateOrderStatus(orderId, OrderConstant.STATUS_DELETE);
+    }
+
     public void payed(long orderId) {
         //FIXME 通知财务系统处理订单款项
         this.orderDAO.updateOrderStatus(orderId, OrderConstant.STATUS_WAITING_DELIVER);
     }
-
-    /*********************************混用**********************************/
 
 }

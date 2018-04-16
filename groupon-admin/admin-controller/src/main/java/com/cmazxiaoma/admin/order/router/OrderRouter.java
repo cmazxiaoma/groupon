@@ -32,6 +32,7 @@ public class OrderRouter extends BaseRouter {
 
     /* (non-Javadoc)
      * @see com.tortuousroad.admin.base.router.BaseRouter#loadEntity(java.lang.String)
+     * 加载bean
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -64,12 +65,28 @@ public class OrderRouter extends BaseRouter {
     }
 
     public AjaxResult delete(BaseEntity user, Order order, Map<String, String> params) {
-        return new AjaxResult();
+        this.orderService.delete(order.getId());
+        AjaxResult ajaxResult = new AjaxResult();
+        ajaxResult.setStatusCode(AjaxResult.AJAX_STATUS_CODE_SUCCESS);
+        return ajaxResult;
     }
 
     /**
+     * 重新下单
+     * @param user
+     * @param params
+     * @return
+     */
+    public AjaxResult reorder(BaseEntity user, Order order, Map<String, String> params) {
+        this.orderService.reorder(order.getId());
+        AjaxResult ajaxResult = new AjaxResult();
+        ajaxResult.setStatusCode(AjaxResult.AJAX_STATUS_CODE_SUCCESS);
+        return ajaxResult;
+    }
+
+
+    /**
      * 取消订单
-     *
      * @param user
      * @param params
      * @return

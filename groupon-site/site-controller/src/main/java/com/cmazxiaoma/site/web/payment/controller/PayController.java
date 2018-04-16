@@ -88,7 +88,6 @@ public class PayController extends BaseSiteController {
         }
         Payment payment = PaymentFactory.createPayment(payType);
         //FIXME 对payment进行判断
-
         //FIXME 修改默认值为1分
         totalPrice = 1;
         payment.pay(totalPrice, orderId, response);

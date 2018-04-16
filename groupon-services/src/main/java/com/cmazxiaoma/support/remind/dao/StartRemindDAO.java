@@ -69,4 +69,8 @@ public class StartRemindDAO extends BaseMybatisDAO {
         super.delete(MAPPER_NAMESPACE + ".deleteById", id);
     }
 
+    public List<StartRemind> listAll() {
+        return super.findAll(MAPPER_NAMESPACE + ".listAll");
+    }
+
 }

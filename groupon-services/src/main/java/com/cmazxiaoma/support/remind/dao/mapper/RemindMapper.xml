@@ -103,6 +103,7 @@
         </if>
         order by id
     </select>
+
     <select id="countPage" resultType="java.lang.Long">
         select count(*)
         from start_remind where 1=1
@@ -110,9 +111,14 @@
             and user_id = #{userId,jdbcType=BIGINT}
         </if>
     </select>
+
     <select id="selectByTimeInterval" resultMap="BaseResultMap" parameterType="java.util.Date">
         select * from start_remind
         where start_time &gt;= #{interval, jdbcType=BIGINT}
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        select * from start_remind
     </select>
 
 </mapper>

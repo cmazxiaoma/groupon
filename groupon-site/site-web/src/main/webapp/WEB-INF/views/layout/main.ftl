@@ -22,8 +22,8 @@
 ${head}
 </head>
 <body>
-<#include "header.ftl">
-			${body}
-		<#include "footer.ftl">
+    <#include "header.ftl">
+        ${body}
+    <#include "footer.ftl">
 </body>
 </html>

@@ -13,12 +13,17 @@ import com.cmazxiaoma.util.DealUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Deal,商品
@@ -46,13 +51,15 @@ public class DealController extends BaseSiteController {
      * @return
      */
     @RequestMapping(value = "/item/{skuId}", method = RequestMethod.GET)
-    public String detail(Model model, @PathVariable Long skuId, HttpServletResponse response) {
+    public String detail(Model model, @PathVariable Long skuId, HttpServletRequest request,
+                         HttpServletResponse response) {
         if (!DealUtil.isValidSkuId(skuId)) {
             return generateError404Page(response);
         }
 
         //1.查询商品即deal信息
         Deal deal = this.dealService.getBySkuIdForDetailViewOnSite(skuId);
+
         if (null == deal || !DealUtil.isGroupon(deal)) {
             return generateError404Page(response);
         }
@@ -61,6 +68,29 @@ public class DealController extends BaseSiteController {
         DealDetail dealDetail = this.dealService.getDetailByDealId(deal.getId());
         deal.setDealDetail(dealDetail);
         model.addAttribute("deal", deal);
+
+        //获取同类推荐商品
+        List<Deal> recomdList = new ArrayList<>();
+        List<Deal> recomdDealList = dealService.getDealsForIndex(getAreaId(request),
+                Arrays.asList(Long.valueOf(deal.getCategoryId())));
+
+        //去掉自己
+        recomdDealList = recomdDealList.stream().filter(deal1 -> !deal.getSkuId().equals(deal1.getSkuId())).
+                collect(Collectors.toList());
+
+        //推荐4个
+        if (!CollectionUtils.isEmpty(recomdDealList)) {
+            int size = recomdDealList.size();
+
+            if (size < 3) {
+                recomdList.addAll(recomdDealList);
+            } else {
+                recomdList.addAll(recomdDealList.subList(0, 3));
+            }
+        } else {
+            recomdList = new ArrayList<>();
+        }
+        model.addAttribute("recomdList", recomdList);
         return "/deal/detail";
     }
 

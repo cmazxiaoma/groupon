@@ -3,6 +3,7 @@
 <body>
 <script type="text/javascript" src="${ctx}/js/product.js"></script>
 <script type="text/javascript">
+
     function viewDetail(value, row) {
         var html = '<table><tr><td rowspan="2">';
         html = html + '<div style=\"float:left\"><img alt=\"商品图片为空\" src=\"' + row.imageGenPath + '\" /></div></td>';

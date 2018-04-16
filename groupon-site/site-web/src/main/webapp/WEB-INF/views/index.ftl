@@ -26,6 +26,7 @@
         <h3>${dto.category.name}</h3>
         <a href="${ctx}/category/${dto.category.urlName}" class="more">更多&gt;&gt;</a>
     </div>
+
     <div class="shopList comWidth clearfix">
         <div class="leftArea">
             <div class="banner_bar banner_sm">
@@ -38,6 +39,7 @@
                 </div>
             </div>
         </div>
+
         <div class="rightArea">
             <#if dto.first?exists>
                 <div class="shopList_top clearfix">
@@ -47,13 +49,14 @@
                                 <a href="${ctx}/item/${deal.skuId}"><img
                                         src="${helper.getDealImageUrlForIndexDeal1List(deal)}" alt=""></a>
                             </div>
-                            <h3>${deal.dealTitle}</h3>
+                            <div class="shop_item_title">${deal.dealTitle}</div>
                             <p><@common.formatPrice deal.dealPrice/></p>
                         <#--<p>${deal.dealPrice}</p>-->
                         </div>
                     </#list>
                 </div>
             </#if>
+
             <#if dto.second?exists>
                 <div class="shopList_sm clearfix">
                     <#list dto.second as deal>
@@ -63,16 +66,19 @@
                                         src="${helper.getDealImageUrlForIndexDeal2List(deal)}" alt=""></a>
                             </div>
                             <div class="shopItem_text">
-                                <p>${deal.dealTitle}</p>
-                                <h3><@common.formatPrice deal.dealPrice/></h3>
+                                <div>${deal.dealTitle}</div>
+                                <p><@common.formatPrice deal.dealPrice/></p>
                             </div>
                         </div>
                     </#list>
                 </div>
             </#if>
+
         </div>
+
     </div>
     </#list>
 </#if>
+
 </body>
 </html>

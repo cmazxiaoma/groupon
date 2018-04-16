@@ -42,18 +42,25 @@ public class HomeController extends BaseSiteController {
 
     @Autowired
     private OrderService orderService;
+
     @Autowired
     private UserService userService;
+
     @Autowired
     private CartService cartService;
+
     @Autowired
     private DealService dealService;
+
     @Autowired
     private AddressService addressService;
+
     @Autowired
     private FavoriteService favoriteService;
+
     @Autowired
     private MessageService messageService;
+
     @Autowired
     private StartRemindService startRemindService;
 
@@ -83,6 +90,20 @@ public class HomeController extends BaseSiteController {
         favorite.setUserId(user.getUserId());
         favoriteService.save(favorite);
         return "1";
+    }
+
+    /**
+     * 删除收藏
+     */
+    @RequestMapping(value = "/delFavorite/{favoriteId}")
+    @ResponseBody
+    public String delFavorite(HttpServletRequest request, @PathVariable Long favoriteId) {
+        try {
+            favoriteService.deleteById(favoriteId);
+            return "1";
+        } catch (Exception e) {
+            return "0";
+        }
     }
 
     /**
@@ -123,12 +144,14 @@ public class HomeController extends BaseSiteController {
         if (null != user) {
             Long userId = user.getUserId();
             List<Favorite> favorites = favoriteService.getByUserId(userId);
+
             if (null != favorites && !favorites.isEmpty()) {
                 List<Long> dealIds = favorites.stream().map(cart -> cart.getDealId()).collect(Collectors.toList());
                 List<Deal> deals = dealService.getDealsForCart(dealIds);
                 Map<Long, Deal> map = BaseEntity.idEntityMap(deals);
                 List<FavoriteDTO> dtoList = new ArrayList<>(favorites.size());
-                favorites.stream().forEach(favorite -> dtoList.add(new FavoriteDTO(favorite, map.get(favorite.getDealId()))));
+                favorites.stream().forEach(
+                        favorite -> dtoList.add(new FavoriteDTO(favorite, map.get(favorite.getDealId()))));
                 model.addAttribute("favorites", dtoList);
             }
         }
@@ -182,6 +205,38 @@ public class HomeController extends BaseSiteController {
         List<Message> messages = messageService.getByUserId(webUser.getUserId());
         model.addAttribute("messages", messages);
         return "/user/message";
+    }
+
+    /**
+     * 已读通知
+     * @param messageId
+     * @return
+     */
+    @RequestMapping(value = "/readMessage/{messageId}")
+    @ResponseBody
+    public String readMessage(@PathVariable Long messageId) {
+        try {
+            messageService.updateReadStatus(messageId);
+            return "1";
+        } catch (Exception e) {
+            return "0";
+        }
+    }
+
+    /**
+     * 删除通知
+     * @param messageId
+     * @return
+     */
+    @RequestMapping(value = "/delMessage/{messageId}")
+    @ResponseBody
+    public String delMessage(@PathVariable Long messageId) {
+        try {
+            messageService.deleteById(messageId);
+            return "1";
+        } catch (Exception e) {
+            return "0";
+        }
     }
 
 }
