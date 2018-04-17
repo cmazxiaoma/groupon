@@ -43,5 +43,25 @@ var Submit = {
             }
 
         });
+    },
+
+    AjaxSubmit2:function(url, params, method, success, error) {
+        $.ajax({
+            type: method,
+            url: url,
+            data: params,
+            dataType: "json",
+            async: false,
+            success : function(result, textStatus) {
+                if (result >= 1) {
+                    success(result);
+                } else {
+                    error(result);
+                }
+            },
+            error: function() {
+                error(result);
+            }
+        });
     }
 }

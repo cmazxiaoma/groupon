@@ -30,6 +30,13 @@ public class Message extends BaseEntity {
     private String content;
 
     /**
+     * 商品sku
+     */
+    @Getter
+    @Setter
+    private Long dealSkuId;
+
+    /**
      * 0未读，1已读
      */
     @Getter

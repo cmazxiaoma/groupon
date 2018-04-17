@@ -42,6 +42,7 @@ public class GrouponStartRemindTimer {
                     message.setUserId(startRemind.getUserId());
                     message.setTitle("开团提醒");
                     message.setReaded(0);
+                    message.setDealSkuId(startRemind.getDealSkuId());
                     message.setCreateTime(new Date());
                     message.setUpdateTime(new Date());
                     message.setContent(startRemind.getDealTitle() + "将在24小时后开团.");

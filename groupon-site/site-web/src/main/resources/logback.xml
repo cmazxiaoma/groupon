@@ -63,7 +63,7 @@
 
     <logger name="org.springframework.security" level="INFO" />
 
-    <logger name="com.cmazxiaoma..dao" level="INFO" />
+    <logger name="com.cmazxiaoma..dao" level="debug" />
 
     <logger name="org.mybatis">
         <level value="TRACE"/>

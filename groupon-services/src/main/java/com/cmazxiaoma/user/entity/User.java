@@ -14,6 +14,14 @@ public class User extends BaseEntity {
 
     @Getter
     @Setter
+    private String repwd;
+
+    @Getter
+    @Setter
+    private String checked;
+
+    @Getter
+    @Setter
     private String name;
 
     @Getter

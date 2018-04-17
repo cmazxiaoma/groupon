@@ -17,6 +17,7 @@
     <#--<label class="checkbox">-->
     <#--<input type="checkbox" value="remember-me"> Remember me-->
     <#--</label>-->
+        <p class="reg_errorMessage" style="height: 25px">${errorMessage}</p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 </div>

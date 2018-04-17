@@ -7,7 +7,12 @@ import com.cmazxiaoma.admin.security.entity.*;
 import com.cmazxiaoma.admin.security.service.AdminRoleService;
 import com.cmazxiaoma.admin.security.service.AdminUserService;
 import com.cmazxiaoma.framework.util.EncryptionUtil;
+import com.cmazxiaoma.framework.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AccountException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -52,6 +57,7 @@ public class LoginController extends BaseAdminController {
 
     @RequestMapping(value = "/main", method = {RequestMethod.POST, RequestMethod.GET})
     public String index(Model model, AdminUser curUser) {
+
         UsernamePasswordToken token = null;
         try {
             Subject subject = SecurityUtils.getSubject();
@@ -89,11 +95,19 @@ public class LoginController extends BaseAdminController {
             }
             logger.info("ERP登录 : " + (super.getCurrentUser()).getName());
             return "/layout/main";
-        } catch (Exception e) {
+        } catch (Exception ex) {
+
             if (null != token) {
                 token.clear();
             }
-            model.addAttribute("errorMsg", e);
+
+            if (ex instanceof AccountException) {
+                model.addAttribute("errorMessage", ex.getMessage());
+            }
+
+            if (ex instanceof IncorrectCredentialsException) {
+                model.addAttribute("errorMessage", "密码不正确");
+            }
             return "/security/login";
         }
     }

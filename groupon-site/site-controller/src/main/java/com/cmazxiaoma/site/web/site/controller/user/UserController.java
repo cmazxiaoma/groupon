@@ -1,5 +1,7 @@
 package com.cmazxiaoma.site.web.site.controller.user;
 
+import com.cmazxiaoma.framework.base.exception.BusinessException;
+import com.cmazxiaoma.framework.base.exception.ServiceException;
 import com.cmazxiaoma.framework.util.EncryptionUtil;
 import com.cmazxiaoma.framework.util.QRCodeUtil;
 import com.cmazxiaoma.framework.util.RegexUtil;
@@ -10,6 +12,7 @@ import com.cmazxiaoma.site.web.site.controller.BaseSiteController;
 import com.cmazxiaoma.user.entity.User;
 import com.cmazxiaoma.user.service.UserService;
 import com.google.code.kaptcha.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Controller
+@Slf4j
 public class UserController extends BaseSiteController {
 
     @Autowired
@@ -49,15 +53,23 @@ public class UserController extends BaseSiteController {
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(HttpServletRequest request, HttpServletResponse response, String username, String password1, String password2) {
-        if (!Objects.equals(password1, password2)) {
-            return "redirect:/reg";
-        }
-
+    public String register(HttpServletRequest request, HttpServletResponse response,
+                           String username, String password1, String password2,
+                           String checked) {
         User user = new User();
         user.setName(username);
         user.setPassword(password1);
-        boolean regSuccess = userService.register(user);
+        user.setRepwd(password2);
+        user.setChecked(checked);
+
+        try {
+            userService.register(user);
+        } catch (BusinessException | ServiceException ex) {
+            log.info(ex.getMessage());
+            modelMap.put("errorMessage", ex.getMessage());
+            return "/user/register";
+        }
+
         WebUser webUser = new WebUser();
         webUser.setLoginStatus(WebConstants.USER_LOGIN_STATUS_NORMAL);
         webUser.setUserId(user.getId());

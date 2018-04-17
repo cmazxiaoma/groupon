@@ -50,7 +50,7 @@ public class OrderService {
         if (null == userId) {
             throw new BusinessException("用户ID不能为空");
         }
-        //构造Order对象
+        //构造Order对象，初始化订单
         Order order = initOrder(userId, totalPrice, address, payType, cartDTOs);
         if (null == order) {
             throw new BusinessException("订单不能为空");

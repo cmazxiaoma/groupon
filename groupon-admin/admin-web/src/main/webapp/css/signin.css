@@ -120,3 +120,12 @@ body {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
+
+.reg_errorMessage{
+    height:20px;
+    color: red;
+    text-align: left;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

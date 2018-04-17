@@ -1,8 +1,10 @@
 package com.cmazxiaoma.user.service;
 
 import com.cmazxiaoma.framework.base.exception.BusinessException;
+import com.cmazxiaoma.framework.base.exception.ServiceException;
 import com.cmazxiaoma.framework.common.page.PagingResult;
 import com.cmazxiaoma.framework.common.search.Search;
+import com.cmazxiaoma.framework.util.StringUtil;
 import com.cmazxiaoma.user.dao.UserBasicInfoDAO;
 import com.cmazxiaoma.user.dao.UserDAO;
 import com.cmazxiaoma.user.entity.User;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 
+import javax.sql.rowset.serial.SerialException;
 import java.util.Date;
 import java.util.Objects;
 
@@ -30,23 +33,33 @@ public class UserService {
     @Autowired
     private UserBasicInfoDAO basicInfoDAO;
 
-    public User login(User user) {
+    public User login(User user) throws ServiceException {
         //验证
-        if (null == user || StringUtils.isEmpty(user.getName()) || StringUtils.isEmpty(user.getPassword())) {
-            return null;
+        if (null == user) {
+            throw new ServiceException("user不能为空");
+        }
+
+        if (StringUtils.isEmpty(user.getName())) {
+            throw new ServiceException("账号不能为空");
+        }
+
+        if (StringUtils.isEmpty(user.getPassword())) {
+            throw new ServiceException("密码不能为空");
         }
 
         User dbUser = userDAO.getByName(user.getName());
+
         if (null == dbUser) {
-            return null;
+            throw new ServiceException("该用户不存在");
         }
 
         //校验密码
 
         //用户输入的密码
         String password = DigestUtils.md5DigestAsHex(user.getPassword().getBytes()).toUpperCase();
+
         if (!Objects.equals(password, dbUser.getPassword())) {
-            return null;
+            throw new ServiceException("密码不正确");
         }
 
         User tempUser = new User();
@@ -78,7 +91,6 @@ public class UserService {
         basicInfo.setUpdateTime(now);
         basicInfo.setId(userId);
         basicInfoDAO.save(basicInfo);
-
 //		CommonMybatisDAO.save(UserBasicInfo.SAVE_SQL_ID, basicInfo);
 //		CommonMybatisDAO.save(User.SAVE_SQL_ID, new User());
 //		CommonMybatisDAO.findAll(Cart.FIND_SQL_ID, Cart.class);
@@ -123,13 +135,31 @@ public class UserService {
      */
     public boolean register(final User user) {
         final String username = user.getName();
-        if (StringUtils.hasText(username)) {
-            User temp = getByUsername(username);
-            if (temp != null) {
-                throw new BusinessException("用户名已经被注册过！");
-            }
-        } else {
-            user.setName("");
+
+        if (StringUtils.isEmpty(user.getName())) {
+            throw new ServiceException("账号不能为空");
+        }
+
+        if (StringUtils.isEmpty(user.getPassword())) {
+            throw new ServiceException("密码不能为空");
+        }
+
+        if (StringUtils.isEmpty(user.getRepwd())) {
+            throw new ServiceException("重复密码不能为空");
+        }
+
+        if (!Objects.equals(user.getPassword(), user.getRepwd())) {
+            throw new ServiceException("两次密码输入不一致");
+        }
+
+        if (!"on".equalsIgnoreCase(user.getChecked())) {
+            throw new ServiceException("请勾选DCAMPUS协议");
+        }
+
+        User temp = getByUsername(username);
+
+        if (temp != null) {
+            throw new BusinessException("用户名已经被注册过！");
         }
 
         // 保存用户基本信息

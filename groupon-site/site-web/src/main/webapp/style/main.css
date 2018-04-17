@@ -1848,12 +1848,12 @@
 }
 
 .regBox li {
-    height: 70px;
+    height: 52px;
     vertical-align: top;
 }
 
 .regBox .autoLogin {
-    height: 46px;
+    height: 22px;
     padding: 0;
 }
 
@@ -2000,4 +2000,32 @@
     background: #fff;
     color: #ff6600;
     font-weight: bold;
+}
+
+.order_btn {
+    display: inline-block;
+    padding: 2px 12px;
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    border: none;
+    background-color: #c60023;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    outline: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin-left: 6px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+.reg_errorMessage{
+    height:20px;
+    color: red;
+    text-align: left;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }

@@ -10,9 +10,10 @@
             Submit.AjaxSubmit1(ctx + '/home/delFavorite/' + favoriteId, "", "post",
                     function(result) {
                         console.log(result);
-                    }),function(result) {
-                console.log(result);
-            }
+                        window.location.href = ctx + "/home/favorite";
+                    },
+                    function(result) {
+                    console.log(result);});
         }
     </script>
 </head>
@@ -51,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="cart_item t_price">
+                            <div class="cart_item t_price" style="color: #FF7300;">
                                 <@common.formatPrice favorite.deal.dealPrice/>
                             </div>
                             <div class="cart_item t_return"><@common.formatDiscount favorite.deal.discount/></div>

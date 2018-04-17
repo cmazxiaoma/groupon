@@ -48,7 +48,6 @@ public class DealDAO extends BaseMybatisDAO {
                 MAPPER_NAMESPACE + ".selectPageDealsForSearch", page, rows, params);
     }
 
-
     /**
      * 查询显示在购物车的商品列表
      *

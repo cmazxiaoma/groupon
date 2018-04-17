@@ -2,6 +2,7 @@
 <#import "/macro/search.ftl" as search_macro/>
 <body>
 <script type="text/javascript">
+
     function viewDetail(value, row) {
         if (row.orderDetails == null) {
             return '';

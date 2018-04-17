@@ -24,6 +24,7 @@
         </#if>
         </div>
     </div>
+
     <div class="rightArea">
         <div class="addInfo">
             <div class="fr screen_text">

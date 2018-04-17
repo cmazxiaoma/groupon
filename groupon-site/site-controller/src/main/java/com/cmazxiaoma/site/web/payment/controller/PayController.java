@@ -83,7 +83,7 @@ public class PayController extends BaseSiteController {
         //通过工厂类及支付类型(payType)实例化具体支付方式
         if (payType == OrderConstant.PAY_TYPE_COD) {
             String basePath = request.getScheme() + "//:" + request.getServerName() + ":" + request.getServerPort();
-            response.sendRedirect(basePath + "/settlement/return");
+            response.sendRedirect("/settlement/return");
             return;
         }
         Payment payment = PaymentFactory.createPayment(payType);
@@ -95,7 +95,8 @@ public class PayController extends BaseSiteController {
 
     @RequestMapping(value = "/settlement/return")
     public String payReturn(HttpServletRequest request, Model model) throws Exception {
-        //FIXME 构造适用于支付宝返回及货到付款返回的方法,此时不再需要com.tortuousroad.site.web.payment.impl.alipay.controller.AlipayController
+        //FIXME 构造适用于支付宝返回及货到付款返回的方法
+        // 此时不再需要com.tortuousroad.site.web.payment.impl.alipay.controller.AlipayController
         //1.参数从request中获取
         //2.货到付款,增加特定参数,如果有则执行我们自己的return;若无则支付宝的renturn
         model.addAttribute("result", 1);

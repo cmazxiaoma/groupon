@@ -2,6 +2,8 @@
 <decorators defaultdir="/WEB-INF/views/layout/">
     <excludes>
         <pattern>/login</pattern>
+        <pattern>/dologin</pattern>
+        <pattern>/register</pattern>
         <pattern>/reg</pattern>
         <pattern>/cart/*</pattern>
         <pattern>/cart</pattern>

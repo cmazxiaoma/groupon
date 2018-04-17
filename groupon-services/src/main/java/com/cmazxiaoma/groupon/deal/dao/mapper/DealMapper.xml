@@ -46,14 +46,14 @@
     <select id="selectPageDealsForSearch" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM deal where deal_title like '%' #{name,jdbcType=VARCHAR} '%'
+        FROM deal where deal_title LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
         order by create_time desc
     </select>
 
     <select id="countPageDealsForSearch" resultType="java.lang.Long">
         SELECT
         count(*)
-        FROM deal where deal_title like '%' #{name,jdbcType=VARCHAR} '%'
+        FROM deal where deal_title LIKE CONCAT('%',#{name,jdbcType=VARCHAR},'%')
         order by create_time desc
     </select>
 
@@ -81,7 +81,7 @@
             and merchant_sku = #{merchantSku,jdbcType=INTEGER}
         </if>
         <if test="dealTitle != null">
-            and deal_title LIKE '%' #{dealTitle} '%'
+            and deal_title LIKE CONCAT('%',#{dealTitle},'%')
         </if>
         <if test="dealPrice != null">
             and deal_price = #{dealPrice,jdbcType=INTEGER}
@@ -187,7 +187,7 @@
             and merchant_sku = #{merchantSku,jdbcType=BIGINT}
         </if>
         <if test="dealTitle != null">
-            and deal_title LIKE '%' #{dealTitle} '%'
+            and deal_title LIKE CONCAT('%',#{dealTitle},'%')
         </if>
         <if test="dealPrice != null">
             and deal_price = #{dealPrice,jdbcType=INTEGER}

@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.cmazxiaoma.support.message.entity.Message">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <id column="user_id" property="userId" jdbcType="BIGINT"/>
+        <id column="deal_sku_id" property="dealSkuId" jdbcType="BIGINT"/>
         <id column="title" property="title" jdbcType="VARCHAR"/>
         <id column="content" property="content" jdbcType="VARCHAR"/>
         <id column="readed" property="readed" jdbcType="INTEGER"/>
@@ -13,7 +14,7 @@
 
     <!-- 查询字段列表 -->
     <sql id="Base_Column_List">
-        id,user_id,title,content,readed,create_time,update_time
+        id,user_id,title,content,readed,deal_sku_id,create_time,update_time
     </sql>
 
     <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Long">
@@ -31,6 +32,9 @@
             </if>
             <if test="userId != null">
                 user_id,
+            </if>
+            <if test="dealSkuId != null">
+                deal_sku_id,
             </if>
             <if test="title != null">
                 title,
@@ -55,6 +59,10 @@
 
             <if test="userId != null">
                 #{userId,jdbcType=BIGINT},
+            </if>
+
+            <if test="dealSkuId != null">
+                #{dealSkuId,jdbcType=BIGINT},
             </if>
 
             <if test="title != null">
@@ -83,12 +91,6 @@
         update message set readed = 1,update_time = now()
         where id = #{id,jdbcType=BIGINT}
     </update>
-
-    <delete id="deleteById" parameterType="java.lang.Long">
-        delete from
-        message
-        where id = #{id,jdbcType=BIGINT}
-    </delete>
 
     <select id="selectPage" resultMap="BaseResultMap">
         select

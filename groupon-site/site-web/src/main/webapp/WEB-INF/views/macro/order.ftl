@@ -35,8 +35,8 @@ ${orderTypeName}
 <#macro getOrderStatusName status>
     <#switch status>
         <#case -1>
-            <#assign orderStatusClass="font_green">
-            <#assign orderStatusName="已取消">
+            <#assign orderStatusClass="font_red">
+            <#assign orderStatusName="已删除">
             <#break>
         <#case 1>
             <#assign orderStatusClass="font_green">
@@ -67,4 +67,41 @@ ${orderTypeName}
             <#assign orderStatusName="未知订单状态">
     </#switch>
 ${orderStatusName}
+</#macro>
+
+<#macro getOrderStatusClass status>
+    <#switch status>
+        <#case -1>
+            <#assign orderStatusClass="color:red;">
+            <#assign orderStatusName="已删除">
+            <#break>
+        <#case 1>
+            <#assign orderStatusClass="color:green;">
+            <#assign orderStatusName="待付款">
+            <#break>
+        <#case 2>
+            <#assign orderStatusClass="color:green;">
+            <#assign orderStatusName="已付款">
+            <#break>
+        <#case 3>
+            <#assign orderStatusClass="font_green">
+            <#assign orderStatusName="待发货">
+            <#break>
+        <#case 4>
+            <#assign orderStatusClass="color:gray;">
+            <#assign orderStatusName="配送中">
+            <#break>
+        <#case 5>
+            <#assign orderStatusClass="color:gray;">
+            <#assign orderStatusName="完成">
+            <#break>
+        <#case 6>
+            <#assign orderStatusClass="color:red;">
+            <#assign orderStatusName="已取消">
+            <#break>
+        <#default>
+            <#assign orderStatusClass="color:red;">
+            <#assign orderStatusName="未知订单状态">
+    </#switch>
+${orderStatusClass}
 </#macro>

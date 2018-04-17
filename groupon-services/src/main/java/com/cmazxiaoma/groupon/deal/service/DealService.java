@@ -350,7 +350,8 @@ public class DealService {
     public PagingResult<Deal> getDealsOfCategories(List<Long> categoryIds, Long areaId, int page, int rows) {
         Search search = new Search();
         List<Condition> conditionList = new ArrayList<>();
-        conditionList.add(new Condition("publishStatus", DealConstant.DEAL_PUBLISH_STATUS_PUBLISH)); // 发布状态为已发布
+        // 发布状态为已发布
+        conditionList.add(new Condition("publishStatus", DealConstant.DEAL_PUBLISH_STATUS_PUBLISH));
 
         conditionList.add(new Condition("categoryIdList", categoryIds));
         conditionList.add(new Condition("nowTime", new Date()));

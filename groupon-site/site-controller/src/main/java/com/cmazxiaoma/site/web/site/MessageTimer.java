@@ -43,6 +43,7 @@ public class MessageTimer {
                     System.out.println("站内通知用户" + startRemind.getUserId());
                     Message message = new Message();
                     message.setUserId(startRemind.getUserId());
+                    message.setDealSkuId(startRemind.getDealSkuId());
                     message.setTitle("开团提醒");
                     message.setContent(startRemind.getDealTitle() + "快要开团了");
                     message.setReaded(0);
@@ -53,6 +54,6 @@ public class MessageTimer {
                 });
 
             }
-        }, 20 * 1000, 20 * 1000);
+        }, 300 * 1000, 300 * 1000);
     }
 }

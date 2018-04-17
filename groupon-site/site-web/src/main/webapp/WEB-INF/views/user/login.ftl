@@ -15,11 +15,12 @@
 </head>
 
 <body>
+
 <div class="headerBar">
     <div class="logoBar login_logo">
         <div class="comWidth">
             <div class="logo fl">
-                <a href="#"><img src="${ctx}/images/logo.jpg" alt="慕课网"></a>
+                <a href="#"><img src="${ctx}/images/logo.jpg" alt="DCAMPUS"></a>
             </div>
             <h3 class="welcome_title">欢迎登陆</h3>
         </div>
@@ -28,6 +29,7 @@
 
 <div class="loginBox">
     <div class="login_cont">
+
         <ul class="login">
             <form action="/dologin" method="post">
                 <li class="l_tit">邮箱/用户名/手机号</li>
@@ -35,9 +37,13 @@
                 <li class="l_tit">密码</li>
                 <li class="mb_10"><input type="password" name="password" class="login_input user_icon"></li>
                 <li class="autoLogin"><input type="checkbox" id="a1" class="checked"><label for="a1">自动登陆</label></li>
+                <span style="color:red;font-size: 15px;">${errorMessage}</span>
+                <p></p>
                 <li><input type="submit" value="" class="login_btn"></li>
             </form>
+            <a class="reg_link" href="${ctx}/reg"></a>
         </ul>
+
         <div class="login_partners">
             <p class="l_tit">使用合作方账号登陆网站</p>
             <ul class="login_list clearfix">
@@ -55,7 +61,6 @@
             </ul>
         </div>
     </div>
-    <a class="reg_link" href="${ctx}/reg"></a>
 </div>
 <#include "layout/footer.ftl">
 </body>

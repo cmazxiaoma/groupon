@@ -1,6 +1,9 @@
 package com.cmazxiaoma.site.web.site.controller.home;
 
 import com.cmazxiaoma.framework.base.entity.BaseEntity;
+import com.cmazxiaoma.framework.common.page.PagingResult;
+import com.cmazxiaoma.framework.common.search.Condition;
+import com.cmazxiaoma.framework.common.search.Search;
 import com.cmazxiaoma.groupon.cart.service.CartService;
 import com.cmazxiaoma.groupon.deal.entity.Deal;
 import com.cmazxiaoma.groupon.deal.service.DealService;
@@ -131,10 +134,8 @@ public class HomeController extends BaseSiteController {
     @RequestMapping(value = "/order")
     public String order(HttpServletRequest request, Model model) {
         WebUser webUser = getCurrentLoginUser(request);
-
         List<Order> orders = orderService.getOrderByUserId(webUser.getUserId());
         model.addAttribute("orders", orders);
-
         return "/user/order";
     }
 
@@ -146,7 +147,8 @@ public class HomeController extends BaseSiteController {
             List<Favorite> favorites = favoriteService.getByUserId(userId);
 
             if (null != favorites && !favorites.isEmpty()) {
-                List<Long> dealIds = favorites.stream().map(cart -> cart.getDealId()).collect(Collectors.toList());
+                List<Long> dealIds = favorites.stream().map(cart -> cart.getDealId())
+                        .collect(Collectors.toList());
                 List<Deal> deals = dealService.getDealsForCart(dealIds);
                 Map<Long, Deal> map = BaseEntity.idEntityMap(deals);
                 List<FavoriteDTO> dtoList = new ArrayList<>(favorites.size());
@@ -200,10 +202,22 @@ public class HomeController extends BaseSiteController {
     }
 
     @RequestMapping(value = "/message")
-    public String message(HttpServletRequest request, Model model) {
-        WebUser webUser = getCurrentLoginUser(request);
-        List<Message> messages = messageService.getByUserId(webUser.getUserId());
-        model.addAttribute("messages", messages);
+    public String message() {
+        return messagePage(1);
+    }
+
+    @RequestMapping(value = "/message/{page}")
+    public String messagePage(@PathVariable Integer page) {
+        Search search = new Search();
+        search.setPage(page);
+        search.setRows(5);
+        List<Condition> conditionList = new ArrayList<>();
+        conditionList.add(new Condition("userId", getCurrentLoginUser(httpRequest).getUserId()));
+        search.setConditionList(conditionList);
+        PagingResult<Message> pagingResult = messageService.getPage(search);
+        modelMap.addAttribute("pagingResult", pagingResult);
+        modelMap.addAttribute("messages", pagingResult.getRows());
+
         return "/user/message";
     }
 

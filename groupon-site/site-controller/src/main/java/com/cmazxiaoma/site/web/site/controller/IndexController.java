@@ -99,9 +99,9 @@ public class IndexController extends BaseSiteController {
         try {
             //get提交中文为ISO-8859-1,需转成UTF-8
             String word = new String(s.getBytes("ISO-8859-1"), "UTF-8");
-            PagingResult<Deal> pageResult = dealService.searchByName(word, page, 3);
+            PagingResult<Deal> pageResult = dealService.searchByName(s, page, 3);
             model.addAttribute("pagingDealList", pageResult);
-            model.addAttribute("s", word);
+            model.addAttribute("s", s);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

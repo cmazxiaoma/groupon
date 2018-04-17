@@ -107,14 +107,22 @@ public class CookieUtil {
      * @param name     Cookie名
      * @param path     Cookie Path
      */
-    public static void removeCookie(HttpServletResponse response, String name, String path) {
+    public static void removeCookie(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse response, String name, String path) {
         if (null == response || StringUtils.isEmpty(name) || StringUtils.isEmpty(path)) {
             return;
         }
-        Cookie cookie = new Cookie(name, "");
-        cookie.setPath(path);
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
+
+        Cookie[] cookies = httpServletRequest.getCookies();
+
+        for (Cookie cookie : cookies) {
+            if (CookieUtil.USER_INFO.equalsIgnoreCase(cookie.getName())) {
+                //让cookie失效
+                cookie.setMaxAge(0);
+                cookie.setValue(null);
+                response.addCookie(cookie);
+            }
+        }
     }
 
 }

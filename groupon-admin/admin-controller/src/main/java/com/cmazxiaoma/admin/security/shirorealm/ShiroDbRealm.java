@@ -11,6 +11,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -50,8 +51,14 @@ public class ShiroDbRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         String username = usernamePasswordToken.getUsername();
-        if (username == null) {
+        char[] password = usernamePasswordToken.getPassword();
+
+        if (StringUtils.isEmpty(username)) {
             throw new AccountException("用户名不能为空");
+        }
+
+        if (password == null) {
+            throw new AccountException("密码不能为空");
         }
 
         AdminUser user = null;
@@ -60,9 +67,11 @@ public class ShiroDbRealm extends AuthorizingRealm {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         if (user == null) {
             throw new UnknownAccountException("用户不存在");
         }
+
         return new SimpleAuthenticationInfo(user, user.getPassword(), getName());
     }
 
