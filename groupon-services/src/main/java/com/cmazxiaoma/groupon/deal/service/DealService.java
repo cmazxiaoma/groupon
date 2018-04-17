@@ -310,7 +310,8 @@ public class DealService {
             for (Condition condition : conditionList) {
                 if ("categoryId".equals(condition.getName())) {
                     Long categoryId = Long.valueOf(String.valueOf(condition.getValue()));
-                    List<DealCategory> laterGenerationCategories = dealCategoryService.getLaterGenerationCategories(categoryId);
+                    List<DealCategory> laterGenerationCategories = dealCategoryService
+                            .getLaterGenerationCategories(categoryId);
 
                     List<Long> categoryIdList = new ArrayList<>();
                     categoryIdList.add(categoryId);

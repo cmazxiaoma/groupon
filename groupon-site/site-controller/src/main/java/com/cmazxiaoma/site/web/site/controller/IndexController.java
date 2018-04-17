@@ -1,6 +1,7 @@
 package com.cmazxiaoma.site.web.site.controller;
 
 import com.cmazxiaoma.framework.common.page.PagingResult;
+import com.cmazxiaoma.framework.common.search.Search;
 import com.cmazxiaoma.framework.util.StringUtil;
 import com.cmazxiaoma.groupon.deal.entity.Deal;
 import com.cmazxiaoma.groupon.deal.entity.DealCategory;
@@ -78,8 +79,18 @@ public class IndexController extends BaseSiteController {
         categoryList.forEach(category -> {
             List<Deal> deals = dealService.getDealsForIndex(areaId, category.getSelfAndChildrenIds());
             indexCategoryDealDTOList.add(new IndexCategoryDealDTO(category, deals));
+            //获取迷你照片墙信息
+            model.addAttribute("smCarouseList", deals);
+
         });
         model.addAttribute("indexCategoryDealDTOs", indexCategoryDealDTOList);
+
+        //获取照片墙信息
+        Search search = new Search();
+        search.setPage(1);
+        search.setRows(3);
+        PagingResult<Deal> dealList = dealService.getDealList(search);
+        model.addAttribute("carouselList", dealList.getRows());
 
         return "index";
     }

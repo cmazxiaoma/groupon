@@ -64,4 +64,6 @@ public class BaseSiteHelper extends FrontendBaseHelper {
                 DealConstant.PICTURE_SIZE_BY_TYPE_DETAIL);
     }
 
+
+
 }

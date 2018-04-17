@@ -34,7 +34,6 @@ public class DealCategoryService {
     /**********************网站**************************/
     /**
      * 根据urlName查询
-     *
      * @param urlName
      * @return
      */
@@ -42,6 +41,7 @@ public class DealCategoryService {
 //        return dealCategoryDAO.getByUrlName(urlName);
         //FIXME 此处应该从缓存中取
         List<DealCategory> dealCategories = getAllWithoutDeleted();
+
         //获取大分类下面所有的分类
         Optional<DealCategory> optional = dealCategories.stream()
                 .filter(dealCategory ->
@@ -69,7 +69,9 @@ public class DealCategoryService {
         List<DealCategory> dealCategories = getAllWithoutDeleted();//从缓存或数据库中查询全部
 
         //JDK8的stream处理,把根分类区分出来
-        List<DealCategory> roots = dealCategories.stream().filter(dealCategory -> (dealCategory.getParentId() == 0)).collect(Collectors.toList());
+        List<DealCategory> roots = dealCategories.stream()
+                .filter(dealCategory -> (dealCategory.getParentId() == 0))
+                .collect(Collectors.toList());
 
         //对跟分类进行排序
         roots.sort(new Comparator<DealCategory>() {
@@ -80,7 +82,9 @@ public class DealCategoryService {
         });
 
         //把非根分类区分出来
-        List<DealCategory> subs = dealCategories.stream().filter(dealCategory -> (dealCategory.getParentId() != 0)).collect(Collectors.toList());
+        List<DealCategory> subs = dealCategories.stream().
+                filter(dealCategory -> (dealCategory.getParentId() != 0))
+                .collect(Collectors.toList());
 
         //递归构建结构化的分类信息
         roots.forEach(root -> buildSubs(root, subs));
@@ -94,7 +98,9 @@ public class DealCategoryService {
      * @param subs
      */
     private void buildSubs(DealCategory parent, List<DealCategory> subs) {
-        List<DealCategory> children = subs.stream().filter(sub -> (sub.getParentId() == parent.getId())).collect(Collectors.toList());
+        List<DealCategory> children = subs.stream()
+                .filter(sub -> (sub.getParentId() == parent.getId()))
+                .collect(Collectors.toList());
         if (!CollectionUtils.isEmpty(children)) {//有子分类的情况
             parent.setChildren(children);
             children.forEach(child -> buildSubs(child, subs));//再次递归构建
