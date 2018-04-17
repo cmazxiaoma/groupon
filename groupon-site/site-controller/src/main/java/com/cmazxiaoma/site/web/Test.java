@@ -21,8 +21,8 @@ public class Test {
     public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();
         System.out.println("今天=" + DateFormatUtils.format(calendar.getTime(), "yyyy-MM-dd"));
-        calendar.add(Calendar.DATE, 1);
-        System.out.println("明天=" + DateFormatUtils.format(calendar.getTime(), "yyyy-MM-dd"));
+        calendar.add(Calendar.DATE, -1);
+        System.out.println("昨天=" + DateFormatUtils.format(calendar.getTime(), "yyyy-MM-dd"));
     }
 
     public static String addDay(String s, int n) {

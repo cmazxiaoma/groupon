@@ -114,7 +114,7 @@
 
     <select id="selectByTimeInterval" resultMap="BaseResultMap" parameterType="java.util.Date">
         select * from start_remind
-        where start_time &gt;= #{interval, jdbcType=BIGINT}
+        where #{interval, jdbcType=BIGINT} >= start_time
     </select>
 
     <select id="listAll" resultMap="BaseResultMap">
