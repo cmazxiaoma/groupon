@@ -30,6 +30,7 @@ public class UserService {
 
     @Autowired
     private UserDAO userDAO;
+
     @Autowired
     private UserBasicInfoDAO basicInfoDAO;
 
@@ -66,6 +67,7 @@ public class UserService {
         tempUser.setId(dbUser.getId());
         tempUser.setLoginTime(new Date());
         updateByIdSelective(tempUser);
+
         return dbUser;
     }
 

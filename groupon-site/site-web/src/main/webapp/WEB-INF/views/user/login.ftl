@@ -20,7 +20,7 @@
     <div class="logoBar login_logo">
         <div class="comWidth">
             <div class="logo fl">
-                <a href="#"><img src="${ctx}/images/logo.jpg" alt="DCAMPUS"></a>
+                <a href="${ctx}"><img src="${ctx}/images/logo.jpg" alt="DCAMPUS"></a>
             </div>
             <h3 class="welcome_title">欢迎登陆</h3>
         </div>

@@ -422,20 +422,22 @@
 }
 
 .shop_item .shop_item_title {
-    font-size: 14px;
+    margin-top: 5px;
+    font-size: 13px;
     color: #5e5e5e;
     height: 36px;
     width: 202px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    display:-webkit-box;
-    -webkit-box-orient:vertical;
-    -webkit-line-clamp:2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
 
 .shop_item p {
     font-size: 14px;
     color: #FF7300;
+    margin-top: 5px;
     line-height: 15px;
 }
 

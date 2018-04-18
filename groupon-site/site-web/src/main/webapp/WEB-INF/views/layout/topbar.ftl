@@ -10,7 +10,7 @@
             <a href="${ctx}/home/message">消息</a>&nbsp;&nbsp;
             <a href="${ctx}/logout">[退出]</a>
         <#else>
-            欢迎来到慕课网！<a href="${ctx}/login">[登录]</a><a href="${ctx}/reg">[免费注册]</a>
+            欢迎来到DCAMPUS！<a href="${ctx}/login">[登录]</a><a href="${ctx}/reg">[免费注册]</a>
         </#if>
         </div>
     </div>

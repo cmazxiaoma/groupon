@@ -10,9 +10,11 @@ import com.cmazxiaoma.groupon.deal.service.DealService;
 import com.cmazxiaoma.site.web.site.dto.IndexCategoryDealDTO;
 import com.cmazxiaoma.support.area.entity.Area;
 import com.cmazxiaoma.support.area.service.AreaService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author cmazxiaoma
@@ -30,6 +34,7 @@ import java.util.List;
  * @date 2018/4/4 9:21
  */
 @Controller
+@Slf4j
 public class IndexController extends BaseSiteController {
 
     @Autowired
@@ -75,20 +80,49 @@ public class IndexController extends BaseSiteController {
          * 1.构造一个结构体存放每个分类的8个商品 2.界面循环结构体的集合
          * 3.结构体包含8个商品,1个分类 4.8个商品分两组
          */
+        List<List<Deal>> smCarouselList = new ArrayList<>();
+
+        List<String> categoryIdList = new ArrayList<>();
+
         List<IndexCategoryDealDTO> indexCategoryDealDTOList = new ArrayList<>();
         categoryList.forEach(category -> {
             List<Deal> deals = dealService.getDealsForIndex(areaId, category.getSelfAndChildrenIds());
-            indexCategoryDealDTOList.add(new IndexCategoryDealDTO(category, deals));
-            //获取迷你照片墙信息
-            model.addAttribute("smCarouseList", deals);
 
+            log.info("deals={}", deals);
+
+            indexCategoryDealDTOList.add(new IndexCategoryDealDTO(category, deals));
+            categoryIdList.add(String.valueOf(category.getId()));
+
+            List<Deal> innerSmCarouselList;
+
+            if (!CollectionUtils.isEmpty(deals)) {
+                int size = deals.size();
+
+                if (size > 4) {
+                    innerSmCarouselList = deals.subList(0, 4);
+                } else {
+                    innerSmCarouselList = deals;
+                }
+
+                smCarouselList.add(innerSmCarouselList);
+            }
         });
+
+        int size = 0;
+
+        if (!CollectionUtils.isEmpty(categoryIdList)) {
+            size = categoryIdList.size();
+        }
+        model.addAttribute("size", size);
+        //获取迷你照片墙信息
+        model.addAttribute("smCarouselListList", smCarouselList);
         model.addAttribute("indexCategoryDealDTOs", indexCategoryDealDTOList);
+        model.addAttribute("categoryIdList", categoryIdList);
 
         //获取照片墙信息
         Search search = new Search();
         search.setPage(1);
-        search.setRows(3);
+        search.setRows(4);
         PagingResult<Deal> dealList = dealService.getDealList(search);
         model.addAttribute("carouselList", dealList.getRows());
 

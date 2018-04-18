@@ -48,6 +48,7 @@ public abstract class BaseEntity implements Serializable {
         return idMap;
     }
 
+    @Override
     public String toString() {
         StringBuffer result = new StringBuffer();
 

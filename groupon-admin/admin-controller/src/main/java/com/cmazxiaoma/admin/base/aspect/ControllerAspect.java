@@ -4,6 +4,7 @@ import com.cmazxiaoma.admin.base.controller.BaseAdminController;
 import com.cmazxiaoma.framework.common.page.PagingResult;
 import com.cmazxiaoma.framework.common.search.Search;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.binding.MapperMethod;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
@@ -29,8 +30,6 @@ public class ControllerAspect {
         try {
             //执行Controller中的方法，returnVal是返回值
             Object returnVal = pjp.proceed();
-//			MethodSignature methodSignature = (MethodSignature)pjp.getSignature();
-//			methodSignature.getMethod();
 
             //获取handler处理方法的参数
             Object[] args = pjp.getArgs();
