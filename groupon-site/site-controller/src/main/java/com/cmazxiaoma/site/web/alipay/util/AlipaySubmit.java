@@ -110,7 +110,6 @@ public class AlipaySubmit {
         return sbHtml.toString();
     }
 
-
     /**
      * 用于防钓鱼，调用接口query_timestamp来获取时间戳的处理函数
      * 注意：远程解析XML出错，与服务器是否支持SSL等配置有关

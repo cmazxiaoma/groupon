@@ -18,6 +18,7 @@ public class CartService {
 
     @Autowired
     private CartDAO cartDAO;
+
     @Autowired
     private DealDAO dealDAO;
 
@@ -93,6 +94,10 @@ public class CartService {
             return Collections.EMPTY_LIST;
         }
         return cartDAO.findByIds(ids);
+    }
+
+    public void deleteCart(Long cartId) {
+        cartDAO.delete(cartId);
     }
 
     /*********************************后台**********************************/

@@ -149,6 +149,8 @@
                     </li>
                     <li><input type="radio" name="payType" value="3" class="radio" id="r3"><label for="r3">货到付款</label>
                     </li>
+                    <li><input type="radio" name="payType" value="4" class="radio" id="r3"><label for="r3">易宝支付</label>
+                    </li>
                 </ul>
             </div>
         </div>

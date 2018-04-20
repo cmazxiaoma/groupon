@@ -65,7 +65,7 @@ public class IpUtil {
         String ip = getRemoteIp(request);
         if (Objects.equals("127.0.0.1", ip)) {
             Area area = new Area();
-            area.setId(367l);
+            area.setId(367L);
             area.setName("北京市");
             return area;
         }
@@ -75,7 +75,7 @@ public class IpUtil {
         if (response.getCode() != 0) {
             //FIXME 记录该用户/浏览器上一次访问时所在的城市,若没有则默认北京
             Area area = new Area();
-            area.setId(367l);
+            area.setId(367L);
             area.setName("北京市");
             return area;
         }
@@ -85,7 +85,7 @@ public class IpUtil {
         if (!Objects.equals("中国", info.getCountry())) {
             //FIXME 记录该用户/浏览器上一次访问时所在的城市,若没有则默认北京
             Area area = new Area();
-            area.setId(367l);
+            area.setId(367L);
             area.setName("北京市");
             return area;
         }
@@ -95,7 +95,7 @@ public class IpUtil {
         if (null == area) {
             //FIXME 记录该用户/浏览器上一次访问时所在的城市,若没有则默认北京
             area = new Area();
-            area.setId(367l);
+            area.setId(367L);
             area.setName("北京市");
             return area;
         }

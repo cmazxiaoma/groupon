@@ -40,6 +40,13 @@ public class OrderRouter extends BaseRouter {
         return this.orderService.getOrderAndDetailByOrderId(id);
     }
 
+    /**
+     * 设置按钮是否禁用
+     * @param entity
+     * @param method
+     * @return
+     */
+    @Override
     public boolean isButtonDisabled(BaseEntity entity, String method) {
         Order order = (Order) entity;
         switch (method) {

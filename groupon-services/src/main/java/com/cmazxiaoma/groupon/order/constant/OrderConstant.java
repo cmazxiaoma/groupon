@@ -32,5 +32,5 @@ public final class OrderConstant {
     public static final int PAY_TYPE_WECHAT = 1;
     public static final int PAY_TYPE_ALIPAY = 2;
     public static final int PAY_TYPE_COD = 3;
-
+    public static final int PAY_TYPE_YIBAO = 4;
 }

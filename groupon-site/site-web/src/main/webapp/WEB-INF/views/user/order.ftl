@@ -6,6 +6,7 @@
     <script type="text/javascript">
         var ctx = '${ctx}';
         function pay(orderId) {
+            window.location.href = ctx + "/repay/" + orderId;
         }
 
         function del(orderId) {
@@ -54,7 +55,7 @@
                         <#case 1>
                             <#assign orderStatusClass="color:green;">
                             <#assign orderStatusName="待付款">
-                            <#if order.payType == 1 || order.payType == 2>
+                            <#if order.payType == 1 || order.payType == 2 || order.payType == 4>
                                 <a href="javascript:pay(${order.id})" class="order_btn">去支付</a>
                             </#if>
 

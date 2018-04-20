@@ -25,6 +25,9 @@ ${orderTypeName}
         <#case 3>
             <#assign orderTypeName="货到付款">
             <#break>
+        <#case 4>
+            <#assign orderTypeName="易宝支付">
+            <#break>
         <#default>
             <#assign orderTypeName="未知的支付类型">
     </#switch>

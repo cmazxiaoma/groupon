@@ -10,6 +10,9 @@
         <pattern>/cart*</pattern>
         <pattern>/settlement</pattern>
         <pattern>/settlement/*</pattern>
+        <pattern>/yibaopay/return/*</pattern>
+        <pattern>/yibaopay/return?*</pattern>
+        <pattern>/yibaopay/return</pattern>
         <!--<pattern>/home</pattern>-->
         <!--<pattern>/*.jsp</pattern>-->
         <pattern>/alipay</pattern>

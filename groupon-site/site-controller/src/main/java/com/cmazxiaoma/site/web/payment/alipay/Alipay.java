@@ -6,6 +6,7 @@ import com.cmazxiaoma.site.web.alipay.util.AlipaySubmit;
 import com.cmazxiaoma.site.web.payment.Payment;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -25,7 +26,9 @@ public class Alipay<Integer> implements Payment<Integer> {
     }
 
     @Override
-    public void pay(Integer totalFee, Long innerOrderId, HttpServletResponse response) throws Exception {
+    public void pay(Integer totalFee, Long innerOrderId,
+                    HttpServletRequest request,
+                    HttpServletResponse response) throws Exception {
         String total_fee = new BigDecimal(totalFee.toString()).divide(new BigDecimal(100)).toString();
         String timestamp = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         String out_trade_no = "Road_" + innerOrderId + "_" + timestamp;

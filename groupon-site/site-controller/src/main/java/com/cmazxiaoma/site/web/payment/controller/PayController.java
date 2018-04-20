@@ -16,6 +16,7 @@ import com.cmazxiaoma.support.address.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -54,7 +55,8 @@ public class PayController extends BaseSiteController {
      * @throws Exception 异常
      */
     @RequestMapping(value = "/pay", method = RequestMethod.POST)
-    public void pay(HttpServletRequest request, HttpServletResponse response, Long[] cartIds, Long skuId, Long addressId,
+    public void pay(HttpServletRequest request, HttpServletResponse response,
+                    Long[] cartIds, Long skuId, Long addressId,
                     Integer payType, Integer totalPrice) throws Exception {
         //保存自己的订单信息
         WebUser webUser = getCurrentLoginUser(request);
@@ -86,11 +88,12 @@ public class PayController extends BaseSiteController {
             response.sendRedirect("/settlement/return");
             return;
         }
+
         Payment payment = PaymentFactory.createPayment(payType);
         //FIXME 对payment进行判断
         //FIXME 修改默认值为1分
         totalPrice = 1;
-        payment.pay(totalPrice, orderId, response);
+        payment.pay(totalPrice, orderId, request, response);
     }
 
     @RequestMapping(value = "/settlement/return")
@@ -104,4 +107,15 @@ public class PayController extends BaseSiteController {
     }
 
 
+    /**
+     * 再次支付
+     * @throws Exception
+     */
+    @RequestMapping(value = "/repay/{orderId}")
+    public void repay(@PathVariable Long orderId) throws Exception {
+        //FIXME 对payment进行判断
+        //FIXME 修改默认值为1分
+        Payment payment = PaymentFactory.createPayment(OrderConstant.PAY_TYPE_YIBAO);
+        payment.pay(1, orderId, httpRequest, httpResponse);
+    }
 }

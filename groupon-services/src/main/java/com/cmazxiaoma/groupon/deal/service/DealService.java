@@ -465,7 +465,7 @@ public class DealService {
         // 当前最大SkuId
         lock.lock();
         Deal maxSkuNow = dealDAO.getMaxSkuId();
-        Long maxSkuId = 0l;
+        Long maxSkuId = 0L;
 
         if (null != maxSkuNow) {
             maxSkuId = maxSkuNow.getSkuId() + 1;

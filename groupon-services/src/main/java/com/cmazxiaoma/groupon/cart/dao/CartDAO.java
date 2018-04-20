@@ -33,6 +33,10 @@ public class CartDAO extends BaseMybatisDAO {
         }
     }
 
+    public void delete(Long cartId) {
+        super.delete(MAPPER_NAMESPACE + ".deleteById", cartId);
+    }
+
     /**
      * 根据用户ID查询
      *

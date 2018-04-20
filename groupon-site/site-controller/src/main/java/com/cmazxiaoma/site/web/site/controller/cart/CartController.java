@@ -52,6 +52,13 @@ public class CartController extends BaseSiteController {
     @Autowired
     private AddressService addressService;
 
+    /**
+     * 添加购物车
+     * @param skuId
+     * @param count
+     * @param request
+     * @return
+     */
     @RequestMapping(value = "/cart/default/{skuId}")
     @ResponseBody
     public String addToCart(@PathVariable Long skuId, Integer count, HttpServletRequest request) {
@@ -219,6 +226,17 @@ public class CartController extends BaseSiteController {
             return String.valueOf(total);
         } catch (Exception e) {
             e.printStackTrace();
+            return "0";
+        }
+    }
+
+    @RequestMapping(value = "/delCart/{cartId}")
+    @ResponseBody
+    public String delCart(@PathVariable Long cartId) {
+        try {
+            cartService.deleteCart(cartId);
+            return "1";
+        } catch (Exception e) {
             return "0";
         }
     }

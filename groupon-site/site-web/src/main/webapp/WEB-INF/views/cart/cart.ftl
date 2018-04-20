@@ -23,6 +23,17 @@
             check(this, );
         });
 
+        function delCart(cartId) {
+            Submit.AjaxSubmit1(ctx + '/delCart/' + cartId, "", "post",
+                    function(result) {
+                        window.location.href = ctx + "/cart";
+                    },
+                    function(result) {
+                        console.log(result);
+                    });
+        }
+
+
         //勾选框事件
         function check(object, cartId) {
             if (object.checked) {
@@ -189,7 +200,7 @@
                                 未开始
                             </#if>
                         </div>
-                        <div class="cart_item t_operate"><a href="javascript:void(0)" class="btn_link">删除</a></div>
+                        <div class="cart_item t_operate"><a href="javascript:delCart(${cart.cart.id})" class="btn_link">删除</a></div>
                     </div>
                 </#list>
             </#if>
