@@ -26,11 +26,14 @@
         var ctx = "${ctx}";
 
         function treeOnClick(node) {
-            if (node.attributes != undefined && node.attributes.url != undefined && node.attributes.url != '') {
+            if (node.attributes != undefined && node.attributes.url != undefined
+                    && node.attributes.url != '') {
                 //$.each( node, function(i, field) {
                 //	alert(i + '--' + field);
                 //});
 //					window.location = ctx + node.attributes.url;
+                console.log(node);
+                console.log(node.attributes);
                 $("#dataArea").panel({"href": ctx + node.attributes.url});
                 $("#dataArea").panel("setTitle", node.text);
             }
@@ -47,12 +50,14 @@
         <a href="${ctx}/logout">退出</a>
     </div>
 </div>
+
 <div data-options="region:'west',title:'导航',split:true" style="width:200px;">
     <ul id="navigationTree" class="easyui-tree" data-options="animate:true,lines:true,
 		    	 		onClick:treeOnClick,url:'${ctx}/buildFunctionTreeForNavigation'">
 </div>
 <div id="dataArea" data-options="region:'center'" title="数据" style="padding:5px;background:#eee;">
 </div>
+
 </body>
 <#--<#include "footer.ftl">-->
 </body>

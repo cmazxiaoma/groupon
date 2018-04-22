@@ -140,13 +140,15 @@ public class LoginController extends BaseAdminController {
             List<Long> roleIds = new ArrayList<>();
             adminRoles.forEach(ar -> roleIds.add(ar.getId()));
 
-            List<AdminRoleFunction> roleFunctions = adminRoleService.getAdminRoleFunctionsByRoleIds(roleIds);
+            List<AdminRoleFunction> roleFunctions = adminRoleService
+                    .getAdminRoleFunctionsByRoleIds(roleIds);
 
             Set<Long> functionIds = new HashSet<>();
             roleFunctions.forEach(rf -> functionIds.add(rf.getAdminFunctionId()));
 
             for (AdminFunction func : cacheOperator.getAdminFunctions()) {
-                EasyUITreeNode node = new EasyUITreeNode(func.getId(), func.getParentId(), func.getName(), func.getState());
+                EasyUITreeNode node = new EasyUITreeNode(func.getId(), func.getParentId(),
+                        func.getName(), func.getState());
                 node.addAttribute("url", func.getUrl());
                 nodeMap.put(func.getId(), node);
                 if (functionIds.contains(func.getId())) {

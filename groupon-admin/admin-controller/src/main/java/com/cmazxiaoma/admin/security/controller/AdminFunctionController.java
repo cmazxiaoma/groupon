@@ -86,7 +86,8 @@ public class AdminFunctionController extends BaseAdminController {
         List<AdminFunction> list = cacheOperator.getAdminFunctions();
         for (AdminFunction func : list) {
             if (func.getId() == 1) {
-                root = new EasyUITreeNode(func.getId(), func.getParentId(), func.getName(), func.getState());
+                root = new EasyUITreeNode(func.getId(), func.getParentId(),
+                        func.getName(), func.getState());
                 root.addAttribute("id", func.getId());
                 break;
             }
