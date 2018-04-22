@@ -1,6 +1,7 @@
 <#import "/macro/common.ftl" as common_macro/>
 <body>
 <script type="text/javascript">
+
     function onAreaClick(node) {
         var params = $('#areaGrid').datagrid('options').queryParams;
         params['search_parentId'] = node.id;
@@ -10,14 +11,21 @@
 
     function addArea() {
         var parentId = 0;
+
         var title = "新建商品类别";
         var selectedAreaTreeNode = $('#area_tree').tree("getSelected");
+
+        console.log(selectedAreaTreeNode);
+
         if (selectedAreaTreeNode) {
             parentId = selectedAreaTreeNode.id;
             title += "（父类别：" + selectedAreaTreeNode.text + "）";
         } else {
             title += "（父类别：无）";
         }
+
+        console.log(parentId);
+        console.log(title);
 
         $('#area_edit_dialog').dialog({
             title: title,
@@ -39,6 +47,7 @@
         var parentId = 0;
         var title = "修改商品类别";
         var selectedAreaTreeNode = $('#area_tree').tree("getSelected");
+
         if (selectedAreaTreeNode) {
             parentId = selectedAreaTreeNode.id;
             title += "（父类别：" + selectedAreaTreeNode.text + "）";
@@ -66,10 +75,17 @@
                 return '未知';
         }
     }
+
+    function saveOrUpdateArea() {
+        Submit.FormSubmit("edit_area_form", "area_edit_dialog", "areaGrid", ctx + "/area/save");
+    }
+
 </script>
+
 </body>
 <body>
 <div class="easyui-layout" data-options="fit:true">
+
 <#--商品类别树-->
     <div data-options="region:'west',split:true" style="width:200px;">
         <ul id="area_tree" class="easyui-tree"
@@ -92,6 +108,7 @@
                 <a href="#" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateArea();" plain="true">修改</a>
             </div>
         </div>
+
         <table id="areaGrid" class="easyui-datagrid" title="地区列表" pagination="true" rownumbers="true" idField="id"
                data-options="singleSelect:true,url:'${ctx}/area/listArea',method:'post',queryParams:{search_parentId:0},toolbar:'#tb'">
             <thead>

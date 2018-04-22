@@ -36,23 +36,33 @@ public class IpUtil {
     }
 
     private static String getRemoteIp(HttpServletRequest request) {
-        //x-forwarded-for:代表客户端，也就是HTTP的请求端真实的IP，只有在通过了HTTP代理或者负载均衡服务器时才会添加该项
         String ip = request.getHeader("x-forwarded-for");
-        //Proxy-Client-IP和WL-Proxy-Client-IP: 只有在Apache（Weblogic Plug-In Enable）+WebLogic搭配下出现，其中“WL”就是WebLogic的缩写
-        //访问路径是:Client -> Apache WebServer + Weblogic http plugin -> Weblogic Instances
+
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
         }
+
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("WL-Proxy-Client-IP");
         }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getRemoteAddr();
         }
-//        ip = "61.51.253.90";
-//        ip = "218.25.19.153";
-        //0:0:0:0:0:0:0:1: IPV6的形式,win7下可能会出现
-        return ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
+        // 如果是多级代理，那么取第一个ip为客户端ip
+        if (ip != null && ip.indexOf(",") != -1) {
+            ip = ip.substring(0, ip.indexOf(",")).trim();
+        }
+
+        return ip;
     }
 
     public static Area getArea(HttpServletRequest request) {
@@ -63,6 +73,7 @@ public class IpUtil {
         }
 
         String ip = getRemoteIp(request);
+
         if (Objects.equals("127.0.0.1", ip)) {
             Area area = new Area();
             area.setId(367L);

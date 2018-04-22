@@ -2,6 +2,7 @@
 <body>
 <script type="text/javascript" src="${ctx}/js/product.js"></script>
 <script type="text/javascript">
+
     function onProductCategoryClick(node) {
         var params = $('#dealCategoryGrid').datagrid('options').queryParams;
         params['search_parentId'] = node.id;
@@ -12,13 +13,21 @@
     function addProductCategory() {
         var parentId = 0;
         var title = "新建商品类别";
+
+        //通过选择菜单，获取parentId
         var selectedProductCategoryTreeNode = $('#product_category_tree').tree("getSelected");
+
+        console.log(selectedProductCategoryTreeNode);
+
         if (selectedProductCategoryTreeNode) {
             parentId = selectedProductCategoryTreeNode.id;
             title += "（父类别：" + selectedProductCategoryTreeNode.text + "）";
         } else {
             title += "（父类别：无）";
         }
+
+        console.log(parentId);
+        console.log(title);
 
         $('#deal_category_edit_dialog').dialog({
             title: title,
@@ -40,6 +49,7 @@
         var parentId = 0;
         var title = "修改商品类别";
         var selectedProductCategoryTreeNode = $('#product_category_tree').tree("getSelected");
+
         if (selectedProductCategoryTreeNode) {
             parentId = selectedProductCategoryTreeNode.id;
             title += "（父类别：" + selectedProductCategoryTreeNode.text + "）";

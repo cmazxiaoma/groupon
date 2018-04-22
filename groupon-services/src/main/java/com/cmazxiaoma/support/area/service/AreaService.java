@@ -10,12 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -67,6 +62,7 @@ public class AreaService {
     public Map<String, List<Area>> getAreaGroup() {
         List<Area> all = this.areaDAO.findAll();
 
+        //设置排序
         Map<String, List<Area>> group = new TreeMap<>(new Comparator() {
             @Override
             public int compare(Object o1, Object o2) {
@@ -85,8 +81,6 @@ public class AreaService {
 
                     group.get(key).add(area);
                 });
-
-
         return group;
     }
 
@@ -98,6 +92,9 @@ public class AreaService {
      * @param area
      */
     public void save(Area area) {
+        area.setCommon(0);
+        area.setCreateTime(new Date());
+        area.setUpdateTime(new Date());
         this.areaDAO.save(area);
     }
 
@@ -107,6 +104,7 @@ public class AreaService {
      * @param area
      */
     public void update(Area area) {
+        area.setUpdateTime(new Date());
         this.areaDAO.update(area);
     }
 
@@ -117,8 +115,10 @@ public class AreaService {
      */
     public List<Area> getAll() {
         List<Area> areas = this.areaDAO.findAll();
-        List<Area> roots = areas.stream().filter(area -> (area.getParentId() == 0)).collect(Collectors.toList());
-        List<Area> subs = areas.stream().filter(area -> (area.getParentId() != 0)).collect(Collectors.toList());
+        List<Area> roots = areas.stream().filter(area -> (area.getParentId() == 0))
+                .collect(Collectors.toList());
+        List<Area> subs = areas.stream().filter(area -> (area.getParentId() != 0))
+                .collect(Collectors.toList());
         roots.forEach(root -> buildSubs(root, subs));
         return roots;
     }

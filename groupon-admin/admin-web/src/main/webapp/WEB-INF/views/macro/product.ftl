@@ -98,6 +98,7 @@ ${publishStatus}
 </select>
 </#macro>
 
+
 <#-- 生成商品类型 -->
 <#macro generateProductClassRadio name defaultValue>
 <input id="dealClassVirtual" name="${name}" type="radio" value="1" <#if defaultValue == 1> checked </#if>/><label

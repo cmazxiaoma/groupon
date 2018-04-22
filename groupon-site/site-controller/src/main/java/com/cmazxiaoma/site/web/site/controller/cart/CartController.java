@@ -72,11 +72,17 @@ public class CartController extends BaseSiteController {
             int maxPurchaseCount = deal.getMaxPurchaseCount();
 
             List<Cart> cartList = cartService.getCartByUserId(getCurrentLoginUser(request).getUserId());
-            List<Cart> newCartList = cartList.stream().filter(cart -> cart.getDealSkuId().equals(deal.getSkuId())).collect(Collectors.toList());
-            int userDealCount = newCartList.get(0).getCount();
 
-            if (userDealCount >= maxPurchaseCount) {
-                return "0";
+            List<Cart> newCartList = cartList.stream().filter(
+                    cart -> cart.getDealSkuId().equals(deal.getSkuId()))
+                    .collect(Collectors.toList());
+
+            if (!CollectionUtils.isEmpty(newCartList)) {
+                int userDealCount = newCartList.get(0).getCount();
+
+                if (userDealCount >= maxPurchaseCount) {
+                    return "0";
+                }
             }
 
             cartService.addDeal(skuId, getCurrentLoginUser(request).getUserId(), count);

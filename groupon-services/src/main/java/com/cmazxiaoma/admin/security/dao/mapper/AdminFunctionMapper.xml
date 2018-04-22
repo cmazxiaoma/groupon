@@ -10,9 +10,11 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         id, name, state, url, parent_id, create_time, update_time
     </sql>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
@@ -149,4 +151,5 @@
         <include refid="Base_Column_List"/>
         from admin_function
     </select>
+
 </mapper>

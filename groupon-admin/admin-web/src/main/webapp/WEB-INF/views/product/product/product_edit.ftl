@@ -14,8 +14,11 @@
 </style>
 
 <script type="text/javascript">
+
     function onSelectDealCategory(node) {
-        if (node.attributes.deep != 3) {
+        console.log(node.attributes);
+        console.log(node.attributes.deep);
+        if (node.attributes.deep == '' || node.attributes.deep == null) {
             Messager.Prompt("温馨提示", "请选择合法的商品类别");
             $('#dealCategory').combotree('clear');
         }
@@ -113,7 +116,7 @@
                             <input type="file" name="dealImgFile" id="dealImgFile" style="display:inline"/>
                         </td>
                         <td class="td1">
-                            <label>产品编码：</label>
+                            <label>商家编码：</label>
                         </td>
                         <td class="td2">
                             <input id="merchantCode" name="merchantCode" class="easyui-validatebox"

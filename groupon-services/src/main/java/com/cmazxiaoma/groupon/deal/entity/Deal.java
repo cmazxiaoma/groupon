@@ -145,7 +145,7 @@ public class Deal extends BaseEntity {
     private Date publishTime;
 
     /**
-     * 商品唯一编码
+     * 商户编码
      */
     private String merchantCode;
 

@@ -43,6 +43,7 @@ public class ProductRouter extends BaseRouter {
     /**
      * 判断按钮是否可用
      */
+    @Override
     public boolean isButtonDisabled(BaseEntity entity, String method) {
         Deal deal = (Deal) entity;
         boolean disableFlag = false;
@@ -96,6 +97,7 @@ public class ProductRouter extends BaseRouter {
      */
     public AjaxResult deleteProduct(BaseEntity user, Deal deal, Map<String, String> params) {
         deal.setPublishStatus(DealConstant.DEAL_PUBLISH_STATUS_DELETED);
+        deal.setUpdateTime(new Date());
         AjaxResult modifyResult = new AjaxResult();
         int modifyFlag = dealService.modifyStatusById(deal);
 
@@ -120,8 +122,12 @@ public class ProductRouter extends BaseRouter {
         AjaxResult modifyResult = null;
         try {
             deal.setPublishStatus(DealConstant.DEAL_PUBLISH_STATUS_PUBLISH);
+            deal.setPublishTime(new Date());
+            deal.setUpdateTime(new Date());
             modifyResult = new AjaxResult();
+
             Deal existInfo = dealService.getById(deal.getId());
+
             if (null != existInfo) {
                 if (null != existInfo.getEndTime()) {
                     if (existInfo.getEndTime().compareTo(new Date()) < 0) {
@@ -154,6 +160,7 @@ public class ProductRouter extends BaseRouter {
      */
     public AjaxResult cancelPublish(BaseEntity user, Deal deal, Map<String, String> params) {
         // 取消发布，默认为已审核
+        deal.setUpdateTime(new Date());
         deal.setPublishStatus(DealConstant.DEAL_PUBLISH_STATUS_AUDITED);
         AjaxResult modifyResult = new AjaxResult();
         int modifyFlag = dealService.modifyStatusById(deal);
@@ -176,6 +183,7 @@ public class ProductRouter extends BaseRouter {
      */
     public AjaxResult auditProduct(BaseEntity user, Deal deal, Map<String, String> params) {
         deal.setPublishStatus(DealConstant.DEAL_PUBLISH_STATUS_AUDITED);
+        deal.setUpdateTime(new Date());
         AjaxResult modifyResult = new AjaxResult();
         int modifyFlag = dealService.modifyStatusById(deal);
 
@@ -196,6 +204,7 @@ public class ProductRouter extends BaseRouter {
      */
     public AjaxResult oosStatusValid(BaseEntity user, Deal deal, Map<String, String> params) {
         deal.setOosStatus(DealConstant.DEAL_OOS_STATUS_YES);
+        deal.setUpdateTime(new Date());
         AjaxResult modifyResult = new AjaxResult();
         int modifyFlag = dealService.modifyOosStatusById(deal);
 
@@ -216,6 +225,7 @@ public class ProductRouter extends BaseRouter {
      */
     public AjaxResult oosStatusInvalid(BaseEntity user, Deal productInfo, Map<String, String> params) {
         productInfo.setOosStatus(DealConstant.DEAL_OOS_STATUS_NO);
+        productInfo.setUpdateTime(new Date());
         AjaxResult modifyResult = new AjaxResult();
         int modifyFlag = dealService.modifyOosStatusById(productInfo);
 

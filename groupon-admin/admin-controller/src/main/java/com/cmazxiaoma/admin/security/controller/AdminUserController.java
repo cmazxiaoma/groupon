@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +49,7 @@ public class AdminUserController extends BaseAdminController {
     public AjaxResult addEditAdminUser(AdminUser adminUser, Integer resetPasswordCheck) {
         if (null == adminUser.getId() || 0 == adminUser.getId()) {
             adminUser.setPassword(EncryptionUtil.MD5(adminUser.getPassword()));
+            adminUser.setLastLoginTime(new Date());
             adminUserService.addAdminUser(adminUser);
         } else {
             if (null != resetPasswordCheck && 1 == resetPasswordCheck) {

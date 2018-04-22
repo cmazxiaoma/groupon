@@ -12,6 +12,7 @@
 </style>
 
 <form id="edit_merchant_form" method="post">
+    <input id="id" name="id" value="<#if merchant??>${merchant.id}<#else></#if>" type="hidden"/>
     <table width="100%">
         <tr>
             <td class="td1">
@@ -55,7 +56,7 @@
             </td>
             <td class="td2">
                 <textarea id="description" name="description" class="easyui-validatebox" type="text"
-                          value="${merchant.description!}" data-options="required:true"></textarea>
+                          value="${merchant.description!}" data-options="required:true">${merchant.description!}</textarea>
             </td>
         </tr>
         <tr>

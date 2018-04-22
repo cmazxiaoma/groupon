@@ -29,7 +29,9 @@
         <ul id="functionTree" class="easyui-tree" data-options="animate:true,lines:true,
 						onClick:functionOnClick,url:'${ctx}/security/adminFunction/buildFunctionTreeForEdit'">
     </div>
+
     <div id="functionDataArea" data-options="region:'center'" style="padding:5px;background:#eee;">
+
         <div id="tb" style="padding:1px;height:auto">
             <div style="margin-bottom:1px">
                 <a href="#" class="easyui-linkbutton" iconCls="icon-add"
@@ -39,6 +41,7 @@
                    plain="true">修改</a>
             </div>
         </div>
+
         <table id="functionGrid" class="easyui-datagrid" title="子节点列表" pagination="true" rownumbers="true" idField="id"
                data-options="singleSelect:true,url:'${ctx}/security/adminFunction/listFunction',method:'post',toolbar:'#tb'">
             <thead>
@@ -72,6 +75,7 @@
         </table>
     </form>
 </div>
+
 <div id="dlg-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok"
        onclick="javascript:Submit.FormSubmit('functionForm', 'functionDialog', 'functionGrid', '${ctx}/security/adminFunction/addEditFunction', reloadNode);">保存</a>

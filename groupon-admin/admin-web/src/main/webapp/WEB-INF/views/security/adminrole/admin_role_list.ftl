@@ -47,10 +47,11 @@
         $('#functionIds').val(s);
     }
 </script>
-<@search_macro.search2 gridId="userGrid">
-<label>最后登录日期</label><input class="easyui-datebox" style="width:100px">
-到<input class="easyui-datebox" style="width:100px">
-<label>用户名</label><input name="search_userName">
+
+<@search_macro.search2 gridId="adminRoleGrid">
+<label>创建日期</label><input class="easyui-datebox" style="width:100px" name="search_startTime">
+到<input class="easyui-datebox" style="width:100px" name="search_endTime">
+<label>用户名</label><input name="search_name">
 </@search_macro.search2>
 
 <div id="tb" style="padding:1px;height:auto">
@@ -62,6 +63,7 @@
            plain="true">修改</a>
     </div>
 </div>
+
 <table id="adminRoleGrid" class="easyui-datagrid" title="角色列表" pagination="true" rownumbers="true" idField="id"
        data-options="singleSelect:true,url:'${ctx}/security/adminRole/listAdminRole',method:'post',toolbar:'#tb'">
     <thead>
@@ -92,6 +94,7 @@
         </table>
     </form>
 </div>
+
 <div id="dlg-buttons">
     <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok"
        onclick="javascript:setFunctionIds();Submit.FormSubmit('adminRoleForm', 'adminRoleDialog', 'adminRoleGrid', '${ctx}/security/adminRole/addEditAdminRole')">保存</a>

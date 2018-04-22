@@ -13,6 +13,7 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
         <result column="url" property="url" jdbcType="VARCHAR"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         id, name, description, image_id, level, hot_level, status, create_time, update_time, url
     </sql>
@@ -48,7 +49,7 @@
                 create_time,
             </if>
             <if test="updateTime != null">
-                update_time,
+                update_time
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -77,10 +78,44 @@
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
             <if test="updateTime != null">
-                #{updateTime,jdbcType=TIMESTAMP},
+                #{updateTime,jdbcType=TIMESTAMP}
             </if>
         </trim>
     </insert>
+
+    <update id="updateById" parameterType="com.cmazxiaoma.groupon.merchant.entity.Merchant">
+        update merchant a
+        <set>
+            <if test="name != null">
+                a.name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                a.description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="imageId != null">
+                a.image_id = #{imageId,jdbcType=BIGINT},
+            </if>
+            <if test="level != null">
+                a.level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="hotLevel != null">
+                a.hot_level = #{hotLevel,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                a.status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                a.url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                a.create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                a.update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
 
     <select id="selectPageMerchant" resultMap="BaseResultMap">
         SELECT

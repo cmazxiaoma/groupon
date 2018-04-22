@@ -16,7 +16,6 @@
 		<input name="id" value="<#if category.id??>${category.id}<#else>0</#if>" type="hidden"/>
     	<input name="parentId" value="<#if category.id??>${category.parentId}<#else>0</#if>" type="hidden"/>
     	<input name="publishStatus" value="<#if category.publishStatus??>${category.publishStatus}<#else>0</#if>" type="hidden"/>
-    	<input name="orderNum" value="<#if category.orderNum??>${category.orderNum}<#else>0</#if>" type="hidden"/>
     	<input name="deep" value="<#if category.deep??>${category.deep}<#else>0</#if>" type="hidden"/>
 
         <table width="100%">
@@ -33,10 +32,12 @@
                 	<input class="easyui-validatebox" type="text" name="urlName" data-options="required:true" style="width:90%" value="${category.urlName}"/>
                 </td>
             </tr>
+
             <tr>
-                <td class="td1">等级：</td>
-                <td class="td2"><@product_macro.generateProductLevelSelect name="level" defaultValue=category.level hasHeader=false/></td>
+                <td class="td1">排序：</td>
+                <td class="td2"><@product_macro.generateProductLevelSelect name="orderNum" defaultValue=category.orderNum hasHeader=false/></td>
             </tr>
+
         </table>
     </form>
 

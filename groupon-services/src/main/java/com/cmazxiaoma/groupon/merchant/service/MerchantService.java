@@ -55,13 +55,20 @@ public class MerchantService {
 
     public void save(Merchant merchant) {
         if (null == merchant.getImageId()) {
-            merchant.setImageId(0l);
+            merchant.setImageId(0L);
         }
         merchant.setStatus(1);
         Date now = new Date();
         merchant.setCreateTime(now);
         merchant.setUpdateTime(now);
         merchantDAO.save(merchant);
+    }
+
+    public boolean update(Merchant merchant) {
+        Date now = new Date();
+        merchant.setUpdateTime(now);
+        int result = merchantDAO.update(merchant);
+        return result > 0;
     }
 
     /*********************************混用**********************************/

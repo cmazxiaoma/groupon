@@ -10,6 +10,7 @@ import com.cmazxiaoma.groupon.deal.service.DealService;
 import com.cmazxiaoma.site.web.site.dto.IndexCategoryDealDTO;
 import com.cmazxiaoma.support.area.entity.Area;
 import com.cmazxiaoma.support.area.service.AreaService;
+import com.cmazxiaoma.util.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,8 +52,21 @@ public class IndexController extends BaseSiteController {
         Long areaId;
 
         if (StringUtil.isEmpty(s)) {
-            //默认北京
-            areaId = 367l;
+            Area sessionArea = (Area) request.getSession().getAttribute("area");
+
+            if (sessionArea != null) {
+                return sessionArea.getId();
+            } else {
+                Area httpArea = IpUtil.getArea(request);
+
+                if (httpArea != null) {
+                    return httpArea.getId();
+                } else {
+                    //默认北京
+                    areaId = 367L;
+                }
+            }
+
         } else {
             areaId = Long.valueOf(s);
         }

@@ -8,7 +8,7 @@
 
     <!-- 会话Cookie模板，使用sid存储sessionid -->
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg value="sid"/>
+        <constructor-arg value="shiro.sesssion"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="180000"/>
     </bean>

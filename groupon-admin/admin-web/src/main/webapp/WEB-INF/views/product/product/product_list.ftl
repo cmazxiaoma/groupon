@@ -104,8 +104,11 @@
 <@search_macro.search2 gridId="productListGrid">
 <div style="margin-bottom:5px;">
 
-    <label>产品编码:</label>
+    <label>商户编码:</label>
     <input name="search_merchantCode" type="text" value='${search_merchantCode}'/>
+
+    <label>产品编码:</label>
+    <input name="search_skuId" type="text" value='${search_skuId}'/>
 
     <label>商品类型:</label>
     <@product_macro.generateProductTypeSelect name="search_dealType" defaultValue=search_dealType hasHeader=true/>
@@ -119,14 +122,15 @@
 
 <div style="margin-bottom:5px; display:inline;">
 
-    <label>销售开始时间:</label>
+    <label>销售时间:</label>
     <input name="search_startTime" type="text" value='${search_startTime}' class="easyui-datetimebox"/>
-
-    <label>销售结束时间:</label>
+    到
     <input name="search_endTime" type="text" value='${search_endTime}' class="easyui-datetimebox"/>
 
     <label>发布时间:</label>
-    <input name="search_publishTime" type="text" value='${search_publishTime}' class="easyui-datetimebox"/>
+    <input name="search_startTime1" type="text" value='${search_startTime1}' class="easyui-datetimebox"/>
+    到
+    <input name="search_endTime1" type="text" value='${search_endTime1}' class="easyui-datetimebox"/>
 
     <label>商品类别:</label>
     <input name="search_categoryId" class="easyui-combotree"
@@ -155,10 +159,10 @@
     <tr>
         <th data-options="field:'ck',checkbox:true"></th>
         <th field="areaName">地区</th>
-        <th field="skuId">Sku ID</th>
+        <th field="skuId">产品sku</th>
         <th field="merchantId" formatter="Formatter.MerchantFormatter">商家</th>
         <th field="merchantSku">商家Sku</th>
-        <th field="merchantCode">产品编码</th>
+        <th field="merchantCode">商家编码</th>
         <th field="dealTitle">名称</th>
         <th field="dealClass" formatter="Formatter.ProductClassFormatter">类型</th>
         <th field="dealType" formatter="Formatter.ProductTypeFormatter">商品类型</th>

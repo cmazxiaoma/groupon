@@ -11,9 +11,11 @@
         <result column="order_num" property="orderNum" jdbcType="INTEGER"/>
         <result column="deep" property="deep" jdbcType="INTEGER"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         id, parent_id, name, url_name, publish_status, create_time, order_num, deep
     </sql>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap"
             parameterType="java.lang.Long">
         select
@@ -21,11 +23,13 @@
         from deal_category
         where id = #{id,jdbcType=INTEGER}
     </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         delete from
         deal_category
         where id = #{id,jdbcType=INTEGER}
     </delete>
+
     <insert id="insertSelective" parameterType="com.cmazxiaoma.groupon.deal.entity.DealCategory" useGeneratedKeys="true"
             keyProperty="id">
         insert into deal_category
@@ -82,31 +86,36 @@
             </if>
         </trim>
     </insert>
+
     <update id="updateByPrimaryKeySelective" parameterType="com.cmazxiaoma.groupon.deal.entity.DealCategory">
         update deal_category
         <set>
             <if test="parentId != null">
                 parent_id = #{parentId,jdbcType=BIGINT},
             </if>
+
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
             </if>
+
             <if test="urlName != null">
                 url_name = #{urlName,jdbcType=VARCHAR},
             </if>
+
             <if test="publishStatus != null">
                 publish_status = #{publishStatus,jdbcType=INTEGER},
             </if>
+
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>
+
             <if test="orderNum != null">
                 order_num = #{orderNum,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
-
 
     <!-- 业务SQL -->
     <select id="selectAllWithoutDeleted" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -116,6 +125,7 @@
         publish_status != #{publishStatus,jdbcType=INTEGER}
         order by parent_id,order_num
     </select>
+
     <select id="selectDirectSubs" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -124,6 +134,7 @@
         and parent_id = #{parentId,jdbcType=BIGINT}
         order by order_num
     </select>
+
     <select id="selectPageCategories" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -133,6 +144,7 @@
         </if>
         order by order_num
     </select>
+
     <select id="countPageCategories" resultType="java.lang.Long">
         select count(*)
         from deal_category where 1=1

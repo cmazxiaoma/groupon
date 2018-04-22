@@ -19,3 +19,13 @@
     <option value='1' <#if (defaultValue == 1)>selected='selected'</#if>>虚拟订单</option>
 </select>
 </#macro>
+
+<#macro generatePayTypeSelect name defaultValue>
+<select class='easyui-combobox' name=${name}>
+    <option value=''>全部</option>
+    <option value='1' <#if (defaultValue == 0)>selected='selected'</#if>>微信</option>
+    <option value='2' <#if (defaultValue == 1)>selected='selected'</#if>>支付宝</option>
+    <option value='3' <#if (defaultValue == 1)>selected='selected'</#if>>货到支付</option>
+    <option value='4' <#if (defaultValue == 1)>selected='selected'</#if>>易宝支付</option>
+</select>
+</#macro>

@@ -42,6 +42,7 @@ public class AdminUserService {
      */
     public PagingResult<AdminUser> findAdminUserForPage(Search search) {
         PagingResult<AdminUser> result = this.adminUserDAO.findPage(search);
+
         for (AdminUser adminUser : result.getRows()) {
             adminUser.setAdminUserRoles(this.adminUserRoleDAO.findByUserId(adminUser.getId()));
         }

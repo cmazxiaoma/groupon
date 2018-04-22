@@ -1,5 +1,6 @@
 <body>
 <script type="text/javascript">
+
     function addMerchant() {
         $('#merchant_edit_dialog').dialog({
             title: '添加商家',
@@ -32,15 +33,17 @@
     function saveMerchant() {
         Submit.FormSubmit("edit_merchant_form", "merchant_edit_dialog", "merchantGrid", ctx + "/merchant/save");
     }
+
 </script>
 
 <div id="tb" style="padding:1px;height:auto">
     <div style="margin-bottom:1px">
         <a href="javascript:;" class="easyui-linkbutton" iconCls="icon-add" onclick="addMerchant();" plain="true"
            title="添加商家">添加商家</a>
-    <#--<a href="javascript:;" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateMerchant();" plain="true" title="修改商家">修改商家</a>-->
+    <a href="javascript:;" class="easyui-linkbutton" iconCls="icon-edit" onclick="updateMerchant();" plain="true" title="修改商家">修改商家</a>
     </div>
 </div>
+
 <table id="merchantGrid" class="easyui-datagrid" title="商家列表" pagination="true" rownumbers="true" idField="id"
        data-options="singleSelect:true,url:'${ctx}/merchant/listMerchant',method:'post',toolbar:'#tb'">
     <thead>

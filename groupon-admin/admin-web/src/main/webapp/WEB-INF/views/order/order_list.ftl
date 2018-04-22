@@ -36,6 +36,8 @@
                 return '支付宝';
             case 3:
                 return '货到付款';
+            case 4:
+                return '易宝支付';
             default:
                 return '未知类型';
         }
@@ -86,21 +88,27 @@
         return '<span style="' + statusClass + '">' + statusName + '</span>';
     }
 </script>
+
 <@search_macro.search2 gridId="orderGrid">
 <div class="">
-    <label>订单类型:</label>
-    <@order_macro.generateOrderTypeSelect name="search_orderType" defaultValue=search_orderType/>
+    <label>订单支付类型:</label>
+    <@order_macro.generatePayTypeSelect name="search_payType" defaultValue=search_payType/>
+
     <label>订单状态:</label>
     <@order_macro.generateOrderStatusSelect name="search_orderStatus" defaultValue=search_orderStatus/>
+
     <label>商家订单号:</label>
-    <input name="search_merchantOrderId" type="text" value='${search_merchantOrderId}'/>
+    <input name="search_id" type="text" value='${search_merchantOrderId}'/>
 </div>
+
 <div class="">
     <label>收件人:</label>
-    <input name="search_userRealname" type="text" value='${search_userRealname}'/>
+    <input name="search_receiver" type="text" value='${search_userRealname}'/>
+
     <label>开始时间:</label>
     <input name="search_startTime" type="text" class="easyui-datetimebox" value='${search_startTime}'
            class="form_datetime"/>
+
     <label>结束时间:</label>
     <input name="search_endTime" type="text" class="easyui-datetimebox" value='${search_endTime}'
            class="form_datetime"/>

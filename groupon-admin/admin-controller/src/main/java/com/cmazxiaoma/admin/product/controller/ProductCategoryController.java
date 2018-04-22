@@ -106,7 +106,7 @@ public class ProductCategoryController extends BaseAdminController {
             model.addAttribute("category", category);
         } else {
             DealCategory category = new DealCategory();
-            category.setId(0l);
+            category.setId(0L);
             category.setParentId(parentId);
 
             model.addAttribute("category", category);
@@ -121,8 +121,8 @@ public class ProductCategoryController extends BaseAdminController {
      * @return
      */
     @RequestMapping(value = "/saveOrUpdateProductCategory", method = RequestMethod.POST)
-    public @ResponseBody
-    AjaxResult saveOrUpdateProductCategory(DealCategory category) {
+    @ResponseBody
+    public AjaxResult saveOrUpdateProductCategory(DealCategory category) {
         if (category.getId() == 0) { // 添加
             category.setOrderNum(dealCategoryService.getMaxOrderByParentId(category.getParentId()) + 1);
             category.setDeep(category.getParentId() == 0 ? 1 : dealCategoryService.getAncestorCategories(category.getParentId()).size() + 2);

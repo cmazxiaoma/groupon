@@ -36,9 +36,9 @@
 </script>
 
 <@search_macro.search2 gridId="userGrid">
-<label>最后登录日期</label><input class="easyui-datebox" style="width:100px">
-到<input class="easyui-datebox" style="width:100px">
-<label>用户名</label><input name="search_userName">
+<label>最后登录日期</label><input class="easyui-datebox" style="width:100px" name="search_startTime">
+到<input class="easyui-datebox" style="width:100px" name="search_endTime">
+<label>用户名</label><input name="search_name">
 </@search_macro.search2>
 
 <div id="tb" style="padding:1px;height:auto">
@@ -50,7 +50,7 @@
            plain="true">修改</a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-remove"
            onclick="Submit.FormDeleteSubmit('userForm', 'userGrid', '${ctx}/security/adminuser/deleteAdminUser')"
-           plain="true" title="将用户状态置为无效">禁用</a>
+           plain="true" title="将用户状态置为无效">删除</a>
     </div>
 </div>
 <table id="userGrid" class="easyui-datagrid" title="用户列表" pagination="true" rownumbers="true" idField="id"

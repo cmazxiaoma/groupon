@@ -51,12 +51,17 @@ function ajaxRouterCall(ctx, routerName, method, methodName, objectId, confirmOp
 /*查询panel查询*/
 function searchData(gridId) {
     var id = '#' + gridId;
+    console.log(id);
     var params = $(id).datagrid('options').queryParams;
+    console.log(params);
 
     var fields = $('#searchForm').serializeArray();
+    console.log(fields);
+
     $.each(fields, function (i, field) {
         params[field.name] = field.value;
     });
+
     $(id).datagrid('reload');
 }
 
@@ -164,6 +169,7 @@ var Dialog = {
 /*Form提交*/
 var Submit = {
     FormSubmit: function (formId, dialogId, gridId, url, callBackFunction, beforeSubmitFunction) {
+        console.log($("#" + formId).serializeArray());
         $('#' + formId).form('submit', {
             url: url,
             onSubmit: function () {

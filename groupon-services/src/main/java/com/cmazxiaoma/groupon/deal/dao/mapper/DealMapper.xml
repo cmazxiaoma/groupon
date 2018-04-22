@@ -80,6 +80,11 @@
         <if test="merchantSku != null">
             and merchant_sku = #{merchantSku,jdbcType=INTEGER}
         </if>
+
+        <if test="merchantCode != null">
+            and merchant_code = #{merchantCode,jdbcType=INTEGER}
+        </if>
+
         <if test="dealTitle != null">
             and deal_title LIKE CONCAT('%',#{dealTitle},'%')
         </if>
@@ -137,24 +142,34 @@
         <if test="oosStatus != null">
             and oos_status = #{oosStatus,jdbcType=INTEGER}
         </if>
+
         <if test="startTime != null">
-            and start_time &gt;= #{startTime}
+            and start_time &lt;= #{startTime}
         </if>
+
         <if test="endTime != null">
-            and end_time &lt;= #{endTime}
+            and end_time &gt;= #{endTime}
         </if>
-        <if test="publishTime != null">
-            and publish_time &gt;= #{publishTime}
+
+        <if test="startTime1 != null">
+            and publish_time &gt;= #{startTime1,jdbcType=TIMESTAMP}
         </if>
+
+        <if test="endTime1 != null">
+            and publish_time &lt;= #{endTime1,jdbcType=TIMESTAMP}
+        </if>
+
         <if test="merchantCode != null">
             and merchant_code = #{merchantCode,jdbcType=VARCHAR}
         </if>
+
         <if test="createTime != null">
             and create_time &gt;= #{createTime}
         </if>
         <if test="updateTime != null">
             and update_time &gt;= #{updateTime}
         </if>
+
         <if test="categoryId != null">
             and category_id in
             <foreach item="item" index="index" collection="categoryId" open="(" separator="," close=")">
@@ -185,6 +200,9 @@
         </if>
         <if test="merchantSku != null">
             and merchant_sku = #{merchantSku,jdbcType=BIGINT}
+        </if>
+        <if test="merchantCode != null">
+            and merchant_code = #{merchantCode,jdbcType=INTEGER}
         </if>
         <if test="dealTitle != null">
             and deal_title LIKE CONCAT('%',#{dealTitle},'%')
@@ -244,15 +262,23 @@
         <if test="oosStatus != null">
             and oos_status = #{oosStatus,jdbcType=INTEGER}
         </if>
+
         <if test="startTime != null">
-            and start_time &gt;= #{startTime}
+            and start_time &lt;= #{startTime}
         </if>
+
         <if test="endTime != null">
-            and end_time &lt;= #{endTime}
+            and end_time &gt;== #{endTime}
         </if>
-        <if test="publishTime != null">
-            and publish_time &gt;= #{publishTime}
+
+        <if test="startTime1 != null">
+            and publish_time &gt;= #{startTime1,jdbcType=TIMESTAMP}
         </if>
+
+        <if test="endTime1 != null">
+            and publish_time &lt;= #{endTime1,jdbcType=TIMESTAMP}
+        </if>
+
         <if test="createTime != null">
             and create_time &gt;= #{createTime}
         </if>

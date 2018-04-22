@@ -14,6 +14,7 @@
         <result column="phone" property="phone" jdbcType="VARCHAR"/>
         <result column="pay_type" property="payType" jdbcType="INTEGER"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         id, user_id, order_status, create_time, total_price,
         total_settlement_price, address, receiver, phone, pay_type
@@ -27,18 +28,31 @@
         <if test="orderStatus != null">
             and order_status = #{orderStatus,jdbcType=INTEGER}
         </if>
+
+        <if test="payType != null">
+            and pay_type = #{payType,jdbcType=INTEGER}
+        </if>
+
+        <if test="id != null">
+            and id = #{id,jdbcType=BIGINT}
+        </if>
+
         <if test="userId != null">
             and user_id &lt;= #{userId,jdbcType=BIGINT}
         </if>
+
         <if test="receiver != null">
-            and receiver like '%' #{receiver,jdbcType=VARCHAR} '%'
+            and receiver like CONCAT('%',#{receiver,jdbcType=VARCHAR},'%')
         </if>
+
         <if test="startTime != null">
             and create_time &gt;= #{startTime,jdbcType=TIMESTAMP}
         </if>
+
         <if test="endTime != null">
             and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
         </if>
+
         ORDER BY create_time desc
     </select>
 
@@ -48,15 +62,26 @@
         <if test="orderStatus != null">
             and order_status = #{orderStatus,jdbcType=INTEGER}
         </if>
+
+        <if test="id != null">
+            and id = #{id,jdbcType=BIGINT}
+        </if>
+
+        <if test="payType != null">
+            and pay_type = #{payType,jdbcType=INTEGER}
+        </if>
+
         <if test="userId != null">
             and user_id &lt;= #{userId,jdbcType=BIGINT}
         </if>
         <if test="receiver != null">
-            and receiver like '%' #{receiver,jdbcType=VARCHAR} '%'
+            and receiver like CONCAT('%',#{receiver,jdbcType=VARCHAR},'%')
         </if>
+
         <if test="startTime != null">
             and create_time >= #{startTime,jdbcType=TIMESTAMP}
         </if>
+
         <if test="endTime != null">
             and create_time &lt;= #{endTime,jdbcType=TIMESTAMP}
         </if>

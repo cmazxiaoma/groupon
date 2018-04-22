@@ -61,9 +61,9 @@
 </script>
 
 <@search_macro.search2 gridId="userAuthorizeGrid">
-<label>最后登录日期</label><input class="easyui-datebox" style="width:100px">
-到<input class="easyui-datebox" style="width:100px">
-<label>用户名</label><input name="search_userName">
+<label>最后登录日期</label><input class="easyui-datebox" style="width:100px" name="search_startTime">
+到<input class="easyui-datebox" style="width:100px" name="search_endTime">
+<label>用户名</label><input name="search_name">
 </@search_macro.search2>
 
 <div id="tb" style="padding:1px;height:auto">

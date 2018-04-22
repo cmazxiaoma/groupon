@@ -3,6 +3,24 @@
 <html>
 <head>
     <title>搜索</title>
+    <script type="text/javascript">
+        function addToCart(skuId) {
+        <#if username??>
+//            Submit.AjaxSubmit(ctx + '/cart/default/' + skuId);
+            Submit.AjaxSubmit1(ctx + '/cart/default/' + skuId, "", "post",
+                    function(result) {
+                        console.log(result);
+                        //ajax刷新购物车数量
+                        console.log($(".logoBar .shopNum"));
+                        $(".logoBar .shopNum").text(result);
+                    }, function(result) {
+                        console.log(result);
+                    });
+        <#else >
+            window.location = ctx + '/login';
+        </#if>
+        }
+    </script>
 </head>
 <body>
 <div class="hr_15"></div>
@@ -45,7 +63,7 @@
                         </div>
                         <p><a href="${ctx}/item/${deal.skuId}">${deal.dealTitle}</a></p>
                         <p class="money"><@common.formatPrice deal.dealPrice/></p>
-                        <p><a href="${ctx}/cart/default/${deal.skuId}" class="addCar">加入购物车</a></p>
+                        <p><a href="#" class="addCar" onclick="addToCart(${deal.skuId})">加入购物车</a></p>
                     </div>
                 </div>
             </#list>

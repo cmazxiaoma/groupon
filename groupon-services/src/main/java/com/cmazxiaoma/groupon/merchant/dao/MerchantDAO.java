@@ -55,5 +55,8 @@ public class MerchantDAO extends BaseMybatisDAO {
         return save(MAPPER_NAMESPACE + ".insertSelective", merchant);
     }
 
+    public int update(Merchant merchant) {
+        return update(MAPPER_NAMESPACE + ".updateById", merchant);
+    }
 
 }
