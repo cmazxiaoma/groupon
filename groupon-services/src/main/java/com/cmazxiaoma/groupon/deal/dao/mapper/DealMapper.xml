@@ -759,8 +759,7 @@
         inventory_amount = #{inventoryAmount,jdbcType=INTEGER},
         vendibility_amount = #{vendibilityAmount,jdbcType=INTEGER}
         where id = #{id,jdbcType=BIGINT}
-        and
-        start_time &lt;= #{startTime,jdbcType=TIMESTAMP}
+        and start_time &lt;= #{startTime,jdbcType=TIMESTAMP}
         and end_time &gt;= #{endTime,jdbcType=TIMESTAMP}
         and publish_status = 3
     </update>

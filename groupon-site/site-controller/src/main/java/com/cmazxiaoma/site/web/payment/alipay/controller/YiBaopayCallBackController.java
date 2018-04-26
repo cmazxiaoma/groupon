@@ -1,7 +1,10 @@
 package com.cmazxiaoma.site.web.payment.alipay.controller;
 
 import com.cmazxiaoma.groupon.cart.service.CartService;
+import com.cmazxiaoma.groupon.deal.entity.Deal;
 import com.cmazxiaoma.groupon.deal.service.DealService;
+import com.cmazxiaoma.groupon.order.entity.Order;
+import com.cmazxiaoma.groupon.order.entity.OrderDetail;
 import com.cmazxiaoma.groupon.order.service.OrderService;
 import com.cmazxiaoma.site.web.payment.PaymentUtil;
 import com.cmazxiaoma.site.web.site.controller.BaseSiteController;
@@ -74,6 +77,18 @@ public class YiBaopayCallBackController extends BaseSiteController {
                 //测试使用，正式发布前要删除以下两行代码
                 orderService.payed(Long.parseLong(r6_Order));
                 log.info("重定向-支付成功");
+                //减少库存
+                Order order = orderService.getOrderAndDetailByOrderId(Long.parseLong(r6_Order));
+                if (order != null) {
+                    List<OrderDetail> orderDetailList = order.getOrderDetails();
+
+                    for (OrderDetail orderDetail : orderDetailList) {
+                        Deal deal = new Deal();
+                        deal.setId(orderDetail.getDealId());
+                        dealService.reduceInventory(deal, orderDetail.getDealCount());
+                    }
+                }
+
                 modelMap.put("result", "1");
 //              httpResponse.getWriter().write("支付操作已执行，支付结果需要等待进一步的通知");
             } else if ("2".equals(r9_BType)) {//点对点通知
@@ -84,6 +99,17 @@ public class YiBaopayCallBackController extends BaseSiteController {
 //                    httpResponse.getWriter().write("success");
                     log.info("点对点通知-支付成功");
                     modelMap.put("result", "1");
+                    //减少库存
+                    Order order = orderService.getOrderAndDetailByOrderId(Long.parseLong(r6_Order));
+                    if (order != null) {
+                        List<OrderDetail> orderDetailList = order.getOrderDetails();
+
+                        for (OrderDetail orderDetail : orderDetailList) {
+                            Deal deal = new Deal();
+                            deal.setId(orderDetail.getDealId());
+                            dealService.reduceInventory(deal, orderDetail.getDealCount());
+                        }
+                    }
                 }
             }
 

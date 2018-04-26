@@ -60,8 +60,8 @@ public class PayController extends BaseSiteController {
                     Integer payType, Integer totalPrice) throws Exception {
         //保存自己的订单信息
         WebUser webUser = getCurrentLoginUser(request);
-
         List<Pair<Cart, Deal>> cartDTOs = new ArrayList<>();
+
         if (null == cartDTOs || cartIds.length == 0) {
             Deal deal = dealService.getBySkuId(skuId);
             Cart cart = new Cart();
@@ -72,7 +72,8 @@ public class PayController extends BaseSiteController {
             cartDTOs.add(new Pair<>(cart, deal));
         } else {
             List<Cart> carts = cartService.getCartsByIds(Arrays.asList(cartIds));
-            List<Long> skuIds = carts.stream().map(cart -> cart.getDealSkuId()).collect(Collectors.toList());
+            List<Long> skuIds = carts.stream().map(cart -> cart.getDealSkuId())
+                    .collect(Collectors.toList());
             List<Deal> deals = dealService.getBySkuIds(skuIds);
             Map<Long, Deal> skuIdMap = new HashMap<>();
             deals.forEach(deal -> skuIdMap.put(deal.getSkuId(), deal));
@@ -80,10 +81,14 @@ public class PayController extends BaseSiteController {
         }
 
         Address address = addressService.getById(addressId);
-        Long orderId = orderService.order(webUser.getUserId(), cartDTOs, address, totalPrice, payType);
+        Long orderId = orderService.order(webUser.getUserId(), cartDTOs,
+                address, totalPrice, payType);
 
         //通过工厂类及支付类型(payType)实例化具体支付方式
         if (payType == OrderConstant.PAY_TYPE_COD) {
+            for (Pair<Cart, Deal> pair : cartDTOs) {
+                dealService.reduceInventory(pair.getEnd(), pair.getHead().getCount());
+            }
             String basePath = request.getScheme() + "//:" + request.getServerName() + ":" + request.getServerPort();
             response.sendRedirect("/settlement/return");
             return;
@@ -105,7 +110,6 @@ public class PayController extends BaseSiteController {
         model.addAttribute("result", 1);
         return "/cart/settlement_ok";
     }
-
 
     /**
      * 再次支付

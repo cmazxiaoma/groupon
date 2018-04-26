@@ -46,7 +46,8 @@ public class OrderService {
 
     /*********************************网站**********************************/
 
-    public Long order(Long userId, List<Pair<Cart, Deal>> cartDTOs, Address address, Integer totalPrice, Integer payType) {
+    public Long order(Long userId, List<Pair<Cart, Deal>> cartDTOs, Address address,
+                      Integer totalPrice, Integer payType) {
         if (null == userId) {
             throw new BusinessException("用户ID不能为空");
         }
