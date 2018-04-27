@@ -74,22 +74,20 @@ public class YiBaopayCallBackController extends BaseSiteController {
             //表示重定向过来的
             if ("1".equals(r9_BType)) {
                 log.info("支付操作已执行，支付结果需要等待进一步的通知");
-                //测试使用，正式发布前要删除以下两行代码
-                orderService.payed(Long.parseLong(r6_Order));
                 log.info("重定向-支付成功");
-                //减少库存
-                Order order = orderService.getOrderAndDetailByOrderId(Long.parseLong(r6_Order));
-                if (order != null) {
-                    List<OrderDetail> orderDetailList = order.getOrderDetails();
-
-                    for (OrderDetail orderDetail : orderDetailList) {
-                        Deal deal = new Deal();
-                        deal.setId(orderDetail.getDealId());
-                        dealService.reduceInventory(deal, orderDetail.getDealCount());
-                    }
-                }
-
-                modelMap.put("result", "1");
+                //测试使用，正式发布前要删除以下两行代码
+//                orderService.payed(Long.parseLong(r6_Order));
+//                //减少库存
+//                Order order = orderService.getOrderAndDetailByOrderId(Long.parseLong(r6_Order));
+//                if (order != null) {
+//                    List<OrderDetail> orderDetailList = order.getOrderDetails();
+//
+//                    for (OrderDetail orderDetail : orderDetailList) {
+//                        Deal deal = dealService.getById(orderDetail.getDealId());
+//                        dealService.reduceInventory(deal, orderDetail.getDealCount());
+//                    }
+//                }
+                modelMap.put("result", "2");
 //              httpResponse.getWriter().write("支付操作已执行，支付结果需要等待进一步的通知");
             } else if ("2".equals(r9_BType)) {//点对点通知
                 if ("1".equals(r1_Code)) {//点对点通知支付完成
@@ -105,8 +103,7 @@ public class YiBaopayCallBackController extends BaseSiteController {
                         List<OrderDetail> orderDetailList = order.getOrderDetails();
 
                         for (OrderDetail orderDetail : orderDetailList) {
-                            Deal deal = new Deal();
-                            deal.setId(orderDetail.getDealId());
+                            Deal deal = dealService.getById(orderDetail.getDealId());
                             dealService.reduceInventory(deal, orderDetail.getDealCount());
                         }
                     }

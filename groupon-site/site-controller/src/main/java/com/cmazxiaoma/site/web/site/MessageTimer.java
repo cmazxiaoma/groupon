@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.*;
+
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**
  * @author cmazxiaoma
@@ -32,8 +35,8 @@ public class MessageTimer {
 
     @PostConstruct
     public void start() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+        pool.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 List<StartRemind> startRemindList = startRemindService.listAll();
@@ -52,8 +55,7 @@ public class MessageTimer {
                     messageService.save(message);
 //                    startRemindService.deleteById(startRemind.getId());
                 });
-
             }
-        }, 10 * 60 * 1000, 10 * 60 * 1000);
+        }, 1000, 10 * 60 * 1000, TimeUnit.MILLISECONDS);
     }
 }

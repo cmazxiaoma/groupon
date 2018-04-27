@@ -15,6 +15,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 开团提醒定时
@@ -31,8 +34,9 @@ public class GrouponStartRemindTimer {
 
     @PostConstruct
     public void start() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(1);
+
+        pool.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 List<StartRemind> startReminds = startRemindService.getByTimeInterval();
@@ -51,7 +55,7 @@ public class GrouponStartRemindTimer {
 //                    startRemindService.deleteById(startRemind.getId());
                 });
             }
-        }, 10 *60 * 1000, 10 * 60 * 1000);
+        }, 1000, 10 * 60 * 1000, TimeUnit.MILLISECONDS);
     }
 
 }

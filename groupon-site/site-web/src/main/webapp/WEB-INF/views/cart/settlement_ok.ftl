@@ -38,8 +38,10 @@
     <div style="text-align: center;">
     <#if result == 1>
         <span style="font-size: 30px;">付款成功！</span>
+    <#elseif result == 2>
+        <span style="font-size: 30px;">支付操作已执行,支付结果需要等待进一步的通知</span>
     <#else>
-        <span style="font-size: 30px;">付款失败!</span>
+        <span style="font-size: 30px;">付款失败！</span>
     </#if>
     </div>
     <div class="hr_45"></div>

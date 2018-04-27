@@ -34,7 +34,8 @@ public class WebConstants {
     public static final int USER_LOGIN_STATUS_SECURITY = 2;
 
     // ------用户默认头像------
-    public static final String DEFAULT_HEAD_IMG_URL = SITE_IMAGE_DOMAIN_NAME + "/images/default_head_img.png";
+    public static final String DEFAULT_HEAD_IMG_URL =
+            SITE_IMAGE_DOMAIN_NAME + "/images/default_head_img.png";
 
     // ------短信发送方网站------
     public static final String SMS_CODE_SENDER_SITE = "site";
