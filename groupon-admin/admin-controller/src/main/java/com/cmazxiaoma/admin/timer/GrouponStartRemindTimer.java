@@ -43,7 +43,7 @@ public class GrouponStartRemindTimer {
                 List<StartRemind> startReminds = startRemindService.getByTimeInterval();
                 startReminds.forEach(startRemind -> {
                     log.info("站内通知用户" + startRemind.getUserId());
-                    Message message = new Message();
+                    Message message = new Message();//
                     message.setUserId(startRemind.getUserId());
                     message.setTitle("开团提醒");
                     message.setReaded(0);
