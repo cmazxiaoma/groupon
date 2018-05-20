@@ -1847,6 +1847,15 @@
     margin-right: 5px;
 }
 
+.reg_btn {
+    color: #666666;
+    font-size: 15px;
+    background-color: #f1f1f1;
+    width: 309px;
+    height: 36px;
+    font-weight: 2px;
+}
+
 .input_item {
     width: 306px;
     float: left;

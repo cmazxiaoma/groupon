@@ -44,7 +44,7 @@
                 </li>
 
                 <li class="reg_errorMessage" style="height: 25px">${errorMessage}</li>
-                <li><span class="reg_item">&nbsp;</span><input type="submit" value="" class="login_btn"></li>
+                <li><span class="reg_item">&nbsp;</span><input type="submit" value="注册" class="reg_btn"></li>
             </form>
         </ul>
     </div>
