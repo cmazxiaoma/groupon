@@ -10,3 +10,8 @@
 
 
 ![个人中心.jpg](https://upload-images.jianshu.io/upload_images/4636177-fa8065f76f46b307.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 项目的一些总结
+#### 1.[Java电商毕业设计总结(一)](https://www.jianshu.com/p/65fe3f224414)
+#### 2.[Java电商毕业设计总结(二)](https://www.jianshu.com/p/4794f4ac6e3f)
+
